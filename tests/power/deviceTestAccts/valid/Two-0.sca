@@ -1,0 +1,37 @@
+version 2
+run Two-0-20111213-13:19:54-16229
+attr configname Two
+attr datetime 20111213-13:19:54
+attr experiment Two
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network PowerDeviceTestAcctsNet
+attr processid 16229
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	nominal 	10800
+attr unit  mW-s
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	total 	10800
+attr unit  mW-s
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	lifetime 	6.8
+attr unit  s
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	"Mean power consumption" 	720
+attr unit  mW
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	"num devices" 	1
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	DeviceDuty 	0
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	"device total (mWs)" 	11040
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	account 	0
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	"energy (mWs)" 	2100
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	"time (s)" 	1.4
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	account 	1
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	"energy (mWs)" 	8100
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	"time (s)" 	2.7
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	account 	2
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	"energy (mWs)" 	840
+scalar PowerDeviceTestAcctsNet.host[0].batteryStats 	"time (s)" 	0

@@ -1,0 +1,38 @@
+#! /bin/sh
+DIR=`dirname $0`
+DIR=`(cd $DIR ; pwd)`
+
+lPATH='.'
+lINETPath="$DIR/../../inet"
+lMiXiMPath=`(cd "$DIR/.." ; pwd)`
+for lP in "${lMiXiMPath}/src" \
+          "${lMiXiMPath}/src/base" \
+          "${lMiXiMPath}/src/modules" \
+          "${lINETPath}/src"; do
+    for pr in 'mixim' 'inet'; do
+        if [ -d "$lP" ] && [ -f "${lP}/lib${pr}$(basename $lP).so" -o -f "${lP}/lib${pr}$(basename $lP).dll" ]; then
+            lPATH="${lP}:$lPATH"
+        elif [ -d "$lP" ] && [ -f "${lP}/lib${pr}.so" -o -f "${lP}/lib${pr}.dll" ]; then
+            lPATH="${lP}:$lPATH"
+        fi
+    done
+done
+PATH="${PATH}:${lPATH}" #needed for windows
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${lPATH}"
+NEDPATH="${lMiXiMPath}/examples:${lMiXiMPath}/src/base:${lMiXiMPath}/src/modules"
+if [ -n "`grep KINET_PROJ ${DIR}/Makefile`" ]; then
+  NEDPATH="${NEDPATH}:${lINETPath}/src"
+  COMMAND_LINE_OPTIONS="-l ${lINETPath}/src/inet -n $NEDPATH"
+else
+  NEDPATH="${NEDPATH}:${lMiXiMPath}/src/inet_stub"
+  COMMAND_LINE_OPTIONS="-n $NEDPATH"
+fi
+export PATH
+export NEDPATH
+export LD_LIBRARY_PATH
+
+if [ -x $DIR/miximexamples -o -x $DIR/miximexamples.exe ]; then
+  $DIR/miximexamples $COMMAND_LINE_OPTIONS $*
+else
+  opp_run -l $DIR/miximexamples $COMMAND_LINE_OPTIONS $*
+fi

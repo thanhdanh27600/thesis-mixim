@@ -1,0 +1,3 @@
+**.node[*].networkType = "AdaptiveProbabilisticBroadcast"
+**.node[*].netwl.stats = true
+**.node[*].netwl.headerLength = 24 bit

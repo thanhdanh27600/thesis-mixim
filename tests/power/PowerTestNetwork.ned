@@ -1,0 +1,25 @@
+// Energy Framework for Omnet++, version 0.9
+//
+// Author:  Laura Marie Feeney 
+// 
+// Copyright 2009 Swedish Institute of Computer Science.  
+// 
+// This software is provided `as is' and without any express or implied
+// warranties, including, but not limited to, the implied warranties of
+// merchantability and fitness for a particular purpose.
+//
+//*********************************************************************
+package org.mixim.tests.power;
+
+import org.mixim.tests.BaseTestNetwork;
+
+// Base test network for power (battery) tests.
+network PowerTestNetwork extends BaseTestNetwork
+{
+    parameters:
+        double playgroundSizeX;
+        double playgroundSizeY;
+        int    numHosts;
+
+    connections allowunconnected:
+}
