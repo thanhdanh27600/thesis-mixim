@@ -6,7 +6,6 @@
 *.exe
 *.lib
 *.dll
-*.zip
 .pydevproject
 .settings
 .tstamp
