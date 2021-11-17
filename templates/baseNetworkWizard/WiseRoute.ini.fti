@@ -1,0 +1,11 @@
+**.node[*].networkType = "WiseRoute"
+**.node[*].netwl.trace = true
+**.node[*].netwl.stats = true
+**.node[*].netwl.useSimTracer = false
+**.node[*].netwl.headerLength = 24 bit
+**.node[*].netwl.sinkAddress = 0
+# RSSI threshold for route selection
+**.node[*].netwl.rssiThreshold = -50 dBm
+# If set to zero, this node does not initiates route tree building.
+# If set to a value larger than zero, this nodes periodically initiates route tree building.
+**.node[*].netwl.routeFloodsInterval = 100 s

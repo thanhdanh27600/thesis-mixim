@@ -1,0 +1,4 @@
+**.node[*].networkType = "BaseNetwLayer"
+**.node[*].netwl.debug = false
+**.node[*].netwl.stats = false
+**.node[*].netwl.headerLength = 32bit
