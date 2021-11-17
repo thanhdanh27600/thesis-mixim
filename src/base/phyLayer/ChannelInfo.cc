@@ -14,6 +14,8 @@ void ChannelInfo::addAirFrame(airframe_ptr_t frame, simtime_t_cref startTime)
 	//calculate endTime of AirFrame
 	simtime_t endTime = startTime + frame->getDuration();
 
+	//EV <<"\n *** Frame_ID: " <<frame->getId()  <<" End time: " <<endTime <<" If the activeAirFrames is empty: " <<activeAirFrames.empty() <<" ***\n";
+
 	AirFrameMatrix::iterator pos = activeAirFrames.lower_bound(endTime);
 	if(pos == activeAirFrames.end() || (activeAirFrames.key_comp()(endTime, pos->first))) {
 	    // key does not exists
@@ -26,6 +28,7 @@ void ChannelInfo::addAirFrame(airframe_ptr_t frame, simtime_t_cref startTime)
 
 	assert(!isChannelEmpty());
 }
+
 
 void ChannelInfo::addToInactives(airframe_ptr_t frame,
                                  simtime_t_cref startTime,

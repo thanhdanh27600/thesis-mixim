@@ -34,7 +34,8 @@ double ConnectionManager::calcInterfDist()
 					       / (16.0*M_PI*M_PI*minReceivePower),
 					     1.0 / alpha);
 
-    ccEV << "max interference distance:" << interfDistance << endl;
+    ccEV << "\n **** max interference distance:" << interfDistance <<" **** " <<endl;
+	//debugEV << "\n **** max interference distance:" << interfDistance <<" **** " <<endl;
 
     return interfDistance;
 }

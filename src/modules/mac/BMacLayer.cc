@@ -25,6 +25,8 @@
 #include "MacPkt_m.h"
 #include "MacToPhyInterface.h"
 
+#define Bubble(text_to_pop) findHost()->bubble(text_to_pop)
+
 Define_Module( BMacLayer )
 
 /**
@@ -103,9 +105,13 @@ void BMacLayer::initialize(int stage)
         ready_to_send = new cMessage("ready_to_send");
         ready_to_send->setKind(READY_TO_SEND);
 
+        debugEV << "Node ID is: " << nodeId << endl;
+
+        debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate << endl;
+
 		if(nodeId == 0){
 		    scheduleAt(0.2, start_receiver);
-		}else{
+		} else {
 		    scheduleAt(0.5, start_transmitter);
 		    dataPeriod = 5;
 		}
@@ -289,7 +295,7 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
         }
         break;
     case Rx_RECEIVING:
-        if(msg->getKind() == DATA_PACKAGE){
+        if(msg->getKind() == DATA_PACKAGE) { //receive and ack
             debugEV << "****Rx: Data package is received!!!" << endl;
             debugEV << "****Rx: ACK package is sending..." << endl;
 
@@ -350,6 +356,9 @@ void BMacLayer::handleLowerControl(cMessage *msg)
 	// Transmission of one packet is over
     if(msg->getKind() == MacToPhyInterface::TX_OVER) {
         scheduleAt(simTime(), data_tx_over);
+    } else  if (msg->getKind() == COLLISION) {
+        debugEV << "****Rx: We have collision on this channel!!!\n";
+        Bubble("Collision!!!");
     }
     // Radio switching (to RX or TX) ir over, ignore switching to SLEEP.
     else if(msg->getKind() == MacToPhyInterface::RADIO_SWITCHING_OVER) {

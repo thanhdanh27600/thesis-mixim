@@ -165,7 +165,8 @@ class MIXIM_API BMacLayer : public BaseMacLayer
 	 * process **/
 	enum TYPES {
 		// packet types
-		DATA_PACKAGE = 100,
+	    COLLISION = 100,
+	    DATA_PACKAGE,
 		ACK_PACKAGE,
 		// self message types
 
