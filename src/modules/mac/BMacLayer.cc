@@ -46,6 +46,13 @@ void BMacLayer::initialize(int stage)
 		txPower       = hasPar("txPower")       ? par("txPower")       : 50.;
 		useMacAcks    = hasPar("useMACAcks")    ? par("useMACAcks")    : false;
 		maxTxAttempts = hasPar("maxTxAttempts") ? par("maxTxAttempts") : 2;
+
+
+		//Declare the node ID for a node
+		nodeId = static_cast<int>(findHost()->getAncestorPar("nodeId"));
+
+		debugEV << "Node ID is: " << nodeId << endl;
+
 		debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate << endl;
 
 		stats = par("stats");
@@ -70,59 +77,48 @@ void BMacLayer::initialize(int stage)
 		WATCH(macState);
 	}
 	else if(stage == 1) {
-		wakeup = new cMessage("wakeup");
-		wakeup->setKind(BMAC_WAKE_UP);
 
-		data_timeout = new cMessage("data_timeout");
-		data_timeout->setKind(BMAC_DATA_TIMEOUT);
-		data_timeout->setSchedulingPriority(100);
+		//data_timeout = new cMessage("data_timeout");
+		//data_timeout->setKind(BMAC_DATA_TIMEOUT);
+		//data_timeout->setSchedulingPriority(100);
 
-		data_tx_over = new cMessage("data_tx_over");
-		data_tx_over->setKind(BMAC_DATA_TX_OVER);
 
-		stop_preambles = new cMessage("stop_preambles");
-		stop_preambles->setKind(BMAC_STOP_PREAMBLES);
+	    wakeup = new cMessage("wake_up");
+	    wakeup->setKind(WAKE_UP);
 
-		send_preamble = new cMessage("send_preamble");
-		send_preamble->setKind(BMAC_SEND_PREAMBLE);
+		start_receiver= new cMessage("start_receiver");
+        start_receiver->setKind(START_RECEIVER);
 
-		ack_tx_over = new cMessage("ack_tx_over");
-		ack_tx_over->setKind(BMAC_ACK_TX_OVER);
+        start_transmitter = new cMessage("start_transmitter");
+        start_transmitter->setKind(START_TRANSMITTER);
 
-		cca_timeout = new cMessage("cca_timeout");
-		cca_timeout->setKind(BMAC_CCA_TIMEOUT);
-		cca_timeout->setSchedulingPriority(100);
 
-		send_ack = new cMessage("send_ack");
-		send_ack->setKind(BMAC_SEND_ACK);
 
-		start_bmac = new cMessage("start_bmac");
-		start_bmac->setKind(BMAC_START_BMAC);
+        time_out = new cMessage("time_out");
+        time_out->setKind(TIME_OUT);
 
-		ack_timeout = new cMessage("ack_timeout");
-		ack_timeout->setKind(BMAC_ACK_TIMEOUT);
+        data_tx_over = new cMessage("data_tx_over");
+        data_tx_over->setKind(DATA_TX_OVER);
 
-		resend_data = new cMessage("resend_data");
-		resend_data->setKind(BMAC_RESEND_DATA);
-		resend_data->setSchedulingPriority(100);
+        ready_to_send = new cMessage("ready_to_send");
+        ready_to_send->setKind(READY_TO_SEND);
 
-		scheduleAt(0.0, start_bmac);
+		if(nodeId == 0){
+		    scheduleAt(0.2, start_receiver);
+		}else{
+		    scheduleAt(0.5, start_transmitter);
+		    dataPeriod = 5;
+		}
+
 	}
 }
 
 BMacLayer::~BMacLayer()
 {
-	cancelAndDelete(wakeup);
-	cancelAndDelete(data_timeout);
+
+
 	cancelAndDelete(data_tx_over);
-	cancelAndDelete(stop_preambles);
-	cancelAndDelete(send_preamble);
-	cancelAndDelete(ack_tx_over);
-	cancelAndDelete(cca_timeout);
-	cancelAndDelete(send_ack);
-	cancelAndDelete(start_bmac);
-	cancelAndDelete(ack_timeout);
-	cancelAndDelete(resend_data);
+
 
 	MacQueue::iterator it;
 	for(it = macQueue.begin(); it != macQueue.end(); ++it)
@@ -164,11 +160,11 @@ void BMacLayer::handleUpperMsg(cMessage *msg)
 	if (!pktAdded)
 		return;
 	// force wakeup now
-	if (wakeup->isScheduled() && (macState == SLEEP))
-	{
-		cancelEvent(wakeup);
-		scheduleAt(simTime() + dblrand()*0.1f, wakeup);
-	}
+//	if (wakeup->isScheduled() && (macState == SLEEP))
+//	{
+//		cancelEvent(wakeup);
+//		scheduleAt(simTime() + dblrand()*0.1f, wakeup);
+//	}
 }
 
 /**
@@ -176,16 +172,16 @@ void BMacLayer::handleUpperMsg(cMessage *msg)
  */
 void BMacLayer::sendPreamble()
 {
-	macpkt_ptr_t preamble = new MacPkt();
-	preamble->setSrcAddr(myMacAddr);
-	preamble->setDestAddr(LAddress::L2BROADCAST);
-	preamble->setKind(BMAC_PREAMBLE);
-	preamble->setBitLength(headerLength);
-
-	//attach signal and send down
-	attachSignal(preamble);
-	sendDown(preamble);
-	nbTxPreambles++;
+//	macpkt_ptr_t preamble = new MacPkt();
+//	preamble->setSrcAddr(myMacAddr);
+//	preamble->setDestAddr(LAddress::L2BROADCAST);
+//	preamble->setKind(BMAC_PREAMBLE);
+//	preamble->setBitLength(headerLength);
+//
+//	//attach signal and send down
+//	attachSignal(preamble);
+//	sendDown(preamble);
+//	nbTxPreambles++;
 }
 
 /**
@@ -194,10 +190,10 @@ void BMacLayer::sendPreamble()
 void BMacLayer::sendMacAck()
 {
 	macpkt_ptr_t ack = new MacPkt();
-	ack->setSrcAddr(myMacAddr);
-	ack->setDestAddr(lastDataPktSrcAddr);
-	ack->setKind(BMAC_ACK);
-	ack->setBitLength(headerLength);
+	//ack->setSrcAddr(myMacAddr);
+	//ack->setDestAddr(lastDataPktSrcAddr);
+	ack->setKind(ACK_PACKAGE);
+	ack->setBitLength(64);
 
 	//attach signal and send down
 	attachSignal(ack);
@@ -222,328 +218,100 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
 {
 	switch (macState)
 	{
-	case INIT:
-		if (msg->getKind() == BMAC_START_BMAC)
-		{
-			debugEV << "State INIT, message BMAC_START, new state SLEEP" << endl;
-			changeDisplayColor(BLACK);
-			phy->setRadioState(MiximRadio::SLEEP);
-			macState = SLEEP;
-			scheduleAt(simTime()+dblrand()*slotDuration, wakeup);
-			return;
-		}
-		break;
-	case SLEEP:
-		if (msg->getKind() == BMAC_WAKE_UP)
-		{
-			debugEV << "State SLEEP, message BMAC_WAKEUP, new state CCA" << endl;
-			scheduleAt(simTime() + checkInterval, cca_timeout);
-			phy->setRadioState(MiximRadio::RX);
-			changeDisplayColor(GREEN);
-			macState = CCA;
-			return;
-		}
-		break;
-	case CCA:
-		if (msg->getKind() == BMAC_CCA_TIMEOUT)
-		{
-			// channel is clear
-			// something waiting in eth queue?
-			if (macQueue.size() > 0)
-			{
-				debugEV << "State CCA, message CCA_TIMEOUT, new state"
-						  " SEND_PREAMBLE" << endl;
-				phy->setRadioState(MiximRadio::TX);
-				changeDisplayColor(YELLOW);
-				macState = SEND_PREAMBLE;
-				scheduleAt(simTime() + slotDuration, stop_preambles);
-				return;
-			}
-			// if not, go back to sleep and wake up after a full period
-			else
-			{
-				debugEV << "State CCA, message CCA_TIMEOUT, new state SLEEP"
-					   << endl;
-				scheduleAt(simTime() + slotDuration, wakeup);
-				macState = SLEEP;
-				phy->setRadioState(MiximRadio::SLEEP);
-				changeDisplayColor(BLACK);
-				return;
-			}
-		}
-		// during CCA, we received a preamble. Go to state WAIT_DATA and
-		// schedule the timeout.
-		if (msg->getKind() == BMAC_PREAMBLE)
-		{
-			nbRxPreambles++;
-			debugEV << "State CCA, message BMAC_PREAMBLE received, new state"
-					  " WAIT_DATA" << endl;
-			macState = WAIT_DATA;
-			cancelEvent(cca_timeout);
-			scheduleAt(simTime() + slotDuration + checkInterval, data_timeout);
-			delete msg;
-			return;
-		}
-		// this case is very, very, very improbable, but let's do it.
-		// if in CCA and the node receives directly the data packet, switch to
-		// state WAIT_DATA and re-send the message
-		if (msg->getKind() == BMAC_DATA)
-		{
-			nbRxDataPackets++;
-			debugEV << "State CCA, message BMAC_DATA, new state WAIT_DATA"
-				   << endl;
-			macState = WAIT_DATA;
-			cancelEvent(cca_timeout);
-			scheduleAt(simTime() + slotDuration + checkInterval, data_timeout);
-			scheduleAt(simTime(), msg);
-			return;
-		}
-		//in case we get an ACK, we simply dicard it, because it means the end
-		//of another communication
-		if (msg->getKind() == BMAC_ACK)
-		{
-			debugEV << "State CCA, message BMAC_ACK, new state CCA" << endl;
-			delete msg;
-			return;
-		}
-		break;
 
-	case SEND_PREAMBLE:
-		if (msg->getKind() == BMAC_SEND_PREAMBLE)
-		{
-			debugEV << "State SEND_PREAMBLE, message BMAC_SEND_PREAMBLE, new"
-					  " state SEND_PREAMBLE" << endl;
-			sendPreamble();
-			scheduleAt(simTime() + 0.5f*checkInterval, send_preamble);
-			macState = SEND_PREAMBLE;
-			return;
-		}
-		// simply change the state to SEND_DATA
-		if (msg->getKind() == BMAC_STOP_PREAMBLES)
-		{
-			debugEV << "State SEND_PREAMBLE, message BMAC_STOP_PREAMBLES, new"
-					  " state SEND_DATA" << endl;
-			macState = SEND_DATA;
-			txAttempts = 1;
-			return;
-		}
-		break;
+    case INIT:
+        if(msg->getKind() == START_TRANSMITTER){
+            scheduleAt(simTime() + 0.1, ready_to_send);
+            changeDisplayColor(GREEN);
+            phy->setRadioState(MiximRadio::TX);
+            macState = Tx_SENDING;
+            return;
+        }
 
-	case SEND_DATA:
-		if ((msg->getKind() == BMAC_SEND_PREAMBLE)
-			|| (msg->getKind() == BMAC_RESEND_DATA))
-		{
-			debugEV << "State SEND_DATA, message BMAC_SEND_PREAMBLE or"
-					  " BMAC_RESEND_DATA, new state WAIT_TX_DATA_OVER" << endl;
-			// send the data packet
-			sendDataPacket();
-			macState = WAIT_TX_DATA_OVER;
-			return;
-		}
-		break;
+        if(msg->getKind() == START_RECEIVER){
+            macState = Rx_RECEIVING;
+            changeDisplayColor(RED);
+            phy->setRadioState(MiximRadio::RX);
+            return;
+        }
 
-	case WAIT_TX_DATA_OVER:
-		if (msg->getKind() == BMAC_DATA_TX_OVER)
-		{
-			if ((useMacAcks) && !LAddress::isL2Broadcast( lastDataPktDestAddr ))
-			{
-				debugEV << "State WAIT_TX_DATA_OVER, message BMAC_DATA_TX_OVER,"
-						  " new state WAIT_ACK" << endl;
-				macState = WAIT_ACK;
-				phy->setRadioState(MiximRadio::RX);
-				changeDisplayColor(GREEN);
-				scheduleAt(simTime()+checkInterval, ack_timeout);
-			}
-			else
-			{
-				debugEV << "State WAIT_TX_DATA_OVER, message BMAC_DATA_TX_OVER,"
-						  " new state  SLEEP" << endl;
-				delete macQueue.front();
-				macQueue.pop_front();
-				// if something in the queue, wakeup soon.
-				if (macQueue.size() > 0)
-					scheduleAt(simTime() + dblrand()*checkInterval, wakeup);
-				else
-					scheduleAt(simTime() + slotDuration, wakeup);
-				macState = SLEEP;
-				phy->setRadioState(MiximRadio::SLEEP);
-				changeDisplayColor(BLACK);
-			}
-			return;
-		}
-		break;
-	case WAIT_ACK:
-		if (msg->getKind() == BMAC_ACK_TIMEOUT)
-		{
-			// No ACK received. try again or drop.
-			if (txAttempts < maxTxAttempts)
-			{
-				debugEV << "State WAIT_ACK, message BMAC_ACK_TIMEOUT, new state"
-						  " SEND_DATA" << endl;
-				txAttempts++;
-				macState = SEND_PREAMBLE;
-				scheduleAt(simTime() + slotDuration, stop_preambles);
-				phy->setRadioState(MiximRadio::TX);
-				changeDisplayColor(YELLOW);
-			}
-			else
-			{
-				debugEV << "State WAIT_ACK, message BMAC_ACK_TIMEOUT, new state"
-						  " SLEEP" << endl;
-				//drop the packet
-				delete macQueue.front();
-				macQueue.pop_front();
-				// if something in the queue, wakeup soon.
-				if (macQueue.size() > 0)
-					scheduleAt(simTime() + dblrand()*checkInterval, wakeup);
-				else
-					scheduleAt(simTime() + slotDuration, wakeup);
-				macState = SLEEP;
-				phy->setRadioState(MiximRadio::SLEEP);
-				changeDisplayColor(BLACK);
-				nbMissedAcks++;
-			}
-			return;
-		}
-		//ignore and other packets
-		if ((msg->getKind() == BMAC_DATA) || (msg->getKind() == BMAC_PREAMBLE))
-		{
-			debugEV << "State WAIT_ACK, message BMAC_DATA or BMAC_PREMABLE, new"
-					  " state WAIT_ACK" << endl;
-			delete msg;
-			return;
-		}
-		if (msg->getKind() == BMAC_ACK)
-		{
-			debugEV << "State WAIT_ACK, message BMAC_ACK" << endl;
-			macpkt_ptr_t            mac = static_cast<macpkt_ptr_t>(msg);
-			const LAddress::L2Type& src = mac->getSrcAddr();
-			// the right ACK is received..
-			debugEV << "We are waiting for ACK from : " << lastDataPktDestAddr
-				   << ", and ACK came from : " << src << endl;
-			if (src == lastDataPktDestAddr)
-			{
-				debugEV << "New state SLEEP" << endl;
-				nbRecvdAcks++;
-				lastDataPktDestAddr = LAddress::L2BROADCAST;
-				cancelEvent(ack_timeout);
-				delete macQueue.front();
-				macQueue.pop_front();
-				// if something in the queue, wakeup soon.
-				if (macQueue.size() > 0)
-					scheduleAt(simTime() + dblrand()*checkInterval, wakeup);
-				else
-					scheduleAt(simTime() + slotDuration, wakeup);
-				macState = SLEEP;
-				phy->setRadioState(MiximRadio::SLEEP);
-				changeDisplayColor(BLACK);
-				lastDataPktDestAddr = LAddress::L2BROADCAST;
-			}
-			delete msg;
-			return;
-		}
-		break;
-	case WAIT_DATA:
-		if(msg->getKind() == BMAC_PREAMBLE)
-		{
-			//nothing happens
-			debugEV << "State WAIT_DATA, message BMAC_PREAMBLE, new state"
-					  " WAIT_DATA" << endl;
-			nbRxPreambles++;
-			delete msg;
-			return;
-		}
-		if(msg->getKind() == BMAC_ACK)
-		{
-			//nothing happens
-			debugEV << "State WAIT_DATA, message BMAC_ACK, new state WAIT_DATA"
-				   << endl;
-			delete msg;
-			return;
-		}
-		if (msg->getKind() == BMAC_DATA)
-		{
-			nbRxDataPackets++;
-			macpkt_ptr_t            mac  = static_cast<macpkt_ptr_t>(msg);
-			const LAddress::L2Type& dest = mac->getDestAddr();
-			const LAddress::L2Type& src  = mac->getSrcAddr();
-			if ((dest == myMacAddr) || LAddress::isL2Broadcast(dest)) {
-				sendUp(decapsMsg(mac));
-			} else {
-				delete msg;
-				msg = NULL;
-				mac = NULL;
-			}
+        break;
+	case Tx_SENDING:
+        if(msg->getKind() == READY_TO_SEND){
+            sendDataPacket();
+            macState = Tx_WAIT_DATA_OVER;
 
-			cancelEvent(data_timeout);
-			if ((useMacAcks) && (dest == myMacAddr))
-			{
-				debugEV << "State WAIT_DATA, message BMAC_DATA, new state"
-						  " SEND_ACK" << endl;
-				macState = SEND_ACK;
-				lastDataPktSrcAddr = src;
-				phy->setRadioState(MiximRadio::TX);
-				changeDisplayColor(YELLOW);
-			}
-			else
-			{
-				debugEV << "State WAIT_DATA, message BMAC_DATA, new state SLEEP"
-					   << endl;
-				// if something in the queue, wakeup soon.
-				if (macQueue.size() > 0)
-					scheduleAt(simTime() + dblrand()*checkInterval, wakeup);
-				else
-					scheduleAt(simTime() + slotDuration, wakeup);
-				macState = SLEEP;
-				phy->setRadioState(MiximRadio::SLEEP);
-				changeDisplayColor(BLACK);
-			}
-			return;
-		}
-		if (msg->getKind() == BMAC_DATA_TIMEOUT)
-		{
-			debugEV << "State WAIT_DATA, message BMAC_DATA_TIMEOUT, new state"
-					  " SLEEP" << endl;
-			// if something in the queue, wakeup soon.
-			if (macQueue.size() > 0)
-				scheduleAt(simTime() + dblrand()*checkInterval, wakeup);
-			else
-				scheduleAt(simTime() + slotDuration, wakeup);
-			macState = SLEEP;
-			phy->setRadioState(MiximRadio::SLEEP);
-			changeDisplayColor(BLACK);
-			return;
-		}
-		break;
-	case SEND_ACK:
-		if (msg->getKind() == BMAC_SEND_ACK)
-		{
-			debugEV << "State SEND_ACK, message BMAC_SEND_ACK, new state"
-					  " WAIT_ACK_TX" << endl;
-			// send now the ack packet
-			sendMacAck();
-			macState = WAIT_ACK_TX;
-			return;
-		}
-		break;
-	case WAIT_ACK_TX:
-		if (msg->getKind() == BMAC_ACK_TX_OVER)
-		{
-			debugEV << "State WAIT_ACK_TX, message BMAC_ACK_TX_OVER, new state"
-					  " SLEEP" << endl;
-			// ack sent, go to sleep now.
-			// if something in the queue, wakeup soon.
-			if (macQueue.size() > 0)
-				scheduleAt(simTime() + dblrand()*checkInterval, wakeup);
-			else
-				scheduleAt(simTime() + slotDuration, wakeup);
-			macState = SLEEP;
-			phy->setRadioState(MiximRadio::SLEEP);
-			changeDisplayColor(BLACK);
-			lastDataPktSrcAddr = LAddress::L2BROADCAST;
-			return;
-		}
-		break;
+            return;
+        }
+        break;
+    case Tx_WAIT_DATA_OVER:
+        if(msg->getKind() == DATA_TX_OVER){
+            debugEV << "****Tx: Data package is already sent!!!" << endl;
+            debugEV << "****Tx: Waiting for ACK package..." << endl;
+
+            macState = Tx_WAIT_ACK;
+            changeDisplayColor(RED);
+            phy->setRadioState(MiximRadio::RX);
+            scheduleAt(simTime() + 0.1, time_out);
+
+            return;
+        }
+        break;
+    case Tx_WAIT_ACK:
+        if(msg->getKind() == ACK_PACKAGE){
+            cancelEvent(time_out);
+            debugEV << "****Tx: Receive an ACK!!!" << endl;
+
+            changeDisplayColor(BLACK);
+            phy->setRadioState(MiximRadio::SLEEP);
+            scheduleAt(simTime() + dataPeriod, wakeup);
+            macState = Tx_SLEEP;
+            return;
+        }
+
+        if(msg->getKind() == TIME_OUT){
+            changeDisplayColor(GREEN);
+            phy->setRadioState(MiximRadio::TX);
+            scheduleAt(simTime() + 0.1, ready_to_send);
+            macState = Tx_SENDING;
+            return;
+        }
+        break;
+    case Tx_SLEEP:
+        if(msg->getKind() == WAKE_UP){
+
+            scheduleAt(simTime() + 0.1, ready_to_send);
+            changeDisplayColor(GREEN);
+            phy->setRadioState(MiximRadio::TX);
+
+            macState = Tx_SENDING;
+            return;
+        }
+        break;
+    case Rx_RECEIVING:
+        if(msg->getKind() == DATA_PACKAGE){
+            debugEV << "****Rx: Data package is received!!!" << endl;
+            debugEV << "****Rx: ACK package is sending..." << endl;
+
+            changeDisplayColor(GREEN);
+            phy->setRadioState(MiximRadio::TX);
+            sendMacAck();
+            macState = Rx_WAIT_ACK_OVER;
+
+            return;
+        }
+        break;
+    case Rx_WAIT_ACK_OVER:
+        if(msg->getKind() == DATA_TX_OVER){
+            debugEV << "****Rx: ACK package is sent!!!" << endl;
+
+            changeDisplayColor(RED);
+            phy->setRadioState(MiximRadio::RX);
+
+            macState = Rx_RECEIVING;
+            return;
+        }
+        break;
 	}
 	opp_error("Undefined event of type %d in state %d (Radio state %d)!",
 			  msg->getKind(), macState, phy->getRadioState());
@@ -562,10 +330,14 @@ void BMacLayer::handleLowerMsg(cMessage *msg)
 void BMacLayer::sendDataPacket()
 {
 	nbTxDataPackets++;
-	macpkt_ptr_t pkt = macQueue.front()->dup();
+	//macpkt_ptr_t pkt = macQueue.front()->dup();
+	macpkt_ptr_t pkt = new MacPkt();
+	pkt->setKind(DATA_PACKAGE);
+
+	pkt->setBitLength(128);
 	attachSignal(pkt);
-	lastDataPktDestAddr = pkt->getDestAddr();
-	pkt->setKind(BMAC_DATA);
+	//lastDataPktDestAddr = pkt->getDestAddr();
+
 	sendDown(pkt);
 }
 
@@ -577,33 +349,26 @@ void BMacLayer::handleLowerControl(cMessage *msg)
 {
 	// Transmission of one packet is over
     if(msg->getKind() == MacToPhyInterface::TX_OVER) {
-    	if (macState == WAIT_TX_DATA_OVER)
-    	{
-    		scheduleAt(simTime(), data_tx_over);
-    	}
-    	if (macState == WAIT_ACK_TX)
-    	{
-    		scheduleAt(simTime(), ack_tx_over);
-    	}
+        scheduleAt(simTime(), data_tx_over);
     }
     // Radio switching (to RX or TX) ir over, ignore switching to SLEEP.
     else if(msg->getKind() == MacToPhyInterface::RADIO_SWITCHING_OVER) {
     	// we just switched to TX after CCA, so simply send the first
     	// sendPremable self message
-    	if ((macState == SEND_PREAMBLE) && (phy->getRadioState() == MiximRadio::TX))
-    	{
-    		scheduleAt(simTime(), send_preamble);
-    	}
-    	if ((macState == SEND_ACK) && (phy->getRadioState() == MiximRadio::TX))
-    	{
-    		scheduleAt(simTime(), send_ack);
-    	}
-    	// we were waiting for acks, but none came. we switched to TX and now
-    	// need to resend data
-    	if ((macState == SEND_DATA) && (phy->getRadioState() == MiximRadio::TX))
-    	{
-    		scheduleAt(simTime(), resend_data);
-    	}
+//    	if ((macState == SEND_PREAMBLE) && (phy->getRadioState() == MiximRadio::TX))
+//    	{
+//    		scheduleAt(simTime(), send_preamble);
+//    	}
+//    	if ((macState == SEND_ACK) && (phy->getRadioState() == MiximRadio::TX))
+//    	{
+//    		scheduleAt(simTime(), send_ack);
+//    	}
+//    	// we were waiting for acks, but none came. we switched to TX and now
+//    	// need to resend data
+//    	if ((macState == SEND_DATA) && (phy->getRadioState() == MiximRadio::TX))
+//    	{
+//    		scheduleAt(simTime(), resend_data);
+//    	}
 
     }
     else {

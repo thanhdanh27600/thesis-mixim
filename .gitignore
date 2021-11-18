@@ -6,7 +6,6 @@
 *.exe
 *.lib
 *.dll
-*.zip
 .pydevproject
 .settings
 .tstamp
@@ -57,4 +56,5 @@ examples/WSNRouting/WSNRouting
 examples/bmac/bmac
 examples/lmac/lmac
 **.vci
-
+.metadata/**
+.nedfolders

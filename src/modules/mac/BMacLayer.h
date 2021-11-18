@@ -73,9 +73,7 @@ class MIXIM_API BMacLayer : public BaseMacLayer
 		, nbTxDataPackets(0), nbTxPreambles(0), nbRxDataPackets(0), nbRxPreambles(0)
 		, nbMissedAcks(0), nbRecvdAcks(0), nbDroppedDataPackets(0), nbTxAcks(0)
 		, macState(INIT)
-		, resend_data(NULL), ack_timeout(NULL), start_bmac(NULL), wakeup(NULL)
-		, send_ack(NULL), cca_timeout(NULL), ack_tx_over(NULL), send_preamble(NULL), stop_preambles(NULL)
-		, data_tx_over(NULL), data_timeout(NULL)
+		, data_to_send(NULL), wakeup(NULL)
 		, lastDataPktSrcAddr()
 		, lastDataPktDestAddr()
 		, txAttempts(0)
@@ -149,15 +147,16 @@ class MIXIM_API BMacLayer : public BaseMacLayer
 	*/
 	enum States {
 		INIT,	//0
-		SLEEP,	//1
-		CCA,	//2
-		SEND_PREAMBLE, 	//3
-		WAIT_DATA,		//4
-		SEND_DATA,		//5
-		WAIT_TX_DATA_OVER,	//6
-		WAIT_ACK,		//7
-		SEND_ACK,		//8
-		WAIT_ACK_TX		//9
+
+		Tx_SENDING,
+
+		Tx_WAIT_DATA_OVER,
+		Tx_SLEEP,
+		Tx_WAIT_ACK,
+
+		Rx_RECEIVING,
+		Rx_SEND_ACK,
+		Rx_WAIT_ACK_OVER,
 	  };
 	/** @brief The current state of the protocol */
 	States macState;
@@ -166,35 +165,33 @@ class MIXIM_API BMacLayer : public BaseMacLayer
 	 * process **/
 	enum TYPES {
 		// packet types
-		BMAC_PREAMBLE = 191,
-		BMAC_DATA,
-		BMAC_ACK,
+		DATA_PACKAGE = 100,
+		ACK_PACKAGE,
 		// self message types
-		BMAC_RESEND_DATA,
-		BMAC_ACK_TIMEOUT,
-		BMAC_START_BMAC,
-		BMAC_WAKE_UP,
-		BMAC_SEND_ACK,
-		BMAC_CCA_TIMEOUT,
-		BMAC_ACK_TX_OVER,
-		BMAC_SEND_PREAMBLE,
-		BMAC_STOP_PREAMBLES,
-		BMAC_DATA_TX_OVER,
-		BMAC_DATA_TIMEOUT
+
+		START_RECEIVER =150,
+		START_TRANSMITTER,
+		READY_TO_SEND,
+		TIME_OUT,
+		SEND_ACK_PACKAGE,
+		DATA_TX_OVER,
+		WAKE_UP
 	};
 
 	// messages used in the FSM
-	cMessage *resend_data;
-	cMessage *ack_timeout;
-	cMessage *start_bmac;
 	cMessage *wakeup;
-	cMessage *send_ack;
-	cMessage *cca_timeout;
-	cMessage *ack_tx_over;
-	cMessage *send_preamble;
-	cMessage *stop_preambles;
 	cMessage *data_tx_over;
-	cMessage *data_timeout;
+
+	//STOP and WAIT message
+	cMessage* start_receiver;
+	cMessage* start_transmitter;
+	cMessage* data_to_send;
+	cMessage* ready_to_send;
+
+	cMessage* send_ack_package;
+	cMessage* time_out;
+
+
 
 	/** @name Help variables for the acknowledgment process. */
 	/*@{*/
@@ -209,6 +206,9 @@ class MIXIM_API BMacLayer : public BaseMacLayer
 
 	/** @brief publish dropped packets nic wide */
 	int nicId;
+	int nodeId;
+	int dataPeriod;
+	int ack_time_out = 0.2;
 
 	/** @brief The maximum length of the queue */
 	unsigned int queueLength;
