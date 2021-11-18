@@ -23,7 +23,6 @@
 
 #include "MovingMobilityBase.h"
 
-
 MovingMobilityBase::MovingMobilityBase()
 {
     moveTimer = NULL;

@@ -167,11 +167,20 @@ simtime_t BaseDecider::processSignalEnd(airframe_ptr_t frame) {
         // go on with processing this AirFrame, send it to the Mac-Layer
         if (currentSignal.getInterferenceCnt() > 0) {
             ++nbFramesWithInterference;
+            cPacket* pMacPacket = frame->decapsulate();
+            if(pMacPacket){
+                pMacPacket->setName("COLLISION");
+                pMacPacket->setKind(100);
+                if (pResult) {
+                    PhyToMacControlInfo::setControlInfo(pMacPacket, pResult);
+                }
+                phy->sendControlMsgToMac(pMacPacket);
+            }
         }
         else {
             ++nbFramesWithoutInterference;
+            phy->sendUp(frame, pResult);
         }
-        phy->sendUp(frame, pResult);
     }
 	else {
         deciderEV << "AirFrame was not received correctly, sending it as control message to upper layer" << endl;

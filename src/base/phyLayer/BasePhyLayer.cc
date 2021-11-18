@@ -377,15 +377,21 @@ void BasePhyLayer::handleAirFrame(airframe_ptr_t frame) {
 	//TODO: ask jerome to set air frame priority in his UWBIRPhy
 	//assert(frame->getSchedulingPriority() == airFramePriority);
 
+    //simtime_t startTimeOfThisFrame = simTime();
+    //AirFrameVector intersectedAirFrames;
+
 	switch(frame->getState()) {
 	case START_RECEIVE:
-		handleAirFrameStartReceive(frame);
+	    //coreEV <<"Start time: " <<startTimeOfThisFrame << " End time: " <<(startTimeOfThisFrame + frame->getDuration()) <<endl;
+	    //channelInfo.getAirFrames(startTimeOfThisFrame, startTimeOfThisFrame + frame->getDuration(), intersectedAirFrames, NULL);
+	    //if (intersectedAirFrames.empty())
+	        handleAirFrameStartReceive(frame);
 		break;
 
-	case RECEIVING: {
+	case RECEIVING:
 		handleAirFrameReceiving(frame);
 		break;
-	}
+
 	case END_RECEIVE:
 		handleAirFrameEndReceive(frame);
 		break;
@@ -403,34 +409,35 @@ void BasePhyLayer::handleAirFrameStartReceive(airframe_ptr_t frame) {
 		radio->setTrackingModeTo(true);
 	}
 
-	channelInfo.addAirFrame(frame, simTime());
-	assert(!channelInfo.isChannelEmpty());
+    channelInfo.addAirFrame(frame, simTime());
+    assert(!channelInfo.isChannelEmpty());
 
-	if(usePropagationDelay) {
-		Signal&   s     = frame->getSignal();
-		simtime_t delay = simTime() - s.getSendingStart();
-		s.setPropagationDelay(delay);
-	}
-	assert(frame->getSignal().getReceptionStart() == simTime());
+    if(usePropagationDelay) {
+        Signal&   s     = frame->getSignal();
+        simtime_t delay = simTime() - s.getSendingStart();
+        s.setPropagationDelay(delay);
+    }
+    assert(frame->getSignal().getReceptionStart() == simTime());
 
-	frame->getSignal().setReceptionSenderInfo(frame);
-	filterSignal(frame);
+    frame->getSignal().setReceptionSenderInfo(frame);
+    filterSignal(frame);
 
-	if(decider && isKnownProtocolId(frame->getProtocolId())) {
-		frame->setState(RECEIVING);
+    if(decider && isKnownProtocolId(frame->getProtocolId())) {
+        frame->setState(RECEIVING);
 
-		//pass the AirFrame the first time to the Decider
-		handleAirFrameReceiving(frame);
+        //pass the AirFrame the first time to the Decider
+        handleAirFrameReceiving(frame);
 
-	//if no decider is defined we will schedule the message directly to its end
-	} else {
-		Signal& signal = frame->getSignal();
+    //if no decider is defined we will schedule the message directly to its end
+    } else {
+        Signal& signal = frame->getSignal();
 
-		simtime_t signalEndTime = signal.getReceptionStart() + frame->getDuration();
-		frame->setState(END_RECEIVE);
+        simtime_t signalEndTime = signal.getReceptionStart() + frame->getDuration();
+        frame->setState(END_RECEIVE);
 
-		sendSelfMessage(frame, signalEndTime);
-	}
+        sendSelfMessage(frame, signalEndTime);
+    }
+
 }
 
 void BasePhyLayer::handleAirFrameReceiving(airframe_ptr_t frame) {
