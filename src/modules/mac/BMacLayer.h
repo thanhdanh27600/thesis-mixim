@@ -152,6 +152,7 @@ class MIXIM_API BMacLayer : public BaseMacLayer
 
 		Tx_WAIT_DATA_OVER,
 		Tx_SLEEP,
+		Tx_WAKE_UP,
 		Tx_WAIT_ACK,
 
 		Rx_RECEIVING,

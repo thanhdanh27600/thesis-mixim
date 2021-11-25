@@ -111,9 +111,13 @@ void BMacLayer::initialize(int stage)
 
 		if(nodeId == 0){
 		    scheduleAt(0.2, start_receiver);
-		} else {
+		} else if (nodeId == 1) {
 		    scheduleAt(0.5, start_transmitter);
 		    dataPeriod = 5;
+		}
+		else{
+			scheduleAt(1.5, start_transmitter);
+			dataPeriod = 10;
 		}
 
 	}
@@ -284,7 +288,19 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
         }
         break;
     case Tx_SLEEP:
-        if(msg->getKind() == WAKE_UP){
+		if (msg->getKind() == WAKE_UP)
+		{
+
+			// scheduleAt(simTime() + 0.1, ready_to_send);
+			scheduleAt(simTime() + 0.1, wakeup);
+			changeDisplayColor(YELLOW);
+			phy->setRadioState(MiximRadio::WAKE_UP);
+			macState = Tx_WAKE_UP;
+			return;
+		}
+		break;
+	case Tx_WAKE_UP:
+		if(msg->getKind() == WAKE_UP){
 
             scheduleAt(simTime() + 0.1, ready_to_send);
             changeDisplayColor(GREEN);
