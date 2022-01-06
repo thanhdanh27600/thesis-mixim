@@ -209,6 +209,7 @@ class MIXIM_API BMacLayer : public BaseMacLayer
 	/** @brief publish dropped packets nic wide */
 	int nicId;
 	int nodeId;
+	int nodeDir;
 	int dataPeriod;
 	int ack_time_out = 0.2;
 

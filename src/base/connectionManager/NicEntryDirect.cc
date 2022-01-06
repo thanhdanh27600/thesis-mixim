@@ -44,5 +44,6 @@ void NicEntryDirect::connectTo(NicEntry* other)
 void NicEntryDirect::disconnectFrom(NicEntry* other)
 {
     nicEV << "disconnecting nic #" << nicId << " and #" << other->nicId << endl;
+    
     outConns.erase(other);
 }

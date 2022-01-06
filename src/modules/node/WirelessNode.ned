@@ -19,6 +19,7 @@ module WirelessNode
         string mobilityType = default("StationaryMobility"); //type of the mobility module
         string arpType = default("BaseArp");                 //type of address resolution module
         string nicType;
+        int nodeDir;
         int nodeId = default(0);
         @display("bgb=210,450,white;i=device/palm;b=40,40,rect");
         @node();

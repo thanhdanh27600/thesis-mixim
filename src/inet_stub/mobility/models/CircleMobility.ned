@@ -32,6 +32,6 @@ simple CircleMobility extends MovingMobilityBase
         double cz @unit(m) = default(0m); // z coord of the center of the circle
         double r @unit(m); // radius of the circle
         double speed @unit(mps) = default(0mps); // speed of the host
-        double startAngle @unit(deg) = default(uniform(0deg, 360deg)); // starting angle
+        double startAngle @unit(deg) = default(uniform(120deg, 120deg)); // starting angle
         @class(CircleMobility);
 }

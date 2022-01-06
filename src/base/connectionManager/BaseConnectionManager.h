@@ -208,6 +208,12 @@ protected:
 	/** @brief Does the ConnectionManager use sendDirect or not?*/
 	bool sendDirect;
 
+	/** @brief Direction, when the angle start, ranges [0, 360]*/
+	double startAngle;
+
+	/** @brief Direction, from ranges [startAngle, startAngle + angle]*/
+	double angle;
+
 	/** @brief Stores the size of the playground.*/
 	const Coord* playgroundSize;
 

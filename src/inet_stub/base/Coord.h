@@ -24,6 +24,7 @@
 #include "INETDefs.h"
 
 #include "FWMath.h"
+#include "2DVector.h"
 
 
 /**
@@ -107,6 +108,14 @@ public:
         y *= f;
         z *= f;
         return *this;
+    }
+
+    /**
+     * @brief Multiplies this coordinate vector by a real number.
+     */
+    double operator*(const Coord &a)
+    {
+        return this->x * a.x + this->y * a.y + this->z * a.z;
     }
 
     /**
@@ -209,12 +218,33 @@ public:
     }
 
     /**
+     * @brief Returns distance^2 to Coord 'a' (omits calling square root).
+     */
+    Vector2D getVector(const Coord &a)
+    {
+        Coord diff(*this - a);
+        return Vector2D(diff.x, diff.y);
+    }
+
+    Vector2D unitVector(double angle)
+    {
+        return Vector2D(sin(angle * PI / 180.0), cos(angle * PI / 180.0));
+    }
+
+    double angleBetween(const Coord &a){
+        double product = *this * a;
+        double angleRadian = acos(product / (this->length() * a.length()));
+        return FWMath::toDegree(angleRadian);
+    }
+
+    /**
      * @brief Checks if this coordinate is inside a specified rectangle.
      *
      * @param lowerBound The upper bound of the rectangle.
      * @param upperBound The lower bound of the rectangle.
      */
-    bool isInBoundary(const Coord& lowerBound, const Coord& upperBound) const {
+    bool isInBoundary(const Coord &lowerBound, const Coord &upperBound) const
+    {
         return  lowerBound.x <= x && x <= upperBound.x &&
                 lowerBound.y <= y && y <= upperBound.y &&
                 lowerBound.z <= z && z <= upperBound.z;

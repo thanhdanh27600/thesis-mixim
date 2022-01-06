@@ -55,6 +55,11 @@ void BMacLayer::initialize(int stage)
 
 		debugEV << "Node ID is: " << nodeId << endl;
 
+		// Declare the node direction
+		nodeDir = static_cast<int>(findHost()->getAncestorPar("nodeDir"));
+
+		debugEV << "Node Direction is: " << nodeDir << endl;
+
 		debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate << endl;
 
 		stats = par("stats");
@@ -107,17 +112,15 @@ void BMacLayer::initialize(int stage)
 
         debugEV << "Node ID is: " << nodeId << endl;
 
-        debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate << endl;
+		debugEV << "Node Direction is: " << nodeDir << endl;
+
+		debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate << endl;
 
 		if(nodeId == 0){
 		    scheduleAt(0.2, start_receiver);
-		} else if (nodeId == 1) {
-		    scheduleAt(0.5, start_transmitter);
-		    dataPeriod = 5;
-		}
-		else{
-			scheduleAt(1.5, start_transmitter);
-			dataPeriod = 10;
+		} else{
+			scheduleAt(0.5, start_transmitter);
+			dataPeriod = 5;
 		}
 
 	}

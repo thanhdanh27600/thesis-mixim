@@ -123,6 +123,11 @@ class INET_API FWMath {
    * Convert a mW value to dBm.
    */
   static double mW2dBm(double mW) { return (10 * log10(mW)); }
+
+  /**
+   * Convert radian to degree.
+   */
+  static double toDegree(double radian) { return radian * 180.0 / PI; }
 };
 
 #endif

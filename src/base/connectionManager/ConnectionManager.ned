@@ -71,6 +71,10 @@ simple ConnectionManager like IConnectionManager
         double carrierFrequency @unit(Hz);
         // should the maximum interference distance be displayed for each node?
         bool drawMaxIntfDist = default(false);
+        // startAngle point of direction
+        double startAngle @unit(deg);
+        // direction from [startAngle, startAngle + angle]
+        double angle @unit(deg);
         
         @display("i=abstract/multicast");
 }
