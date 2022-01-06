@@ -6,7 +6,8 @@ import org.mixim.base.modules.IBaseApplLayer;
 import org.mixim.base.modules.IBaseNetwLayer;
 
 //
-// Standard host module for a wireless MiXiM host with configurable NIC, and OSI // layers, and mobility module.
+// Standard host module for a wireless MiXiM host with configurable NIC, and OSI 
+// layers, and mobility module.
 //
 module WirelessNode
 {

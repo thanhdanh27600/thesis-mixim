@@ -58,6 +58,21 @@ void BaseConnectionManager::initialize(int stage)
 		else
 			sendDirect = false;
 
+		/**
+		 * @brief Direction
+		 * 
+		 */
+
+		if (hasPar("startAngle"))
+			startAngle = par("startAngle").doubleValue();
+		else
+			startAngle = 0.0;
+
+		if (hasPar("angle"))
+			angle = par("angle").doubleValue();
+		else
+			startAngle = 0.0;
+
 		maxInterferenceDistance = calcInterfDist();
 		maxDistSquared = maxInterferenceDistance * maxInterferenceDistance;
 
@@ -268,7 +283,12 @@ bool BaseConnectionManager::isInRange(BaseConnectionManager::NicEntries::mapped_
     } else {
     	dDistance = pFromNic->pos.sqrdist(pToNic->pos);
     }
-    return (dDistance <= maxDistSquared);
+	ccEV << "startAngle:" << startAngle << "angle" << angle<< endl;
+	double angleTwoVector = pFromNic->pos.angleBetween(pToNic->pos);
+	// ccEV << "(x,y)=(" << v.x << "," << v.y << ")\n";
+	ccEV << "angle bettween A" << pFromNic->pos << "and B" << pToNic->pos << "=" << angleTwoVector << endl;
+
+	return (dDistance <= maxDistSquared);
 }
 
 void BaseConnectionManager::updateNicConnections(NicEntries& nmap, BaseConnectionManager::NicEntries::mapped_type   nic)
@@ -277,6 +297,7 @@ void BaseConnectionManager::updateNicConnections(NicEntries& nmap, BaseConnectio
 
     for(NicEntries::iterator i = nmap.begin(); i != nmap.end(); ++i) {
     	NicEntries::mapped_type nic_i = i->second;
+		
 
         // no recursive connections
         if ( nic_i->nicId == id ) continue;
@@ -300,7 +321,16 @@ void BaseConnectionManager::updateNicConnections(NicEntries& nmap, BaseConnectio
             nic->disconnectFrom( nic_i );
             nic_i->disconnectFrom( nic );
         }
-    }
+		else if (inRange && connected){
+			ccEV << "nic #" << id << " and #" << nic_i->nicId << " and pos#" << nic_i->pos << " and fullname#" << nic_i->getFullName() << " and hostid#" << nic_i->hostId
+				 << " are in range and connected" << endl;
+		}
+		else if (!inRange && !connected)
+		{
+			ccEV << "nic #" << id << " and #" << nic_i->nicId << " and fullname#" << nic_i->getFullName()
+				 << " are not in range and not connected" << endl;
+		}
+	}
 }
 
 bool BaseConnectionManager::registerNic(cModule*                 nic,
