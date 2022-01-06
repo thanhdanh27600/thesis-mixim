@@ -55,11 +55,6 @@ void BMacLayer::initialize(int stage)
 
 		debugEV << "Node ID is: " << nodeId << endl;
 
-		// Declare the node direction
-		nodeDir = static_cast<int>(findHost()->getAncestorPar("nodeDir"));
-
-		debugEV << "Node Direction is: " << nodeDir << endl;
-
 		debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate << endl;
 
 		stats = par("stats");
@@ -111,8 +106,6 @@ void BMacLayer::initialize(int stage)
         ready_to_send->setKind(READY_TO_SEND);
 
         debugEV << "Node ID is: " << nodeId << endl;
-
-		debugEV << "Node Direction is: " << nodeDir << endl;
 
 		debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate << endl;
 

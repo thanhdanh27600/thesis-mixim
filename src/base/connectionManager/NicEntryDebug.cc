@@ -34,9 +34,7 @@ using std::endl;
 
 void NicEntryDebug::connectTo(NicEntry* other)
 {
-	// nicEV<<"connecting nic #"<<nicId<< " and #"<<other->nicId<<endl;
-	ev << "NicEntryDebug: "
-	   << "connecting nic #" << nicId << " and #" << other->nicId << endl;
+	nicEV<<"connecting nic #"<<nicId<< " and #"<<other->nicId<<endl;
 
 	NicEntryDebug* otherNic = (NicEntryDebug*) other;
 
@@ -47,9 +45,7 @@ void NicEntryDebug::connectTo(NicEntry* other)
 
 void NicEntryDebug::disconnectFrom(NicEntry* other)
 {
-	// nicEV<<"disconnecting nic #"<<nicId<< " and #"<<other->nicId<<endl;
-	ev << "NicEntryDebug: "
-	   << "disconnecting nic #" << nicId << " and #" << other->nicId << endl;
+	nicEV<<"disconnecting nic #"<<nicId<< " and #"<<other->nicId<<endl;
 
 	NicEntryDebug* otherNic = (NicEntryDebug*) other;
 

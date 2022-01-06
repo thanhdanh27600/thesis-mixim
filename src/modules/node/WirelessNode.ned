@@ -6,7 +6,8 @@ import org.mixim.base.modules.IBaseApplLayer;
 import org.mixim.base.modules.IBaseNetwLayer;
 
 //
-// Standard host module for a wireless MiXiM host with configurable NIC, and OSI // layers, and mobility module.
+// Standard host module for a wireless MiXiM host with configurable NIC, and OSI 
+// layers, and mobility module.
 //
 module WirelessNode
 {
@@ -19,7 +20,6 @@ module WirelessNode
         string mobilityType = default("StationaryMobility"); //type of the mobility module
         string arpType = default("BaseArp");                 //type of address resolution module
         string nicType;
-        int nodeDir;
         int nodeId = default(0);
         @display("bgb=210,450,white;i=device/palm;b=40,40,rect");
         @node();
