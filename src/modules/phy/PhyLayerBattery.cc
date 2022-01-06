@@ -35,7 +35,9 @@ void PhyLayerBattery::initialize(int stage) {
 		 * power levels and corresponding txCurrent */
 		sleepCurrent   = rxCurrent      = decodingCurrentDelta = txCurrent   = 0;
 		setupRxCurrent = setupTxCurrent = rxTxCurrent          = txRxCurrent = 0;
+		wakeupCurrent = 0;
 		sleepCurrent         = pNic->par( "sleepCurrent" );
+		wakeupCurrent = pNic->par("wakeupCurrent");
 		rxCurrent            = pNic->par( "rxCurrent" );
 		if (pNic->hasPar("decodingCurrentDelta"))
 		    decodingCurrentDelta = pNic->par( "decodingCurrentDelta" );
@@ -44,6 +46,7 @@ void PhyLayerBattery::initialize(int stage) {
 		setupTxCurrent       = pNic->par( "setupTxCurrent" );
 		rxTxCurrent          = pNic->par( "rxTxCurrent" );
 		txRxCurrent          = pNic->par( "txRxCurrent" );
+		wakeupCurrentState   = pNic->par("wakeupCurrentState");
 	} else {
 		registerWithBattery("physical layer", numActivities);
 		setRadioCurrent(radio->getCurrentState());
@@ -154,21 +157,35 @@ void PhyLayerBattery::setSwitchingCurrent(int from, int to) {
 
         case MiximRadio::SLEEP:
             switch(to) {
-                case MiximRadio::TX:
-                    current = setupTxCurrent;
-                    break;
-                case MiximRadio::RX:
-                    current = setupRxCurrent;
-                    break;
+				case MiximRadio::WAKE_UP:
+					coreEV << "WAKEUP: State switch from SLEEP to WAKEUP" << endl;
+					current = wakeupCurrentState;  //handle from sleep -> wakeup
+				// case MiximRadio::TX:
+				// 	current = setupTxCurrent;
+				// 	break;
+                // case MiximRadio::RX:
+                //     current = setupRxCurrent;
+                //     break;
                 default:
                     opp_error("Unknown radio switch! From SLEEP to %d", to);
                     break;
             }
             break;
 
-        default:
-            opp_error("Unknown radio state: %d", from);
-            break;
+		case MiximRadio::WAKE_UP:  // handle wakeup -> rx or tx
+			switch (to){
+			case MiximRadio::TX:
+				coreEV << "WAKEUP: State switch from WAKEUP to TX";
+				current = setupTxCurrent;
+				break;
+			case MiximRadio::RX:
+				coreEV << "WAKEUP: State switch from WAKEUP to RX";
+				current = setupRxCurrent;
+				break;
+			default:
+				opp_error("Unknown radio state: %d", from);
+				break;
+			}
 	}
 
 	MiximBatteryAccess::drawCurrent(current, SWITCHING_ACCT);
@@ -185,6 +202,9 @@ void PhyLayerBattery::setRadioCurrent(int rs) {
 	case MiximRadio::SLEEP:
 		MiximBatteryAccess::drawCurrent(sleepCurrent, SLEEP_ACCT);
 		break;
+	 case MiximRadio::WAKE_UP:
+		 MiximBatteryAccess::drawCurrent(wakeupCurrent, WAKEUP_ACCT);
+		 break;
 	default:
 		opp_error("Unknown radio state: %d", rs);
 		break;

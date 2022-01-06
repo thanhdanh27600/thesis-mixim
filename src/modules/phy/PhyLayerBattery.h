@@ -62,11 +62,13 @@ protected:
 	/** @name The different currents in mA.*/
 	/*@{*/
 	double sleepCurrent, rxCurrent, decodingCurrentDelta, txCurrent;
+	double wakeupCurrent;
 	/*@}*/
 
 	/** @name The different switching state currents in mA.*/
 	/*@{*/
 	double setupRxCurrent, setupTxCurrent, rxTxCurrent, txRxCurrent;
+	double wakeupCurrentState;
 	/*@}*/
 
 	/**
@@ -75,10 +77,12 @@ protected:
 	 */
 	enum Activities {
 		SLEEP_ACCT=0,
+		WAKEUP_ACCT,
 		RX_ACCT,
 		TX_ACCT,
 		SWITCHING_ACCT,
 		DECIDER_ACCT,
+	
 	};
 
 protected:
@@ -150,6 +154,7 @@ public:
 		, numActivities(0)
 		, sleepCurrent(0), rxCurrent(0), decodingCurrentDelta(0), txCurrent(0)
 		, setupRxCurrent(0), setupTxCurrent(0), rxTxCurrent(0), txRxCurrent(0)
+		, wakeupCurrent(0)
 	{}
 	virtual void initialize(int stage);
 

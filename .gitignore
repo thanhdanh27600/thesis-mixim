@@ -58,3 +58,4 @@ examples/lmac/lmac
 **.vci
 .metadata/**
 .nedfolders
+.vscode

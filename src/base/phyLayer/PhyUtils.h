@@ -206,6 +206,8 @@ public:
 		TX,
 		/** @brief sleeping*/
 		SLEEP,
+		/** @brief wake-up state */
+		WAKE_UP,
 		/** @brief switching between two states*/
 		SWITCHING,
 
