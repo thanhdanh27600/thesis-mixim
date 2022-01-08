@@ -46,6 +46,13 @@ protected:
 	virtual AnalogueModel* getAnalogueModelFromName(const std::string& name, ParameterMap& params) const;
 
 	/**
+	     * @brief Creates and initializes a SimpleObstacleShadowing with the
+	     * passed parameter values.
+	     */
+	virtual AnalogueModel* initializeSimpleObstacleShadowing(ParameterMap& params) const;
+
+
+	/**
 	 * @brief Creates and returns an instance of the decider with the specified
 	 *        name.
 	 *

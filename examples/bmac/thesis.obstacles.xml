@@ -1,0 +1,3 @@
+<obstacles>
+   <poly id="building#0" type="building" color="#F00" shape="120,100 170,100 170,150 120,150" />
+</obstacles>

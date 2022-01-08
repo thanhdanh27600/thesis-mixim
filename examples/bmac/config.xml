@@ -5,6 +5,9 @@
 	    	<parameter name="alpha" type="double" value="3.0"/>
 	    	<parameter name="carrierFrequency" type="double" value="2.412e+9"/>
 	    </AnalogueModel>
+	    <AnalogueModel type="SimpleObstacleShadowing">
+	    	<parameter name="carrierFrequency" type="double" value="2.412e+9"/>
+	    </AnalogueModel>
 	</AnalogueModels>
 	<Decider type="SNRThresholdDecider">
 		<!-- SNR threshold (as fraction) above which the decider consideres a
