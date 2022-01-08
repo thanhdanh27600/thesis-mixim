@@ -17,6 +17,8 @@ package org.mixim.examples.bmac;
 
 import org.mixim.base.modules.BaseNetwork;
 import org.mixim.modules.node.HostBMAC;
+import org.mixim.modules.obstacle.ObstacleControl;
+import org.mixim.modules.world.annotations.AnnotationManager;
 
 network BMACExampleNetwork extends BaseNetwork
 {
@@ -24,6 +26,12 @@ network BMACExampleNetwork extends BaseNetwork
         int numNodes; // total number of hosts in the network
 
     submodules:
+        obstacles: ObstacleControl {
+            @display("p=249,53");
+        }
+        annotations: AnnotationManager {
+            @display("p=260,50");
+        }
         node[numNodes]: HostBMAC {
             parameters:
                 @display("p=170,50;i=device/wifilaptop");
