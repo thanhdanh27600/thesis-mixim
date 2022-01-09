@@ -264,6 +264,7 @@ class MIXIM_API BMacLayer : public BaseMacLayer
 
 	/** @brief Internal function to add a new packet from upper to the queue */
 	bool addToQueue(cMessage * msg);
+
 };
 
 #endif /* BMACLAYER_H_ */

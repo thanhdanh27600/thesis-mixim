@@ -27,10 +27,10 @@ network BMACExampleNetwork extends BaseNetwork
 
     submodules:
         obstacles: ObstacleControl {
-            @display("p=249,53");
+            @display("p=350,0");
         }
         annotations: AnnotationManager {
-            @display("p=260,50");
+            @display("p=420,0");
         }
         node[numNodes]: HostBMAC {
             parameters:

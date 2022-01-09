@@ -226,8 +226,9 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
 	{
 
     case INIT:
-        if(msg->getKind() == START_TRANSMITTER){
-            scheduleAt(simTime() + 0.1, ready_to_send);
+        if(msg->getKind() == START_TRANSMITTER) {
+            if (nodeId % 2 == 0) scheduleAt(simTime() + 0.1, ready_to_send);
+            else scheduleAt(simTime() + 0.1 + 1, ready_to_send);
             changeDisplayColor(GREEN);
             phy->setRadioState(MiximRadio::TX);
             macState = Tx_SENDING;
@@ -308,19 +309,28 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
         break;
     case Rx_RECEIVING:
         if(msg->getKind() == DATA_PACKAGE) { //receive and ack
-            debugEV << "****Rx: Data package is received!!!" << endl;
+            debugEV << "****Rx: Data package is received: " << endl;
             debugEV << "****Rx: ACK package is sending..." << endl;
-
+            macpkt_ptr_t mac = static_cast<macpkt_ptr_t>(msg);
+            const LAddress::L2Type& dest = mac->getDestAddr();
+            const LAddress::L2Type& src  = mac->getSrcAddr();
+            if ((dest == myMacAddr) || LAddress::isL2Broadcast(dest)) {
+                sendUp(decapsMsg(mac));
+            } else {
+                delete msg;
+                msg = NULL;
+                mac = NULL;
+            }
             changeDisplayColor(GREEN);
             phy->setRadioState(MiximRadio::TX);
             sendMacAck();
             macState = Rx_WAIT_ACK_OVER;
-
+            //delete msg;
             return;
         }
         break;
     case Rx_WAIT_ACK_OVER:
-        if(msg->getKind() == DATA_TX_OVER){
+        if(msg->getKind() == DATA_TX_OVER) {
             debugEV << "****Rx: ACK package is sent!!!" << endl;
 
             changeDisplayColor(RED);
@@ -349,7 +359,7 @@ void BMacLayer::sendDataPacket()
 {
 	nbTxDataPackets++;
 	//macpkt_ptr_t pkt = macQueue.front()->dup();
-	macpkt_ptr_t pkt = new MacPkt();
+	macpkt_ptr_t pkt = new MacPkt("Quang");
 	pkt->setKind(DATA_PACKAGE);
 
 	pkt->setBitLength(128);
