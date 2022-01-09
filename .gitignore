@@ -12,7 +12,6 @@
 .tkenvrc
 .tmp*
 env.sh
-**/Makefile
 Makefile.vc
 **/Makefile.vc
 out
@@ -22,7 +21,7 @@ doc/index.html
 src/base/*.so
 src/modules/*.so
 src/*.so
-Makefile
+.nedfolders
 results
 examples/**/figures
 examples/ieee802154a/ieee802154a
