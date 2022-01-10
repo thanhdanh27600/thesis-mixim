@@ -244,9 +244,16 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
 
         break;
 	case Tx_SENDING:
-        if(msg->getKind() == READY_TO_SEND){
-            sendDataPacket();
-            macState = Tx_WAIT_DATA_OVER;
+        if(msg->getKind() == READY_TO_SEND) {
+            if (macQueue.size() != 0) {
+                sendDataPacket();
+                macState = Tx_WAIT_DATA_OVER;
+            } else {
+                changeDisplayColor(BLACK);
+                phy->setRadioState(MiximRadio::SLEEP);
+                scheduleAt(simTime() + dataPeriod, wakeup);
+                macState = Tx_SLEEP;
+            }
 
             return;
         }
@@ -358,8 +365,8 @@ void BMacLayer::handleLowerMsg(cMessage *msg)
 void BMacLayer::sendDataPacket()
 {
 	nbTxDataPackets++;
-	//macpkt_ptr_t pkt = macQueue.front()->dup();
-	macpkt_ptr_t pkt = new MacPkt("Quang");
+	macpkt_ptr_t pkt = macQueue.front()->dup();
+	//macpkt_ptr_t pkt = new MacPkt("Quang");
 	pkt->setKind(DATA_PACKAGE);
 
 	pkt->setBitLength(128);
