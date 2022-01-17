@@ -8,11 +8,15 @@
 class Triangulation 
 {
 public:
-    /** @name Center1, Center2 and Center3 coordinates of the 3 circles. */
+    /** @name Center1, Center2 and Center3 coordinates of the 3 circles with corresponding radius */
     /*@{*/
     Coord Center1;
     Coord Center2;
     Coord Center3;
+
+    double radius1;
+    double radius2;
+    double radius3;
     /*@}*/
 
 private:
