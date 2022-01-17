@@ -28,22 +28,6 @@ void assertLessThan(std::string msg, T target, T actual)
     }
 }
 
-const double X_1 = 0.0;
-const double Y_1 = 0.0;
-const double Z_1 = 0.0;
-
-const double X_2 = 8.0;
-const double Y_2 = 0.0;
-const double Z_2 = 0.0;
-
-const double X_3 = 4.0;
-const double Y_3 = 8.0;
-const double Z_3 = 0.0;
-
-const double X_a = 4.0;
-const double Y_a = 3.0;
-const double Z_a = 0.0;
-
 /**
  * @brief
  * testcase
@@ -71,89 +55,109 @@ struct Case2
     double Z_p = 0.0;
 };
 
-void testDistanceLocalizeCase1()
+const double X_1 = 0.0;
+const double Y_1 = 0.0;
+const double Z_1 = 0.0;
+
+const double X_2 = 8.0;
+const double Y_2 = 0.0;
+const double Z_2 = 0.0;
+
+const double X_3 = 4.0;
+const double Y_3 = 8.0;
+const double Z_3 = 0.0;
+
+const double X_a = 4.0;
+const double Y_a = 3.0;
+const double Z_a = 0.0;
+
+Coord Center1(X_1, Y_1, Z_1);
+Coord Center2(X_2, Y_2, Z_2);
+Coord Center3(X_3, Y_3, Z_3);
+
+Coord Actual(X_a, Y_a, Z_a);
+
+struct Case1 case1;
+struct Case2 case2;
+
+
+
+void testDistanceCase1()
 {
-    std::cout << "testDistanceLocalizeCase1 starting...." << std::endl;
+    std::cout << "testDistanceCase1 starting...." << std::endl;
 
-    struct Case1 case1;
-
-    Coord Circle1(X_1, Y_1, Z_1);
     Coord r1(0.0, 0.0, case1.radius1);
 
-    Coord Circle2(X_2, Y_2, Z_2);
     Coord r2(0.0, 0.0, case1.radius2);
 
-    Coord Circle3(X_3, Y_3, Z_3);
     Coord r3(0.0, 0.0, case1.radius3);
 
-    assertClose("Case1: Radius Circle1", Circle1.distance(r1), case1.radius1);
-    assertClose("Case1: Radius Circle2", Circle1.distance(r2), case1.radius2);
-    assertClose("Case1: Radius Circle3", Circle1.distance(r3), case1.radius3);
+    assertClose("Case1: Radius Center1", Center1.distance(r1), case1.radius1);
+    assertClose("Case1: Radius Center2", Center1.distance(r2), case1.radius2);
+    assertClose("Case1: Radius Center3", Center1.distance(r3), case1.radius3);
 
-    std::cout << "testDistanceLocalizeCase1 successful." << std::endl
+    std::cout << "testDistanceCase1 successful." << std::endl
               << std::endl;
 }
 
-void testPositionLocalizeCase1()
+void testPositionCase1()
 {
-    std::cout << "testPositionLocalizeCase1 starting...." << std::endl;
+    std::cout << "testPositionCase1 starting...." << std::endl;
+ 
+    assertClose("Case1: Actual->Center1 == Radius1", Actual.distance(Center1), case1.radius1);
+    assertClose("Case1: Actual->Center2 == Radius2", Actual.distance(Center2), case1.radius2);
+    assertClose("Case1: Actual->Center3 == Radius3", Actual.distance(Center3), case1.radius3);
 
-    struct Case1 case1;
-
-    Coord Circle1(X_1, Y_1, Z_1);
-    Coord Circle2(X_2, Y_2, Z_2);
-    Coord Circle3(X_3, Y_3, Z_3);
-
-    Coord Actual(X_a, Y_a, Z_a);
-
-    assertClose("Case1: Actual->Circle1 == Radius1", Actual.distance(Circle1), case1.radius1);
-    assertClose("Case1: Actual->Circle2 == Radius2", Actual.distance(Circle2), case1.radius2);
-    assertClose("Case1: Actual->Circle3 == Radius3", Actual.distance(Circle3), case1.radius3);
-
-    std::cout << "testPositionLocalizeCase1 successful." << std::endl
+    std::cout << "testPositionCase1 successful." << std::endl
               << std::endl;
 }
 
-void testDistanceLocalizeCase2()
+void testDistanceCase2()
 {
-    std::cout << "testDistanceLocalizeCase2 starting...." << std::endl;
+    std::cout << "testDistanceCase2 starting...." << std::endl;
 
-    struct Case2 case2;
-
-    Coord Circle1(X_1, Y_1, Z_1);
     Coord r1(0.0, 0.0, case2.radius1);
-
-    Coord Circle2(X_2, Y_2, Z_2);
     Coord r2(0.0, 0.0, case2.radius2);
-
-    Coord Circle3(X_3, Y_3, Z_3);
     Coord r3(0.0, 0.0, case2.radius3);
 
-    assertClose("Case2: Radius Circle1", Circle1.distance(r1), case2.radius1);
-    assertClose("Case2: Radius Circle2", Circle1.distance(r2), case2.radius2);
-    assertClose("Case2: Radius Circle3", Circle1.distance(r3), case2.radius3);
+    assertClose("Case2: Radius Center1", Center1.distance(r1), case2.radius1);
+    assertClose("Case2: Radius Center2", Center1.distance(r2), case2.radius2);
+    assertClose("Case2: Radius Center3", Center1.distance(r3), case2.radius3);
 
-    std::cout << "testDistanceLocalizeCase1 successful." << std::endl
+    std::cout << "testDistanceCase1 successful." << std::endl
               << std::endl;
 }
 
-void testPositionLocalizeCase2()
+void testPositionCase2()
 {
-    std::cout << "testPositionLocalizeCase2 starting...." << std::endl;
+    std::cout << "testPositionCase2 starting...." << std::endl;
 
-    struct Case1 case1;
+    assertLessThan("Case2: Center1->Center2 < Radius1 + Radius2", Center1.distance(Center2), case1.radius1 + case1.radius2);
+    assertLessThan("Case2: Center2->Center3 < Radius2 + Radius3", Center2.distance(Center3), case1.radius2 + case1.radius3);
+    assertLessThan("Case2: Center3->Center1 < Radius2 + Radius3", Center3.distance(Center1), case1.radius2 + case1.radius3);
 
-    Coord Circle1(X_1, Y_1, Z_1);
-    Coord Circle2(X_2, Y_2, Z_2);
-    Coord Circle3(X_3, Y_3, Z_3);
+    std::cout << "testPositionCase2 successful." << std::endl
+              << std::endl;
+}
 
-    Coord Actual(X_a, Y_a, Z_a);
+void testLineCase2()
+{
+    std::cout << "testLineCase2 starting...." << std::endl;
 
-    assertLessThan("Case2: Circle1->Circle2 < Radius1 + Radius2", Circle1.distance(Circle2), case1.radius1 + case1.radius2);
-    assertLessThan("Case2: Circle2->Circle3 < Radius2 + Radius3", Circle2.distance(Circle3), case1.radius2 + case1.radius3);
-    assertLessThan("Case2: Circle3->Circle1 < Radius2 + Radius3", Circle3.distance(Circle1), case1.radius2 + case1.radius3);
+    Line2D *linec1c2 = Center1.line2DthroughPoint(Center2);
+    Line2D *linec2c3 = Center2.line2DthroughPoint(Center3);
+    Line2D *linec3c1 = Center3.line2DthroughPoint(Center1);
 
-    std::cout << "testPositionLocalizeCase2 successful." << std::endl
+    assertEqual("Case2: Center1->Center2 line: y=ax+b, check \"a\"", linec1c2->a, 0.0);
+    assertEqual("Case2: Center1->Center2 line: y=ax+b, check \"b\"", linec1c2->b, 0.0);
+
+    assertEqual("Case2: Center2->Center3 line: y=ax+b, check \"a\"", linec2c3->a, -2.0);
+    assertEqual("Case2: Center2->Center3 line: y=ax+b, check \"b\"", linec2c3->b, 16.0);
+
+    assertEqual("Case2: Center3->Center1 line: y=ax+b, check \"a\"", linec3c1->a, 2.0);
+    assertEqual("Case2: Center3->Center1 line: y=ax+b, check \"b\"", linec3c1->b, 0.0);
+
+    std::cout << "testLineCase2 successful." << std::endl
               << std::endl;
 }
 
@@ -164,11 +168,21 @@ protected:
     {
         std::cout << "===  Start testing... ===" << std::endl;
 
-        testDistanceLocalizeCase1();
-        testPositionLocalizeCase1();
+        /**
+         * Case 1
+        */
 
-        testDistanceLocalizeCase2();
-        testPositionLocalizeCase2();
+        testDistanceCase1();
+        testPositionCase1();
+
+        
+        /**
+         * Case 2
+        */
+
+        testDistanceCase2();
+        testPositionCase2();
+        testLineCase2();
 
         testsExecuted = true;
     }

@@ -24,7 +24,8 @@
 #include "INETDefs.h"
 
 #include "FWMath.h"
-#include "2DVector.h"
+#include "Vector2D.h"
+#include "Line2D.h"
 
 
 /**
@@ -215,6 +216,23 @@ public:
     double length() const
     {
         return sqrt(squareLength());
+    }
+
+    /**
+     * @brief Returns a Line2D (y=ax+b) pass through 2 points, "this" and "point"
+     */
+    Line2D* line2DthroughPoint(const Coord &point)
+    {
+        double slope = slope2D(point);
+        return new Line2D(slope, -slope * this->x + this->y);
+    }
+
+    /**
+     * @brief Returns a slope of a line through 2 points in Oxy
+     */
+    double slope2D(const Coord &point)
+    {
+        return (this->y - point.y) / (this->x - point.x);
     }
 
     /**
