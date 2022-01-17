@@ -1,5 +1,6 @@
 
 #include <Coord.h>
+#include <Triangulation.h>
 #include <asserts.h>
 #include <OmnetTestBase.h>
 
@@ -128,18 +129,6 @@ void testDistanceCase2()
               << std::endl;
 }
 
-void testPositionCase2()
-{
-    std::cout << "testPositionCase2 starting...." << std::endl;
-
-    assertLessThan("Case2: Center1->Center2 < Radius1 + Radius2", Center1.distance(Center2), case1.radius1 + case1.radius2);
-    assertLessThan("Case2: Center2->Center3 < Radius2 + Radius3", Center2.distance(Center3), case1.radius2 + case1.radius3);
-    assertLessThan("Case2: Center3->Center1 < Radius2 + Radius3", Center3.distance(Center1), case1.radius2 + case1.radius3);
-
-    std::cout << "testPositionCase2 successful." << std::endl
-              << std::endl;
-}
-
 void testLineCase2()
 {
     std::cout << "testLineCase2 starting...." << std::endl;
@@ -158,6 +147,20 @@ void testLineCase2()
     assertEqual("Case2: Center3->Center1 line: y=ax+b, check \"b\"", linec3c1->b, 0.0);
 
     std::cout << "testLineCase2 successful." << std::endl
+              << std::endl;
+}
+
+void testPositionCase2()
+{
+    std::cout << "testPositionCase2 starting...." << std::endl;
+
+    Triangulation* tri = new Triangulation(Center1, Center2, Center3, case2.radius1, case2.radius2, case2.radius3);
+
+    assertEqual("Case2: Center1<->Center2 position", (double)tri->position(Center1, Center2, case2.radius1, case2.radius2), (double)Position::CASE1);
+    assertEqual("Case2: Center2<->Center3 position", (double)tri->position(Center2, Center3, case2.radius2, case2.radius3), (double)Position::CASE1);
+    assertEqual("Case2: Center3<->Center1 position", (double)tri->position(Center3, Center1, case2.radius3, case2.radius1), (double)Position::CASE1);
+
+    std::cout << "testPositionCase2 successful." << std::endl
               << std::endl;
 }
 
@@ -181,8 +184,8 @@ protected:
         */
 
         testDistanceCase2();
-        testPositionCase2();
         testLineCase2();
+        testPositionCase2();
 
         testsExecuted = true;
     }

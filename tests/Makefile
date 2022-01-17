@@ -240,8 +240,9 @@ $O/basePhyLayer/BasePhyTests.o: basePhyLayer/BasePhyTests.cc \
 	../src/inet_stub/base/ModuleAccess.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	basePhyLayer/BasePhyTests.h \
 	basePhyLayer/TestDecider.h \
 	basePhyLayer/TestGlobals.h \
@@ -286,8 +287,9 @@ $O/basePhyLayer/TestMacLayer.o: basePhyLayer/TestMacLayer.cc \
 	../src/inet_stub/linklayer/contract/MACAddress.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	basePhyLayer/TestDecider.h \
 	basePhyLayer/TestGlobals.h \
 	basePhyLayer/TestMacLayer.h \
@@ -325,8 +327,9 @@ $O/basePhyLayer/TestPhyLayer.o: basePhyLayer/TestPhyLayer.cc \
 	../src/inet_stub/base/ModuleAccess.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	basePhyLayer/TestDecider.h \
 	basePhyLayer/TestGlobals.h \
 	basePhyLayer/TestPhyLayer.h \
@@ -364,8 +367,9 @@ $O/connectionManager/CMPhyLayer.o: connectionManager/CMPhyLayer.cc \
 	../src/inet_stub/linklayer/contract/MACAddress.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	connectionManager/CMPhyLayer.h
 $O/connectionManager/ConnectedBCNodePhyLayer.o: connectionManager/ConnectedBCNodePhyLayer.cc \
 	../src/base/connectionManager/ConnectionManagerAccess.h \
@@ -384,8 +388,9 @@ $O/connectionManager/ConnectedBCNodePhyLayer.o: connectionManager/ConnectedBCNod
 	../src/inet_stub/linklayer/contract/MACAddress.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	connectionManager/CMPhyLayer.h \
 	connectionManager/ConnectedBCNodePhyLayer.h
 $O/connectionManager/ConnectedRNodePhyLayer.o: connectionManager/ConnectedRNodePhyLayer.cc \
@@ -405,8 +410,9 @@ $O/connectionManager/ConnectedRNodePhyLayer.o: connectionManager/ConnectedRNodeP
 	../src/inet_stub/linklayer/contract/MACAddress.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	connectionManager/CMPhyLayer.h \
 	connectionManager/ConnectedRNodePhyLayer.h
 $O/connectionManager/NotConnectedBCNodePhyLayer.o: connectionManager/NotConnectedBCNodePhyLayer.cc \
@@ -426,8 +432,9 @@ $O/connectionManager/NotConnectedBCNodePhyLayer.o: connectionManager/NotConnecte
 	../src/inet_stub/linklayer/contract/MACAddress.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	connectionManager/CMPhyLayer.h \
 	connectionManager/NotConnectedBCNodePhyLayer.h
 $O/connectionManager/NotConnectedRNodePhyLayer.o: connectionManager/NotConnectedRNodePhyLayer.cc \
@@ -447,8 +454,9 @@ $O/connectionManager/NotConnectedRNodePhyLayer.o: connectionManager/NotConnected
 	../src/inet_stub/linklayer/contract/MACAddress.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	connectionManager/CMPhyLayer.h \
 	connectionManager/NotConnectedRNodePhyLayer.h
 $O/connectionManager/TestCM.o: connectionManager/TestCM.cc \
@@ -458,16 +466,18 @@ $O/connectionManager/TestCM.o: connectionManager/TestCM.cc \
 	../src/base/utils/miximkerneldefs.h \
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	connectionManager/TestCM.h \
 	testUtils/asserts.h
 $O/coord/CoordTest.o: coord/CoordTest.cc \
 	../src/base/utils/miximkerneldefs.h \
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	testUtils/OmnetTestBase.h \
 	testUtils/asserts.h
 $O/decider/DeciderTest.o: decider/DeciderTest.cc \
@@ -500,8 +510,9 @@ $O/decider/DeciderTest.o: decider/DeciderTest.cc \
 	../src/inet_stub/base/ModuleAccess.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	../src/modules/phy/SNRThresholdDecider.h \
 	decider/DeciderTest.h \
 	decider/TestSNRThresholdDeciderNew.h \
@@ -511,8 +522,10 @@ $O/localize/LocalizeTest.o: localize/LocalizeTest.cc \
 	../src/base/utils/miximkerneldefs.h \
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
-	../src/inet_stub/util/2DVector.h \
+	../src/inet_stub/base/Triangulation.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	testUtils/OmnetTestBase.h \
 	testUtils/asserts.h
 $O/mapping/mappingtest.o: mapping/mappingtest.cc \
@@ -598,8 +611,9 @@ $O/radioState/TestPhyUtils.o: radioState/TestPhyUtils.cc \
 	../src/base/utils/miximkerneldefs.h \
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	testUtils/OmnetTestBase.h \
 	testUtils/asserts.h
 $O/testUtils/OmnetTestBase.o: testUtils/OmnetTestBase.cc \

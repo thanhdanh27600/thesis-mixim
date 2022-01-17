@@ -89,6 +89,7 @@ OBJS = \
     $O/inet_stub/base/ModuleAccess.o \
     $O/inet_stub/base/NotificationBoard.o \
     $O/inet_stub/base/NotifierConsts.o \
+    $O/inet_stub/base/Triangulation.o \
     $O/inet_stub/linklayer/contract/MACAddress.o \
     $O/inet_stub/mobility/models/ANSimMobility.o \
     $O/inet_stub/mobility/models/BonnMotionFileCache.o \
@@ -329,8 +330,9 @@ $O/base/connectionManager/BaseConnectionManager.o: base/connectionManager/BaseCo
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/connectionManager/ConnectionManager.o: base/connectionManager/ConnectionManager.cc \
 	base/connectionManager/BaseConnectionManager.h \
 	base/connectionManager/ConnectionManager.h \
@@ -340,8 +342,9 @@ $O/base/connectionManager/ConnectionManager.o: base/connectionManager/Connection
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/connectionManager/ConnectionManagerAccess.o: base/connectionManager/ConnectionManagerAccess.cc \
 	base/connectionManager/BaseConnectionManager.h \
 	base/connectionManager/ConnectionManagerAccess.h \
@@ -359,8 +362,9 @@ $O/base/connectionManager/ConnectionManagerAccess.o: base/connectionManager/Conn
 	inet_stub/base/ModuleAccess.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/connectionManager/NicEntryDebug.o: base/connectionManager/NicEntryDebug.cc \
 	base/connectionManager/ConnectionManagerAccess.h \
 	base/connectionManager/NicEntry.h \
@@ -377,8 +381,9 @@ $O/base/connectionManager/NicEntryDebug.o: base/connectionManager/NicEntryDebug.
 	inet_stub/base/ModuleAccess.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/connectionManager/NicEntryDirect.o: base/connectionManager/NicEntryDirect.cc \
 	base/connectionManager/ConnectionManagerAccess.h \
 	base/connectionManager/NicEntry.h \
@@ -394,8 +399,9 @@ $O/base/connectionManager/NicEntryDirect.o: base/connectionManager/NicEntryDirec
 	inet_stub/base/ModuleAccess.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/messages/ApplPkt_m.o: base/messages/ApplPkt_m.cc \
 	base/messages/ApplPkt_m.h \
 	base/utils/MiXiMDefs.h \
@@ -407,8 +413,9 @@ $O/base/messages/BorderMsg_m.o: base/messages/BorderMsg_m.cc \
 	base/messages/BorderMsg_m.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/messages/ChannelSenseRequest_m.o: base/messages/ChannelSenseRequest_m.cc \
 	base/messages/ChannelSenseRequest_m.h \
 	base/phyLayer/ChannelState.h \
@@ -515,8 +522,9 @@ $O/base/modules/BaseMacLayer.o: base/modules/BaseMacLayer.cc \
 	inet_stub/networklayer/common/InterfaceEntry.h \
 	inet_stub/networklayer/common/InterfaceTableAccess.h \
 	inet_stub/networklayer/common/InterfaceToken.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/modules/BaseModule.o: base/modules/BaseModule.cc \
 	base/modules/BaseModule.h \
 	base/utils/FindModule.h \
@@ -554,8 +562,9 @@ $O/base/modules/BaseWorldUtility.o: base/modules/BaseWorldUtility.cc \
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/modules/MiximBatteryAccess.o: base/modules/MiximBatteryAccess.cc \
 	base/modules/BaseBattery.h \
 	base/modules/BaseModule.h \
@@ -633,8 +642,9 @@ $O/base/phyLayer/BasePhyLayer.o: base/phyLayer/BasePhyLayer.cc \
 	inet_stub/base/ModuleAccess.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/phyLayer/ChannelInfo.o: base/phyLayer/ChannelInfo.cc \
 	base/messages/MiXiMAirFrame.h \
 	base/messages/MiximAirFrame_m.h \
@@ -682,8 +692,9 @@ $O/base/phyLayer/PhyUtils.o: base/phyLayer/PhyUtils.cc \
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/base/phyLayer/Signal.o: base/phyLayer/Signal.cc \
 	base/phyLayer/Interpolation.h \
 	base/phyLayer/Mapping.h \
@@ -718,8 +729,9 @@ $O/inet_stub/base/BasicModule.o: inet_stub/base/BasicModule.cc \
 $O/inet_stub/base/Coord.o: inet_stub/base/Coord.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/base/ModuleAccess.o: inet_stub/base/ModuleAccess.cc \
 	inet_stub/base/INETDefs.h \
 	inet_stub/base/ModuleAccess.h
@@ -732,6 +744,13 @@ $O/inet_stub/base/NotificationBoard.o: inet_stub/base/NotificationBoard.cc \
 $O/inet_stub/base/NotifierConsts.o: inet_stub/base/NotifierConsts.cc \
 	inet_stub/base/INETDefs.h \
 	inet_stub/base/NotifierConsts.h
+$O/inet_stub/base/Triangulation.o: inet_stub/base/Triangulation.cc \
+	inet_stub/base/Coord.h \
+	inet_stub/base/INETDefs.h \
+	inet_stub/base/Triangulation.h \
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/linklayer/contract/Ieee802Ctrl_m.o: inet_stub/linklayer/contract/Ieee802Ctrl_m.cc \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/Ieee802Ctrl_m.h \
@@ -753,8 +772,9 @@ $O/inet_stub/mobility/models/ANSimMobility.o: inet_stub/mobility/models/ANSimMob
 	inet_stub/mobility/models/LineSegmentsMobilityBase.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/BonnMotionFileCache.o: inet_stub/mobility/models/BonnMotionFileCache.cc \
 	inet_stub/base/INETDefs.h \
 	inet_stub/mobility/models/BonnMotionFileCache.h
@@ -772,8 +792,9 @@ $O/inet_stub/mobility/models/BonnMotionMobility.o: inet_stub/mobility/models/Bon
 	inet_stub/mobility/models/LineSegmentsMobilityBase.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/ChiangMobility.o: inet_stub/mobility/models/ChiangMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -787,8 +808,9 @@ $O/inet_stub/mobility/models/ChiangMobility.o: inet_stub/mobility/models/ChiangM
 	inet_stub/mobility/models/LineSegmentsMobilityBase.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/CircleMobility.o: inet_stub/mobility/models/CircleMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -801,8 +823,9 @@ $O/inet_stub/mobility/models/CircleMobility.o: inet_stub/mobility/models/CircleM
 	inet_stub/mobility/models/CircleMobility.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/ConstSpeedMobility.o: inet_stub/mobility/models/ConstSpeedMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -816,8 +839,9 @@ $O/inet_stub/mobility/models/ConstSpeedMobility.o: inet_stub/mobility/models/Con
 	inet_stub/mobility/models/LineSegmentsMobilityBase.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/GaussMarkovMobility.o: inet_stub/mobility/models/GaussMarkovMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -831,8 +855,9 @@ $O/inet_stub/mobility/models/GaussMarkovMobility.o: inet_stub/mobility/models/Ga
 	inet_stub/mobility/models/LineSegmentsMobilityBase.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/LineSegmentsMobilityBase.o: inet_stub/mobility/models/LineSegmentsMobilityBase.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -845,8 +870,9 @@ $O/inet_stub/mobility/models/LineSegmentsMobilityBase.o: inet_stub/mobility/mode
 	inet_stub/mobility/models/LineSegmentsMobilityBase.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/LinearMobility.o: inet_stub/mobility/models/LinearMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -859,8 +885,9 @@ $O/inet_stub/mobility/models/LinearMobility.o: inet_stub/mobility/models/LinearM
 	inet_stub/mobility/models/LinearMobility.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/LinearNodeDistributionMobility.o: inet_stub/mobility/models/LinearNodeDistributionMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -873,8 +900,9 @@ $O/inet_stub/mobility/models/LinearNodeDistributionMobility.o: inet_stub/mobilit
 	inet_stub/mobility/models/LinearNodeDistributionMobility.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/StationaryMobility.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/MassMobility.o: inet_stub/mobility/models/MassMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -888,8 +916,9 @@ $O/inet_stub/mobility/models/MassMobility.o: inet_stub/mobility/models/MassMobil
 	inet_stub/mobility/models/MassMobility.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/MoBANCoordinator.o: inet_stub/mobility/models/MoBANCoordinator.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -907,8 +936,9 @@ $O/inet_stub/mobility/models/MoBANCoordinator.o: inet_stub/mobility/models/MoBAN
 	inet_stub/mobility/models/MovingMobilityBase.h \
 	inet_stub/mobility/models/Posture.h \
 	inet_stub/mobility/models/PostureTransition.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/MoBANLocal.o: inet_stub/mobility/models/MoBANLocal.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -925,16 +955,18 @@ $O/inet_stub/mobility/models/MoBANLocal.o: inet_stub/mobility/models/MoBANLocal.
 	inet_stub/mobility/models/MovingMobilityBase.h \
 	inet_stub/mobility/models/Posture.h \
 	inet_stub/mobility/models/PostureTransition.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/MobilityAccess.o: inet_stub/mobility/models/MobilityAccess.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/base/ModuleAccess.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/MobilityBase.o: inet_stub/mobility/models/MobilityBase.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -945,8 +977,9 @@ $O/inet_stub/mobility/models/MobilityBase.o: inet_stub/mobility/models/MobilityB
 	inet_stub/base/NotifierConsts.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/MovingMobilityBase.o: inet_stub/mobility/models/MovingMobilityBase.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -958,8 +991,9 @@ $O/inet_stub/mobility/models/MovingMobilityBase.o: inet_stub/mobility/models/Mov
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/Ns2MotionMobility.o: inet_stub/mobility/models/Ns2MotionMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -973,20 +1007,23 @@ $O/inet_stub/mobility/models/Ns2MotionMobility.o: inet_stub/mobility/models/Ns2M
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
 	inet_stub/mobility/models/Ns2MotionMobility.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/Posture.o: inet_stub/mobility/models/Posture.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/mobility/models/Posture.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/PostureTransition.o: inet_stub/mobility/models/PostureTransition.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/mobility/models/PostureTransition.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/RandomWPMobility.o: inet_stub/mobility/models/RandomWPMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -1000,8 +1037,9 @@ $O/inet_stub/mobility/models/RandomWPMobility.o: inet_stub/mobility/models/Rando
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
 	inet_stub/mobility/models/RandomWPMobility.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/RectangleMobility.o: inet_stub/mobility/models/RectangleMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -1014,8 +1052,9 @@ $O/inet_stub/mobility/models/RectangleMobility.o: inet_stub/mobility/models/Rect
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
 	inet_stub/mobility/models/RectangleMobility.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/StaticGridMobility.o: inet_stub/mobility/models/StaticGridMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -1028,8 +1067,9 @@ $O/inet_stub/mobility/models/StaticGridMobility.o: inet_stub/mobility/models/Sta
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/StaticGridMobility.h \
 	inet_stub/mobility/models/StationaryMobility.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/StationaryMobility.o: inet_stub/mobility/models/StationaryMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -1041,8 +1081,9 @@ $O/inet_stub/mobility/models/StationaryMobility.o: inet_stub/mobility/models/Sta
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/StationaryMobility.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/TraCIMobility.o: inet_stub/mobility/models/TraCIMobility.cc
 $O/inet_stub/mobility/models/TractorMobility.o: inet_stub/mobility/models/TractorMobility.cc \
 	inet_stub/base/BasicModule.h \
@@ -1057,8 +1098,9 @@ $O/inet_stub/mobility/models/TractorMobility.o: inet_stub/mobility/models/Tracto
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
 	inet_stub/mobility/models/TractorMobility.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/TurtleMobility.o: inet_stub/mobility/models/TurtleMobility.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -1072,8 +1114,9 @@ $O/inet_stub/mobility/models/TurtleMobility.o: inet_stub/mobility/models/TurtleM
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
 	inet_stub/mobility/models/TurtleMobility.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/networklayer/common/InterfaceEntry.o: inet_stub/networklayer/common/InterfaceEntry.cc \
 	inet_stub/base/INETDefs.h \
 	inet_stub/base/NotifierConsts.h \
@@ -1105,8 +1148,9 @@ $O/modules/analogueModel/BreakpointPathlossModel.o: modules/analogueModel/Breakp
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/BreakpointPathlossModel.h
 $O/modules/analogueModel/JakesFading.o: modules/analogueModel/JakesFading.cc \
 	base/connectionManager/ConnectionManagerAccess.h \
@@ -1130,8 +1174,9 @@ $O/modules/analogueModel/JakesFading.o: modules/analogueModel/JakesFading.cc \
 	inet_stub/base/ModuleAccess.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/JakesFading.h
 $O/modules/analogueModel/LogNormalShadowing.o: modules/analogueModel/LogNormalShadowing.cc \
 	base/messages/MiXiMAirFrame.h \
@@ -1146,8 +1191,9 @@ $O/modules/analogueModel/LogNormalShadowing.o: modules/analogueModel/LogNormalSh
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/LogNormalShadowing.h
 $O/modules/analogueModel/PERModel.o: modules/analogueModel/PERModel.cc \
 	base/messages/MiXiMAirFrame.h \
@@ -1162,8 +1208,9 @@ $O/modules/analogueModel/PERModel.o: modules/analogueModel/PERModel.cc \
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/PERModel.h
 $O/modules/analogueModel/SimpleObstacleShadowing.o: modules/analogueModel/SimpleObstacleShadowing.cc \
 	base/modules/BaseWorldUtility.h \
@@ -1179,8 +1226,9 @@ $O/modules/analogueModel/SimpleObstacleShadowing.o: modules/analogueModel/Simple
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/SimpleObstacleShadowing.h \
 	modules/obstacle/Obstacle.h \
 	modules/obstacle/ObstacleControl.h \
@@ -1199,8 +1247,9 @@ $O/modules/analogueModel/SimplePathlossModel.o: modules/analogueModel/SimplePath
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/SimplePathlossModel.h
 $O/modules/analogueModel/UWBIRIEEE802154APathlossModel.o: modules/analogueModel/UWBIRIEEE802154APathlossModel.cc \
 	base/messages/MiXiMAirFrame.h \
@@ -1215,8 +1264,9 @@ $O/modules/analogueModel/UWBIRIEEE802154APathlossModel.o: modules/analogueModel/
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/UWBIRIEEE802154APathlossModel.h \
 	modules/utility/IEEE802154A.h \
 	modules/utility/SimpleTimeConstMapping.h
@@ -1234,8 +1284,9 @@ $O/modules/analogueModel/UWBIRStochasticPathlossModel.o: modules/analogueModel/U
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/UWBIRStochasticPathlossModel.h
 $O/modules/application/BurstApplLayer.o: modules/application/BurstApplLayer.cc \
 	base/messages/ApplPkt_m.h \
@@ -1289,8 +1340,9 @@ $O/modules/application/SensorApplLayer.o: modules/application/SensorApplLayer.cc
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/application/SensorApplLayer.h \
 	modules/utility/Packet.h
 $O/modules/application/TestApplication.o: modules/application/TestApplication.cc \
@@ -1330,8 +1382,9 @@ $O/modules/application/TrafficGen.o: modules/application/TrafficGen.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/application/TrafficGen.h \
 	modules/utility/Packet.h
 $O/modules/connectionManager/UnitDisk.o: modules/connectionManager/UnitDisk.cc \
@@ -1342,8 +1395,9 @@ $O/modules/connectionManager/UnitDisk.o: modules/connectionManager/UnitDisk.cc \
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/connectionManager/UnitDisk.h
 $O/modules/mac/AlohaMacLayer.o: modules/mac/AlohaMacLayer.cc \
 	base/messages/MacPkt_m.h \
@@ -1370,8 +1424,9 @@ $O/modules/mac/AlohaMacLayer.o: modules/mac/AlohaMacLayer.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/mac/AlohaMacLayer.h \
 	modules/mac/UWBIRMac.h \
 	modules/messages/UWBIRMacPkt.h \
@@ -1408,8 +1463,9 @@ $O/modules/mac/BMacLayer.o: modules/mac/BMacLayer.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/mac/BMacLayer.h \
 	modules/utility/DroppedPacket.h
 $O/modules/mac/CSMA802154.o: modules/mac/CSMA802154.cc \
@@ -1459,8 +1515,9 @@ $O/modules/mac/CSMAMacLayer.o: modules/mac/CSMAMacLayer.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/modules/mac/LMacLayer.o: modules/mac/LMacLayer.cc \
 	base/messages/MacPkt_m.h \
 	base/messages/MiXiMMacPkt.h \
@@ -1487,8 +1544,9 @@ $O/modules/mac/LMacLayer.o: modules/mac/LMacLayer.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/mac/LMacLayer.h \
 	modules/messages/LMacPkt_m.h \
 	modules/utility/DroppedPacket.h
@@ -1524,8 +1582,9 @@ $O/modules/mac/Mac80211.o: modules/mac/Mac80211.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/mac/Mac80211.h \
 	modules/messages/Mac80211Pkt_m.h \
 	modules/phy/Decider80211.h \
@@ -1558,8 +1617,9 @@ $O/modules/mac/Mac80211MultiChannel.o: modules/mac/Mac80211MultiChannel.cc \
 	inet_stub/base/ModuleAccess.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/mac/Mac80211MultiChannel.h
 $O/modules/mac/UWBIRMac.o: modules/mac/UWBIRMac.cc \
 	base/messages/ChannelSenseRequest_m.h \
@@ -1592,8 +1652,9 @@ $O/modules/mac/UWBIRMac.o: modules/mac/UWBIRMac.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/mac/UWBIRMac.h \
 	modules/messages/UWBIRMacPkt.h \
 	modules/messages/UWBIRMacPkt_m.h \
@@ -1643,8 +1704,9 @@ $O/modules/mac/csma.o: modules/mac/csma.cc \
 	inet_stub/linklayer/contract/MACAddress.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/mac/csma.h \
 	modules/utility/DroppedPacket.h
 $O/modules/messages/AggrPkt.o: modules/messages/AggrPkt.cc \
@@ -1843,8 +1905,9 @@ $O/modules/netw/WiseRoute.o: modules/netw/WiseRoute.cc \
 	inet_stub/linklayer/contract/MACAddress.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/messages/WiseRoutePkt_m.h \
 	modules/netw/WiseRoute.h \
 	modules/utility/Packet.h \
@@ -1853,16 +1916,18 @@ $O/modules/obstacle/Obstacle.o: modules/obstacle/Obstacle.cc \
 	base/utils/FindModule.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/obstacle/Obstacle.h \
 	modules/world/annotations/AnnotationManager.h
 $O/modules/obstacle/ObstacleControl.o: modules/obstacle/ObstacleControl.cc \
 	base/utils/FindModule.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/obstacle/Obstacle.h \
 	modules/obstacle/ObstacleControl.h \
 	modules/world/annotations/AnnotationManager.h
@@ -1899,8 +1964,9 @@ $O/modules/phy/Decider80211Battery.o: modules/phy/Decider80211Battery.cc \
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/phy/Decider80211Battery.h
 $O/modules/phy/Decider80211MultiChannel.o: modules/phy/Decider80211MultiChannel.cc \
 	base/messages/ChannelSenseRequest_m.h \
@@ -1973,8 +2039,9 @@ $O/modules/phy/DeciderUWBIRED.o: modules/phy/DeciderUWBIRED.cc \
 	inet_stub/base/ModuleAccess.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/messages/AirFrameUWBIR_m.h \
 	modules/phy/DeciderResultUWBIR.h \
 	modules/phy/DeciderUWBIRED.h \
@@ -2004,8 +2071,9 @@ $O/modules/phy/DeciderUWBIREDSync.o: modules/phy/DeciderUWBIREDSync.cc \
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/phy/DeciderUWBIRED.h \
 	modules/phy/DeciderUWBIREDSync.h \
 	modules/utility/IEEE802154A.h \
@@ -2034,8 +2102,9 @@ $O/modules/phy/DeciderUWBIREDSyncOnAddress.o: modules/phy/DeciderUWBIREDSyncOnAd
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/phy/DeciderUWBIRED.h \
 	modules/phy/DeciderUWBIREDSyncOnAddress.h \
 	modules/utility/IEEE802154A.h \
@@ -2075,8 +2144,9 @@ $O/modules/phy/PhyLayer.o: modules/phy/PhyLayer.cc \
 	inet_stub/base/ModuleAccess.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/BreakpointPathlossModel.h \
 	modules/analogueModel/JakesFading.h \
 	modules/analogueModel/LogNormalShadowing.h \
@@ -2121,8 +2191,9 @@ $O/modules/phy/PhyLayerBattery.o: modules/phy/PhyLayerBattery.cc \
 	inet_stub/linklayer/contract/MACAddress.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/phy/Decider80211Battery.h \
 	modules/phy/Decider80211MultiChannel.h \
 	modules/phy/PhyLayer.h \
@@ -2161,8 +2232,9 @@ $O/modules/phy/PhyLayerUWBIR.o: modules/phy/PhyLayerUWBIR.cc \
 	inet_stub/linklayer/contract/MACAddress.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/analogueModel/UWBIRIEEE802154APathlossModel.h \
 	modules/analogueModel/UWBIRStochasticPathlossModel.h \
 	modules/messages/AirFrameUWBIR_m.h \
@@ -2255,8 +2327,9 @@ $O/modules/utility/SimTracer.o: modules/utility/SimTracer.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/utility/Packet.h \
 	modules/utility/SimTracer.h
 $O/modules/utility/phyPER.o: modules/utility/phyPER.cc \
@@ -2285,8 +2358,9 @@ $O/modules/utility/phyPER.o: modules/utility/phyPER.cc \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/phy/DeciderUWBIRED.h \
 	modules/utility/IEEE802154A.h \
 	modules/utility/Packet.h \
@@ -2298,7 +2372,8 @@ $O/modules/world/annotations/AnnotationManager.o: modules/world/annotations/Anno
 	base/utils/FindModule.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
-	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h \
 	modules/world/annotations/AnnotationManager.h
 

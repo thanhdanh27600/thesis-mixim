@@ -1,7 +1,7 @@
 #include <math.h>
 
-#ifndef vectorEV
-#define vectorEV ev << "Line2D y=ax+b: "
+#ifndef lineEV
+#define lineEV ev << "Line2D y=ax+b: "
 #endif
 
 typedef struct Line2D

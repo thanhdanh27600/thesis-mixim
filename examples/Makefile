@@ -208,8 +208,9 @@ $O/analogueModels/RandomFreqTimeModel.o: analogueModels/RandomFreqTimeModel.cc \
 	../src/base/utils/miximkerneldefs.h \
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
-	../src/inet_stub/util/2DVector.h \
-	../src/inet_stub/util/FWMath.h
+	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h
 $O/analogueModels/RandomFrequencyOnlyModel.o: analogueModels/RandomFrequencyOnlyModel.cc \
 	analogueModels/RandomFrequencyOnlyModel.h \
 	../src/base/messages/MiXiMAirFrame.h \
@@ -224,8 +225,9 @@ $O/analogueModels/RandomFrequencyOnlyModel.o: analogueModels/RandomFrequencyOnly
 	../src/base/utils/miximkerneldefs.h \
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
-	../src/inet_stub/util/2DVector.h \
-	../src/inet_stub/util/FWMath.h
+	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h
 $O/analogueModels/SamplePhyLayer.o: analogueModels/SamplePhyLayer.cc \
 	analogueModels/RandomFreqTimeModel.h \
 	analogueModels/RandomFrequencyOnlyModel.h \
@@ -259,8 +261,9 @@ $O/analogueModels/SamplePhyLayer.o: analogueModels/SamplePhyLayer.cc \
 	../src/inet_stub/base/ModuleAccess.h \
 	../src/inet_stub/mobility/IMobility.h \
 	../src/inet_stub/mobility/models/MobilityAccess.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	../src/modules/phy/PhyLayer.h
 $O/analogueModels/SimpleMacLayer.o: analogueModels/SimpleMacLayer.cc \
 	analogueModels/SimpleMacLayer.h \
@@ -284,8 +287,9 @@ $O/analogueModels/SimpleMacLayer.o: analogueModels/SimpleMacLayer.cc \
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
 	../src/inet_stub/linklayer/contract/MACAddress.h \
-	../src/inet_stub/util/2DVector.h \
-	../src/inet_stub/util/FWMath.h
+	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h
 $O/ieee802154Narrow/NetworkStackTrafficGen.o: ieee802154Narrow/NetworkStackTrafficGen.cc \
 	ieee802154Narrow/NetworkStackTrafficGen.h \
 	../src/base/messages/NetwPkt_m.h \
@@ -309,8 +313,9 @@ $O/ieee802154Narrow/NetworkStackTrafficGen.o: ieee802154Narrow/NetworkStackTraff
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
 	../src/inet_stub/linklayer/contract/MACAddress.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	../src/modules/utility/Packet.h
 $O/ieee802154Narrow/WorldUtilityStats.o: ieee802154Narrow/WorldUtilityStats.cc \
 	ieee802154Narrow/WorldUtilityStats.h \
@@ -328,7 +333,8 @@ $O/ieee802154Narrow/WorldUtilityStats.o: ieee802154Narrow/WorldUtilityStats.cc \
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
 	../src/inet_stub/linklayer/contract/MACAddress.h \
-	../src/inet_stub/util/2DVector.h \
 	../src/inet_stub/util/FWMath.h \
+	../src/inet_stub/util/Line2D.h \
+	../src/inet_stub/util/Vector2D.h \
 	../src/modules/utility/Packet.h
 
