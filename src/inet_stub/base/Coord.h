@@ -219,6 +219,17 @@ public:
     }
 
     /**
+     * @brief Returns a Line2D (y=ax+b) that this point perpendicular to
+     */
+    Line2D* line2DPerpendicularWith(const Line2D &line)
+    {
+        double slope = -1 / line.a;
+        return new Line2D(slope, -slope * this->x + this->y);
+    }
+
+    /**
+
+    /**
      * @brief Returns a Line2D (y=ax+b) pass through 2 points, "this" and "point"
      */
     Line2D* line2DThroughPoint(const Coord &point)
