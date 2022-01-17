@@ -283,12 +283,25 @@ bool BaseConnectionManager::isInRange(BaseConnectionManager::NicEntries::mapped_
     } else {
     	dDistance = pFromNic->pos.sqrdist(pToNic->pos);
     }
-	ccEV << "startAngle:" << startAngle << "angle" << angle<< endl;
-	double angleTwoVector = pFromNic->pos.angleBetween(pToNic->pos);
-	// ccEV << "(x,y)=(" << v.x << "," << v.y << ")\n";
-	ccEV << "angle bettween A" << pFromNic->pos << "and B" << pToNic->pos << "=" << angleTwoVector << endl;
+	
+	// ccEV << "startAngle:" << startAngle << "angle" << angle<< endl;
+	// double angleTwoVector = pFromNic->pos.angleBetween(pToNic->pos);
+	// ccEV << "angle bettween A" << pFromNic->pos << "and B" << pToNic->pos << "=" << angleTwoVector << endl;
 
-	return (dDistance <= maxDistSquared);
+	ccEV << "pToNic->pos:" << pFromNic->pos << "\t pFromNic->pos:" << pToNic->pos << endl;
+	
+
+	double testRadius = 100.0;
+
+	ccEV << "testRadius:" << testRadius << endl;
+	if(pFromNic->pos.isInCircle(pToNic->pos, testRadius))
+		ccEV << "isInCircle: YES" << endl;
+	 else
+		 ccEV << "isInCircle: NO" << endl;
+
+	 // ccEV << "(x,y)=(" << v.x << "," << v.y << ")\n";
+
+	 return (dDistance <= maxDistSquared);
 }
 
 void BaseConnectionManager::updateNicConnections(NicEntries& nmap, BaseConnectionManager::NicEntries::mapped_type   nic)
@@ -447,6 +460,16 @@ void BaseConnectionManager::updateNicPos(NicEntry::t_nicid_cref nicID, const Coo
 	ItNic->second->pos = *newPos;
 
 	updateConnections(nicID, &oldPos, newPos);
+}
+
+void BaseConnectionManager::testSource(cComponent *source)
+{
+	// std::vector<simsignal_t> result = source->getLocalListenedSignals();
+	// for (auto signalID : result)
+	// {
+	// 	ccEV << "Source Test:" << source->getSignalName(signalID) << endl;
+	// }
+	ccEV << " t= " << SIMTIME_STR(simTime());
 }
 
 const NicEntry::GateList& BaseConnectionManager::getGateList(NicEntry::t_nicid_cref nicID) const

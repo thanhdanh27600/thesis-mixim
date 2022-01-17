@@ -218,6 +218,14 @@ public:
     }
 
     /**
+     * @brief If a point in the circle with radius of not
+     */
+    bool isInCircle(const Coord &point, const double radius)
+    {
+        return (this->x - point.x) * (this->x - point.x) + (this->y - point.y) * (this->y - point.y) + (this->z - point.z) * (this->z - point.z) <= radius * radius;
+    }
+
+    /**
      * @brief Returns distance^2 to Coord 'a' (omits calling square root).
      */
     Vector2D getVector(const Coord &a)
