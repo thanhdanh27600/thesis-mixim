@@ -144,9 +144,9 @@ void testLineCase2()
 {
     std::cout << "testLineCase2 starting...." << std::endl;
 
-    Line2D *linec1c2 = Center1.line2DthroughPoint(Center2);
-    Line2D *linec2c3 = Center2.line2DthroughPoint(Center3);
-    Line2D *linec3c1 = Center3.line2DthroughPoint(Center1);
+    Line2D *linec1c2 = Center1.line2DThroughPoint(Center2);
+    Line2D *linec2c3 = Center2.line2DThroughPoint(Center3);
+    Line2D *linec3c1 = Center3.line2DThroughPoint(Center1);
 
     assertEqual("Case2: Center1->Center2 line: y=ax+b, check \"a\"", linec1c2->a, 0.0);
     assertEqual("Case2: Center1->Center2 line: y=ax+b, check \"b\"", linec1c2->b, 0.0);

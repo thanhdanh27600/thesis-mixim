@@ -221,7 +221,7 @@ public:
     /**
      * @brief Returns a Line2D (y=ax+b) pass through 2 points, "this" and "point"
      */
-    Line2D* line2DthroughPoint(const Coord &point)
+    Line2D* line2DThroughPoint(const Coord &point)
     {
         double slope = slope2D(point);
         return new Line2D(slope, -slope * this->x + this->y);
