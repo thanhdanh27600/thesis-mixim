@@ -239,6 +239,15 @@ public:
     }
 
     /**
+     * @brief Returns a Line2D (y=ax+b) pass through this point and perpendicular to the "line"
+     */
+    Line2D* perpendicular(const Line2D &line)
+    {
+        double slope = -1.0 / line.a;
+        return new Line2D(slope, -slope * this->x + this->y);
+    }
+
+    /**
      * @brief Returns a slope of a line through 2 points in Oxy
      */
     double slope2D(const Coord &point)
