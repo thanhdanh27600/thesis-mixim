@@ -63,5 +63,15 @@ public:
      */
     Coord *intersect(Line2D *line1, Line2D *line2);
 
+    /**
+     * @brief Find the centroid of a triangle with 3 point provided
+     * 
+     * @param a 
+     * @param b 
+     * @param c 
+     * @return Coord* 
+     */
+    Coord *centroid(Coord *a, Coord *b, Coord *c);
+
 private:
 };

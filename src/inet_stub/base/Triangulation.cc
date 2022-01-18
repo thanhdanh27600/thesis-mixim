@@ -48,8 +48,8 @@ Coord *Triangulation::midpoint(const Coord &CenterA, const Coord &CenterB, doubl
     case Position::CASE2B:
         pointRelativeRatio = radiusA / (radiusA + radiusB);
 
-        pointX = pointRelativeRatio * (CenterB.x - CenterA.x);
-        pointX = pointRelativeRatio * (CenterB.y - CenterA.y);
+        pointX = pointRelativeRatio * (CenterB.x - CenterA.x) + CenterA.x;
+        pointY = pointRelativeRatio * (CenterB.y - CenterA.y) + CenterA.y;
 
         return new Coord(pointX, pointY);
 
@@ -80,4 +80,9 @@ Coord *Triangulation::intersect(Line2D *line1, Line2D *line2)
     double x = (line2->b - line1->b) / (line1->a - line2->a);
     double y = line1->a * x + line1->b;
     return new Coord(x, y);
+}
+
+Coord *Triangulation::centroid(Coord *a, Coord *b, Coord *c)
+{
+    return new Coord(1.0 / 3.0 * (a->x + b->x + c->x), 1.0 / 3.0 * (a->y + b->y + c->y));
 }

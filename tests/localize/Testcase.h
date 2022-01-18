@@ -17,3 +17,10 @@ struct Case2
     const double radius2 = 5.4;
     const double radius3 = 5.9;
 };
+
+struct Case3
+{
+    const double radius1 = 2;
+    const double radius2 = 3.5;
+    const double radius3 = 7;
+};
