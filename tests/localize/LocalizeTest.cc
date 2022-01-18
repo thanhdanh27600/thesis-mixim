@@ -185,6 +185,35 @@ void testPerpendicularLineCase2()
               << std::endl;
 }
 
+void testIntersectLineCase2()
+{
+    std::cout << "testIntersectLineCase2 starting...." << std::endl;
+
+    Coord *midpoint12 = triangulation->midpoint(Center1, Center2, case2.radius1, case2.radius2);
+    Coord *midpoint23 = triangulation->midpoint(Center2, Center3, case2.radius2, case2.radius3);
+    Coord *midpoint31 = triangulation->midpoint(Center3, Center1, case2.radius3, case2.radius1);
+
+    Line2D *linec1c2 = Center1.line2DThroughPoint(Center2);
+    Line2D *linec2c3 = Center2.line2DThroughPoint(Center3);
+    Line2D *linec3c1 = Center3.line2DThroughPoint(Center1);
+
+    Line2D *perpendicular12 = midpoint12->perpendicular(linec1c2);
+    Line2D *perpendicular23 = midpoint23->perpendicular(linec2c3);
+    Line2D *perpendicular31 = midpoint31->perpendicular(linec3c1);
+
+    assertClose("Case2: line(Circle1, Circle2) intersects line(Circle2, Circle3) test \"x\"", triangulation->intersect(perpendicular12, perpendicular23)->x, 4.983125);
+    assertClose("Case2: line(Circle1, Circle2) intersects line(Circle2, Circle3) test \"y\"", triangulation->intersect(perpendicular12, perpendicular23)->y, 3.1384375);
+
+    assertClose("Case2: line(Circle2, Circle3) intersects line(Circle3, Circle1) test \"x\"", triangulation->intersect(perpendicular23, perpendicular31)->x, 4.983125);
+    assertClose("Case2: line(Circle2, Circle3) intersects line(Circle3, Circle1) test \"y\"", triangulation->intersect(perpendicular23, perpendicular31)->y, 3.1384375);
+    
+    assertClose("Case2: line(Circle3, Circle1) intersects line(Circle1, Circle2) test \"x\"", triangulation->intersect(perpendicular31, perpendicular12)->x, 4.983125);
+    assertClose("Case2: line(Circle3, Circle1) intersects line(Circle1, Circle2) test \"y\"", triangulation->intersect(perpendicular31, perpendicular12)->y, 3.1384375);
+
+    std::cout << "testIntersectLineCase2 successful." << std::endl
+              << std::endl;
+}
+
 class LocalizeTest : public SimpleTest
 {
 protected:
@@ -208,6 +237,7 @@ protected:
         testPositionCase2();
         testMidpointCase2();
         testPerpendicularLineCase2();
+        testIntersectLineCase2();
 
         testsExecuted = true;
     }

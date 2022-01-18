@@ -56,12 +56,12 @@ public:
 
     /**
      * @brief Find the instersection coord of 2 lines
-     * 
-     * @param line1 
-     * @param line2 
-     * @return Coord* 
+     *
+     * @param line1
+     * @param line2
+     * @return Coord*
      */
-    Coord *intersect(const Line2D &line1, const Line2D &line2);
+    Coord *intersect(Line2D *line1, Line2D *line2);
 
 private:
 };

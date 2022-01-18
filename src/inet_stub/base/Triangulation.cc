@@ -49,16 +49,26 @@ Coord *Triangulation::midpoint(const Coord &CenterA, const Coord &CenterB, doubl
     }
 }
 
-Coord *Triangulation::intersect(const Line2D &line1, const Line2D &line2)
+Coord *Triangulation::intersect(Line2D *line1, Line2D *line2)
 {
-    if (line1.a == line2.a)
+    if (line1->a == line2->a)
     {
-        if (line1.b != line2.b)
+        if (line1->b != line2->b)
             throw "2 Lines are parrallel";
         else
             throw "2 Lines are identical";
     }
-    double x = (line2.b - line1.b) / (line1.a - line2.a);
-    double y = line1.a * x + line1.b;
+    if (line1->a == INFINITY)
+    {
+        return new Coord(line1->b, line1->b * line2->a + line2->b);
+    }
+
+    if (line2->a == INFINITY)
+    {
+        return new Coord(line2->b, line2->b * line1->a + line1->b);
+    }
+
+    double x = (line2->b - line1->b) / (line1->a - line2->a);
+    double y = line1->a * x + line1->b;
     return new Coord(x, y);
 }
