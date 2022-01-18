@@ -522,10 +522,10 @@ $O/localize/LocalizeTest.o: localize/LocalizeTest.cc \
 	../src/base/utils/miximkerneldefs.h \
 	../src/inet_stub/base/Coord.h \
 	../src/inet_stub/base/INETDefs.h \
-	../src/inet_stub/base/Triangulation.h \
 	../src/inet_stub/util/FWMath.h \
 	../src/inet_stub/util/Line2D.h \
 	../src/inet_stub/util/Vector2D.h \
+	localize/Testcase.h \
 	testUtils/OmnetTestBase.h \
 	testUtils/asserts.h
 $O/mapping/mappingtest.o: mapping/mappingtest.cc \

@@ -54,5 +54,14 @@ public:
      */
     Coord *midpoint(const Coord &CenterA, const Coord &CenterB, double radiusA, double radiusB);
 
+    /**
+     * @brief Find the instersection coord of 2 lines
+     * 
+     * @param line1 
+     * @param line2 
+     * @return Coord* 
+     */
+    Coord *intersect(const Line2D &line1, const Line2D &line2);
+
 private:
 };

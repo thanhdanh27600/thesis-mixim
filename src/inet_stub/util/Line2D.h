@@ -4,6 +4,8 @@
 #define lineEV ev << "Line2D y=ax+b: "
 #endif
 
+#ifndef LINE2D_H
+#define LINE2D_H
 typedef struct Line2D
 {
     double a;
@@ -18,3 +20,5 @@ typedef struct Line2D
     }
 
 } Line2D;
+
+#endif
