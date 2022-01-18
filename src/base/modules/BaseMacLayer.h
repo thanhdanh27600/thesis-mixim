@@ -32,6 +32,7 @@ class BaseConnectionManager;
 class MacPkt;
 class MacToPhyInterface;
 class Signal;
+class indoorLocalizaMacPkt; //new
 
 /**
  * @brief A very simple MAC module template which provides de- and
@@ -46,6 +47,7 @@ class MIXIM_API BaseMacLayer : public BaseLayer
 {
 public:
     typedef MacPkt* macpkt_ptr_t;
+    typedef indoorLocalizaMacPkt* indoorMacPkt_ptr_t; //new
     /** @brief Message kinds used by this layer.*/
     enum BaseMacMessageKinds {
         /** Stores the id on which classes extending BaseMac should
