@@ -57,5 +57,12 @@ simple indoorLocalizaMac extends BaseMacLayer
         // only used when usage of MAC acks is enabled
         int macMaxFrameRetries = default(3);   
         
+        //total number of nodes in the network
         int numNodes = default(4);     
+        
+        //total receivers in the netwrok
+        int numReceivers = default(3);
+        
+        //total transmitter in the network
+        int numTransmitters = default(3);
 }

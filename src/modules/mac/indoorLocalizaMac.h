@@ -49,7 +49,7 @@ class MIXIM_API indoorLocalizaMac : public BaseMacLayer
         , macState(INIT)
         , nicId(-1)
         , queueLength(0)
-        , numNodes(0)
+        , numNodes(4), numTransmitters(1), numReceivers(3)
         , timeReceived(0), timeSent(0)
         , lastDataPktSrcAddr(), lastDataPktDestAddr()
         , animation(false)
@@ -96,13 +96,13 @@ class MIXIM_API indoorLocalizaMac : public BaseMacLayer
         Tx_SENDING,
         Tx_WAIT_DATA_OVER,
         Tx_WAIT_N_ACKs,
+        Tx_SLEEP,
 
         Rx_RECEIVING,
         Rx_WAIT_ACK_OVER,
         Rx_SENDING_ACK,
 
-        Rx_SLEEP,
-        Rx_WAKE_UP
+        Rx_SLEEP
       };
     /** @brief The current state of the protocol */
     States macState;
@@ -137,6 +137,8 @@ class MIXIM_API indoorLocalizaMac : public BaseMacLayer
     cMessage* wake_up;
 
     unsigned int numNodes;
+    int numTransmitters;
+    int numReceivers;
     int nicId;
     int nodeId;
     int dataPeriod;

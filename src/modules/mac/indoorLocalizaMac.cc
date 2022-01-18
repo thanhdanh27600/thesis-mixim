@@ -45,7 +45,9 @@ void indoorLocalizaMac::initialize(int stage) {
         txPower = hasPar("txPower") ? par("txPower") : 50.;
         useMacAcks = hasPar("useMACAcks") ? par("useMACAcks") : true;
         maxTxAttempts = hasPar("maxTxAttempts") ? par("maxTxAttempts") : 2;
-        numNodes = hasPar("numNodes") ? par("numNodes") : 3;
+        numNodes = hasPar("numNodes") ? par("numNodes") : 4;
+        numReceivers = hasPar("numReceivers") ? par("numReceivers") : 3;
+        numTransmitters = hasPar("numTransmitters") ? par("numTransmitters") : 1;
         stats = hasPar("stats") ? par("stats") : true;
 
         //Declare the node ID for a node
@@ -92,10 +94,10 @@ void indoorLocalizaMac::initialize(int stage) {
         debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate
                        << endl;
 
-        if (nodeId == 0) {
-            scheduleAt(0.5, start_transmitter);
+        if (nodeId >= numReceivers) {
+            scheduleAt(0.0 + numReceivers*(numNodes - 1 - nodeId), start_transmitter);
         } else {
-            scheduleAt(0.2, start_receiver);
+            scheduleAt(0.0, start_receiver);
         }
 
     }
@@ -142,7 +144,7 @@ void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
     switch (macState) {
     case INIT:
         if (msg->getKind() == START_TRANSMITTER) {
-            scheduleAt(simTime() + 0.1, ready_to_send);
+            scheduleAt(simTime(), ready_to_send);
             changeDisplayColor(GREEN);
             phy->setRadioState(MiximRadio::TX);
             macState = Tx_SENDING;
@@ -164,8 +166,8 @@ void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
 
     case Tx_WAIT_DATA_OVER:
         if (msg->getKind() == DATA_TX_OVER) {
-            simtime_t duration = numNodes * 1;
-            scheduleAt(simTime() + duration + 1, time_out);
+            simtime_t duration = numReceivers * 1 - 0.5;
+            scheduleAt(simTime() + duration, time_out);
 
             //debugEV << "****Tx: Data packet is sent!\n";
             changeDisplayColor(RED);
@@ -184,35 +186,56 @@ void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
             indoorMacPkt_ptr_t pkt = dynamic_cast<indoorMacPkt_ptr_t>(msg);
             if (pkt != NULL) {
                 macQueue.push_back(pkt);
-                debugEV <<"Queue length " <<macQueue.size() <<"/" <<(numNodes - 1) <<endl;
+                debugEV <<"Queue length " <<macQueue.size() <<"/" <<(numReceivers) <<endl;
                 distanceQueue.push_back(calDistanceToSrc(pkt));
             } else {
                 Bubble("Damn! shhieet");
             }
 
-            if (macQueue.size() == (numNodes - 1)) {
+            if (macQueue.size() == (unsigned int)numReceivers) {
                 cancelEvent(time_out);
-                scheduleAt(simTime() + 1, ready_to_send);
-                debugEV << "Get distance done with total " <<macQueue.size() <<" masters" <<endl;
-                changeDisplayColor(GREEN);
-                phy->setRadioState(MiximRadio::TX);
-                macState = Tx_SENDING;
+                scheduleAt(simTime() + numReceivers * (numTransmitters - 1) + 0.5, wake_up);
+                debugEV << "Get position of node " <<nodeId << " done with total " <<macQueue.size() <<" masters" <<endl;
+                changeDisplayColor(BLACK);
+                phy->setRadioState(MiximRadio::SLEEP);
+                macState = Tx_SLEEP;
+                indoorMacPkt_ptr_t temp_pkt;
                 while (macQueue.size() != 0) {
-                    delete macQueue.front();
+                    temp_pkt = macQueue.front();
+                    debugEV <<"Distance to node " <<temp_pkt->getSrcAddr() <<" is " <<distanceQueue.front() <<endl;
+                    delete temp_pkt;
                     macQueue.pop_front();
+                    distanceQueue.pop_front();
                     //you can get distance from this node to all masters from here, below queue.
                     // But notice the distance is currently stored at simtime_t data type not data double.
-                    distanceQueue.pop_front();
                 }
                 macQueue.clear();
+                distanceQueue.clear();
             }
-            //delete pkt;
         }
-
         if (msg->getKind() == TIME_OUT) {
+            indoorMacPkt_ptr_t temp_pkt;
+            while (macQueue.size() != 0) {
+                temp_pkt = macQueue.front();
+                //debugEV <<"Distance to node " <<pkt->getSrcAddr() <<" is " <<distanceQueue.front() <<endl;
+                delete temp_pkt;
+                macQueue.pop_front();
+                distanceQueue.pop_front();
+            }
+            macQueue.clear();
+            distanceQueue.clear();
+
             scheduleAt(simTime(), ready_to_send);
 
             //debugEV << "****Tx: Timeout for ack packet!\n";
+            changeDisplayColor(GREEN);
+            phy->setRadioState(MiximRadio::TX);
+            macState = Tx_SENDING;
+        }
+        break;
+    case Tx_SLEEP:
+        if (msg->getKind() == WAKE_UP) {
+            scheduleAt(simTime(), ready_to_send);
             changeDisplayColor(GREEN);
             phy->setRadioState(MiximRadio::TX);
             macState = Tx_SENDING;
@@ -256,11 +279,11 @@ void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
     case Rx_WAIT_ACK_OVER:
         if (msg->getKind() == DATA_TX_OVER) {
             //debugEV <<"****Rx: Ack packet is sent!\n";
-            simtime_t duration = (nodeId - 1) * (timeReceived - timeSent) * 2;
-            scheduleAt(simTime() + numNodes - nodeId, wake_up);
-            changeDisplayColor(BLACK);
-            phy->setRadioState(MiximRadio::SLEEP);
-            macState = Rx_SLEEP;
+            //simtime_t duration = (nodeId - 1) * (timeReceived - timeSent) * 2;
+            //scheduleAt(simTime() + numNodes - 1 - nodeId, wake_up);
+            changeDisplayColor(RED);
+            phy->setRadioState(MiximRadio::RX);
+            macState = Rx_RECEIVING;
         }
         break;
 
@@ -270,8 +293,6 @@ void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
             phy->setRadioState(MiximRadio::RX);
             macState = Rx_RECEIVING;
         }
-        break;
-
         break;
         opp_error("Undefined event of type %d in state %d (Radio state %d)!",
                 msg->getKind(), macState, phy->getRadioState());
@@ -369,6 +390,6 @@ simtime_t indoorLocalizaMac::calDistanceToSrc(indoorMacPkt_ptr_t pkt) {
     simtime_t processingSignalTime = pkt->getBitLength() / bitrate;
     simtime_t deltaTime = pkt->getTimeReceived() - processingSignalTime -  pkt->getTimeSent();
     simtime_t distance = speed * deltaTime;
-    debugEV <<"Distance to node " <<pkt->getSrcAddr() <<" is " <<distance <<endl;
-    return 0.0;
+    //debugEV <<"Distance to node " <<pkt->getSrcAddr() <<" is " <<distance <<endl;
+    return distance;
 }
