@@ -28,7 +28,7 @@ Position Triangulation::position(const Coord &CenterA, const Coord &CenterB, dou
     return Position::INVALID;
 }
 
-Coord* Triangulation::midpoint(const Coord &CenterA, const Coord &CenterB, double radiusA, double radiusB)
+Coord *Triangulation::midpoint(const Coord &CenterA, const Coord &CenterB, double radiusA, double radiusB)
 {
     Position pos = position(CenterA, CenterB, radiusA, radiusB);
     double dAB = CenterA.distance(CenterB);
@@ -37,7 +37,7 @@ Coord* Triangulation::midpoint(const Coord &CenterA, const Coord &CenterB, doubl
     switch (pos)
     {
     case Position::CASE1:
-        pointRelativeRatio = 1 / 2 * (radiusA * radiusA - radiusB * radiusB + dAB * dAB) / dAB * dAB;
+        pointRelativeRatio = 1.0 / 2.0 * (radiusA * radiusA - radiusB * radiusB + dAB * dAB) / (dAB * dAB);
 
         pointX = (1 - pointRelativeRatio) * CenterA.x + pointRelativeRatio * CenterB.x;
         pointY = (1 - pointRelativeRatio) * CenterA.y + pointRelativeRatio * CenterB.y;

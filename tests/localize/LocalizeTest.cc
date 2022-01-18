@@ -1,8 +1,9 @@
 
 #include <Coord.h>
-#include <Triangulation.h>
+#include <triangulation.h>
 #include <asserts.h>
 #include <OmnetTestBase.h>
+#include <Testcase.h>
 
 /**
  * @brief Custom Assert
@@ -29,33 +30,6 @@ void assertLessThan(std::string msg, T target, T actual)
     }
 }
 
-/**
- * @brief
- * testcase
- */
-
-struct Case1
-{
-    const double radius1 = 5.0;
-    const double radius2 = 5.0;
-    const double radius3 = 5.0;
-
-    const double X_p = 4.0;
-    const double Y_p = 3.0;
-    const double Z_p = 0.0;
-};
-
-struct Case2
-{
-    const double radius1 = 6.7;
-    const double radius2 = 5.9;
-    const double radius3 = 5.4;
-
-    double X_p = 5.0;
-    double Y_p = 3.1;
-    double Z_p = 0.0;
-};
-
 const double X_1 = 0.0;
 const double Y_1 = 0.0;
 const double Z_1 = 0.0;
@@ -81,7 +55,18 @@ Coord Actual(X_a, Y_a, Z_a);
 struct Case1 case1;
 struct Case2 case2;
 
+Triangulation *triangulation = new Triangulation(Center1, Center2, Center3, case2.radius1, case2.radius2, case2.radius3);
 
+
+
+/**
+ * End testcase
+*/
+
+
+/**
+ * Define test suite
+*/
 
 void testDistanceCase1()
 {
@@ -154,13 +139,28 @@ void testPositionCase2()
 {
     std::cout << "testPositionCase2 starting...." << std::endl;
 
-    Triangulation* tri = new Triangulation(Center1, Center2, Center3, case2.radius1, case2.radius2, case2.radius3);
-
-    assertEqual("Case2: Center1<->Center2 position", (double)tri->position(Center1, Center2, case2.radius1, case2.radius2), (double)Position::CASE1);
-    assertEqual("Case2: Center2<->Center3 position", (double)tri->position(Center2, Center3, case2.radius2, case2.radius3), (double)Position::CASE1);
-    assertEqual("Case2: Center3<->Center1 position", (double)tri->position(Center3, Center1, case2.radius3, case2.radius1), (double)Position::CASE1);
+    assertEqual("Case2: Center1<->Center2 position", (double)triangulation->position(Center1, Center2, case2.radius1, case2.radius2), (double)Position::CASE1);
+    assertEqual("Case2: Center2<->Center3 position", (double)triangulation->position(Center2, Center3, case2.radius2, case2.radius3), (double)Position::CASE1);
+    assertEqual("Case2: Center3<->Center1 position", (double)triangulation->position(Center3, Center1, case2.radius3, case2.radius1), (double)Position::CASE1);
 
     std::cout << "testPositionCase2 successful." << std::endl
+              << std::endl;
+}
+
+void testMidpointCase2()
+{
+    std::cout << "testMidpointCase2 starting...." << std::endl;
+
+    assertEqual("Case2: Center1<->Center2 midpoint, test \"x\"", triangulation->midpoint(Center1, Center2, case2.radius1, case2.radius2)->x, 4.983125);
+    assertEqual("Case2: Center1<->Center2 midpoint, test \"y\"", triangulation->midpoint(Center1, Center2, case2.radius1, case2.radius2)->y, 0.0);
+
+    assertEqual("Case2: Center2<->Center3 midpoint, test \"x\"", triangulation->midpoint(Center2, Center3, case2.radius2, case2.radius3)->x, 6.14125);
+    assertEqual("Case2: Center2<->Center3 midpoint, test \"y\"", triangulation->midpoint(Center2, Center3, case2.radius2, case2.radius3)->y, 3.7175);
+
+    assertEqual("Case2: Center3<->Center1 midpoint, test \"x\"", triangulation->midpoint(Center3, Center1, case2.radius3, case2.radius1)->x, 2.252);
+    assertEqual("Case2: Center3<->Center1 midpoint, test \"y\"", triangulation->midpoint(Center3, Center1, case2.radius3, case2.radius1)->y, 4.504);
+
+    std::cout << "testMidpointCase2 successful." << std::endl
               << std::endl;
 }
 
@@ -186,6 +186,7 @@ protected:
         testDistanceCase2();
         testLineCase2();
         testPositionCase2();
+        testMidpointCase2();
 
         testsExecuted = true;
     }
