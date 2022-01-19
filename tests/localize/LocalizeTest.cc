@@ -54,6 +54,7 @@ Coord Actual(X_a, Y_a, Z_a);
 struct Case1 case1;
 struct Case2 case2;
 struct Case3 case3;
+struct Case3 case4;
 
 Triangulation *triangulation = new Triangulation(Center1, Center2, Center3, case2.radius1, case2.radius2, case2.radius3);
 
@@ -383,6 +384,18 @@ void testCentroidcase3()
     std::cout << "testCentroidcase3 successful." << std::endl
               << std::endl;
 }
+
+void testSuite3()
+{
+    testDistanceCase3();
+    testLinecase3();
+    testPositioncase3();
+    testMidpointcase3();
+    testPerpendicularLinecase3();
+    testIntersectLinecase3();
+    testCentroidcase3();
+}
+
 class LocalizeTest : public SimpleTest
 {
 protected:
@@ -407,13 +420,7 @@ protected:
          * Case 3
          */
 
-        testDistanceCase3();
-        testLinecase3();
-        testPositioncase3();
-        testMidpointcase3();
-        testPerpendicularLinecase3();
-        testIntersectLinecase3();
-        testCentroidcase3();
+        testSuite3();
 
         testsExecuted = true;
     }
