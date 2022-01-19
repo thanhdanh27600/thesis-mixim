@@ -27,7 +27,7 @@ struct Case3
 
 struct Case4
 {
-    const double radius1 = 3.5;
+    const double radius1 = 3;
     const double radius2 = 3;
     const double radius3 = 4;
 };
