@@ -55,6 +55,7 @@ struct Case1 case1;
 struct Case2 case2;
 struct Case3 case3;
 struct Case4 case4;
+struct Case5 case5;
 
 Triangulation *triangulation = new Triangulation(Center1, Center2, Center3, case2.radius1, case2.radius2, case2.radius3);
 
@@ -516,6 +517,127 @@ void testSuite4()
     testIntersectLinecase4();
     testCentroidcase4();
 }
+
+void testPositioncase5()
+{
+    std::cout << "testPositioncase5 starting...." << std::endl;
+
+    assertClose("case5: Center1<->Center2 position", (double)triangulation->position(Center1, Center2, case5.radius1, case5.radius2), (double)Position::CASE2A);
+    assertClose("case5: Center2<->Center3 position", (double)triangulation->position(Center2, Center3, case5.radius2, case5.radius3), (double)Position::CASE2A);
+    assertClose("case5: Center3<->Center1 position", (double)triangulation->position(Center3, Center1, case5.radius3, case5.radius1), (double)Position::CASE2B);
+
+    std::cout << "testPositioncase5 successful." << std::endl
+              << std::endl;
+}
+
+void testMidpointcase5()
+{
+    std::cout << "testMidpointcase5 starting...." << std::endl;
+
+    assertClose("case5: Center1<->Center2 midpoint, test \"x\"", triangulation->midpoint(Center1, Center2, case5.radius1, case5.radius2)->x, 32.0 / 7.0);
+    assertClose("case5: Center1<->Center2 midpoint, test \"y\"", triangulation->midpoint(Center1, Center2, case5.radius1, case5.radius2)->y, 0.0);
+
+    assertClose("case5: Center2<->Center3 midpoint, test \"x\"", triangulation->midpoint(Center2, Center3, case5.radius2, case5.radius3)->x, 28.0 / 5.0);
+    assertClose("case5: Center2<->Center3 midpoint, test \"y\"", triangulation->midpoint(Center2, Center3, case5.radius2, case5.radius3)->y, 24.0 / 5.0);
+
+    assertClose("case5: Center3<->Center1 midpoint, test \"x\"", triangulation->midpoint(Center3, Center1, case5.radius3, case5.radius1)->x, 8.0 / 3.0);
+    assertClose("case5: Center3<->Center1 midpoint, test \"y\"", triangulation->midpoint(Center3, Center1, case5.radius3, case5.radius1)->y, 16.0 / 3.0);
+
+    std::cout << "testMidpointcase5 successful." << std::endl
+              << std::endl;
+}
+
+void testPerpendicularLinecase5()
+{
+    std::cout << "testPerpendicularLinecase5 starting...." << std::endl;
+
+    Coord *midpoint12 = triangulation->midpoint(Center1, Center2, case5.radius1, case5.radius2);
+    Coord *midpoint23 = triangulation->midpoint(Center2, Center3, case5.radius2, case5.radius3);
+    Coord *midpoint31 = triangulation->midpoint(Center3, Center1, case5.radius3, case5.radius1);
+
+    Line2D *linec1c2 = Center1.line2DThroughPoint(Center2);
+    Line2D *linec2c3 = Center2.line2DThroughPoint(Center3);
+    Line2D *linec3c1 = Center3.line2DThroughPoint(Center1);
+
+    assertClose("case5: Center1<->Center2 perpendicularLine y=ax+b, test \"a\"", midpoint12->perpendicular(linec1c2)->a, (double)INFINITY);
+    assertClose("case5: Center1<->Center2 perpendicularLine y=ax+b, test \"b\"", midpoint12->perpendicular(linec1c2)->b, 32.0 / 7.0);
+
+    assertClose("case5: Center1<->Center2 perpendicularLine y=ax+b, test \"a\"", midpoint23->perpendicular(linec2c3)->a, 0.5);
+    assertClose("case5: Center1<->Center2 perpendicularLine y=ax+b, test \"b\"", midpoint23->perpendicular(linec2c3)->b, 2.0);
+
+    assertClose("case5: Center1<->Center2 perpendicularLine y=ax+b, test \"a\"", midpoint31->perpendicular(linec3c1)->a, -0.5);
+    assertClose("case5: Center1<->Center2 perpendicularLine y=ax+b, test \"b\"", midpoint31->perpendicular(linec3c1)->b, 20.0 / 3.0);
+
+    std::cout << "testPerpendicularLinecase5 successful." << std::endl
+              << std::endl;
+}
+
+void testIntersectLinecase5()
+{
+    std::cout << "testIntersectLinecase5 starting...." << std::endl;
+
+    Coord *midpoint12 = triangulation->midpoint(Center1, Center2, case5.radius1, case5.radius2);
+    Coord *midpoint23 = triangulation->midpoint(Center2, Center3, case5.radius2, case5.radius3);
+    Coord *midpoint31 = triangulation->midpoint(Center3, Center1, case5.radius3, case5.radius1);
+
+    Line2D *linec1c2 = Center1.line2DThroughPoint(Center2);
+    Line2D *linec2c3 = Center2.line2DThroughPoint(Center3);
+    Line2D *linec3c1 = Center3.line2DThroughPoint(Center1);
+
+    Line2D *perpendicular12 = midpoint12->perpendicular(linec1c2);
+    Line2D *perpendicular23 = midpoint23->perpendicular(linec2c3);
+    Line2D *perpendicular31 = midpoint31->perpendicular(linec3c1);
+
+    assertClose("case5: line(Circle1, Circle2) intersects line(Circle2, Circle3) test \"x\"", triangulation->intersect(perpendicular12, perpendicular23)->x, 32.0 / 7.0);
+    assertClose("case5: line(Circle1, Circle2) intersects line(Circle2, Circle3) test \"y\"", triangulation->intersect(perpendicular12, perpendicular23)->y, 92.0 / 21.0);
+
+    assertClose("case5: line(Circle2, Circle3) intersects line(Circle3, Circle1) test \"x\"", triangulation->intersect(perpendicular23, perpendicular31)->x, 14.0 / 3.0);
+    assertClose("case5: line(Circle2, Circle3) intersects line(Circle3, Circle1) test \"y\"", triangulation->intersect(perpendicular23, perpendicular31)->y, 13.0 / 3.0);
+
+    assertClose("case5: line(Circle3, Circle1) intersects line(Circle1, Circle2) test \"x\"", triangulation->intersect(perpendicular31, perpendicular12)->x, 32.0 / 7.0);
+    assertClose("case5: line(Circle3, Circle1) intersects line(Circle1, Circle2) test \"y\"", triangulation->intersect(perpendicular31, perpendicular12)->y, 30.0 / 7.0);
+
+    std::cout << "testIntersectLinecase5 successful." << std::endl
+              << std::endl;
+}
+
+void testCentroidcase5()
+{
+    std::cout << "testCentroidcase5 starting...." << std::endl;
+
+    Coord *midpoint12 = triangulation->midpoint(Center1, Center2, case5.radius1, case5.radius2);
+    Coord *midpoint23 = triangulation->midpoint(Center2, Center3, case5.radius2, case5.radius3);
+    Coord *midpoint31 = triangulation->midpoint(Center3, Center1, case5.radius3, case5.radius1);
+
+    Line2D *linec1c2 = Center1.line2DThroughPoint(Center2);
+    Line2D *linec2c3 = Center2.line2DThroughPoint(Center3);
+    Line2D *linec3c1 = Center3.line2DThroughPoint(Center1);
+
+    Line2D *perpendicular12 = midpoint12->perpendicular(linec1c2);
+    Line2D *perpendicular23 = midpoint23->perpendicular(linec2c3);
+    Line2D *perpendicular31 = midpoint31->perpendicular(linec3c1);
+
+    Coord *intersect12_23 = triangulation->intersect(perpendicular12, perpendicular23);
+    Coord *intersect23_31 = triangulation->intersect(perpendicular23, perpendicular31);
+    Coord *intersect31_12 = triangulation->intersect(perpendicular31, perpendicular12);
+
+    Coord *centroid = triangulation->centroid(intersect12_23, intersect23_31, intersect31_12);
+
+    assertClose("case5: centroid test \"x\"", centroid->x, 290.0 / 63.0);
+    assertClose("case5: centroid test \"y\"", centroid->y, 13.0 / 3.0);
+
+    std::cout << "testCentroidcase5 successful." << std::endl
+              << std::endl;
+}
+
+void testSuite5()
+{
+    testPositioncase5();
+    testMidpointcase5();
+    testPerpendicularLinecase5();
+    testIntersectLinecase5();
+    testCentroidcase5();
+}
 class LocalizeTest : public SimpleTest
 {
 protected:
@@ -547,6 +669,12 @@ protected:
          */
 
         testSuite4();
+
+        /**
+         * Case 5
+         */
+
+        testSuite5();
 
         testsExecuted = true;
     }

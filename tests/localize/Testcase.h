@@ -31,3 +31,10 @@ struct Case4
     const double radius2 = 3;
     const double radius3 = 4;
 };
+
+struct Case5
+{
+    const double radius1 = 4;
+    const double radius2 = 3;
+    const double radius3 = 2;
+};
