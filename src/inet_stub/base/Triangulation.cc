@@ -46,15 +46,10 @@ Coord *Triangulation::midpoint(const Coord &CenterA, const Coord &CenterB, doubl
 
     case Position::CASE2A:
     case Position::CASE2B:
-        pointRelativeRatio = radiusA / (radiusA + radiusB);
-
-        pointX = pointRelativeRatio * (CenterB.x - CenterA.x) + CenterA.x;
-        pointY = pointRelativeRatio * (CenterB.y - CenterA.y) + CenterA.y;
-
-        return new Coord(pointX, pointY);
-
     case Position::CASE3A:
     case Position::CASE3B:
+    case Position::CASE4A:
+    case Position::CASE4B:
         pointRelativeRatio = radiusA / (radiusA + radiusB);
 
         pointX = pointRelativeRatio * (CenterB.x - CenterA.x) + CenterA.x;
