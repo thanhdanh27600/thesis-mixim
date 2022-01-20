@@ -45,3 +45,10 @@ struct Case6
     const double radius2 = 4;
     const double radius3 = 4;
 };
+
+struct Case7
+{
+    const double radius1 = 15;
+    const double radius2 = 5;
+    const double radius3 = 5;
+};
