@@ -38,3 +38,10 @@ struct Case5
     const double radius2 = 3;
     const double radius3 = 2;
 };
+
+struct Case6
+{
+    const double radius1 = 10;
+    const double radius2 = 4;
+    const double radius3 = 4;
+};

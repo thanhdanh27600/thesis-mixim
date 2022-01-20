@@ -5,7 +5,7 @@ Position Triangulation::position(const Coord &CenterA, const Coord &CenterB, dou
 {
     double dAB = CenterA.distance(CenterB);
 
-    if (dAB < radiusA + radiusB)
+    if (dAB < radiusA + radiusB && dAB > radiusA && dAB > radiusB)
     {
         return Position::CASE1;
     }
@@ -53,6 +53,16 @@ Coord *Triangulation::midpoint(const Coord &CenterA, const Coord &CenterB, doubl
 
         return new Coord(pointX, pointY);
 
+    case Position::CASE3A:
+    case Position::CASE3B:
+        pointRelativeRatio = radiusA / (radiusA + radiusB);
+
+        pointX = pointRelativeRatio * (CenterB.x - CenterA.x) + CenterA.x;
+        pointY = pointRelativeRatio * (CenterB.y - CenterA.y) + CenterA.y;
+
+        return new Coord(pointX, pointY);
+
+    case Position::INVALID:
     default:
         return new Coord();
     }
