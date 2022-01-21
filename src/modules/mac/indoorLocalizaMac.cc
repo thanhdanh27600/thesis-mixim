@@ -187,7 +187,9 @@ void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
             if (pkt != NULL) {
                 macQueue.push_back(pkt);
                 debugEV <<"Queue length " <<macQueue.size() <<"/" <<(numReceivers) <<endl;
-                distanceQueue.push_back(calDistanceToSrc(pkt));
+                simtime_t dist = calDistanceToSrc(pkt);
+                simtime_t dist_error = distanceQueue.size() == 2 ? uniform(0, dist) : 0.0;
+                distanceQueue.push_back(dist + dist_error);
             } else {
                 Bubble("Damn! shhieet");
             }
@@ -202,7 +204,7 @@ void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                 indoorMacPkt_ptr_t temp_pkt;
                 while (macQueue.size() != 0) {
                     temp_pkt = macQueue.front();
-                    debugEV <<"Distance to node " <<temp_pkt->getSrcAddr() <<" is " <<distanceQueue.front() <<endl;
+                    debugEV <<"Distance to node " <<temp_pkt->getSrcAddr() <<" is " <<distanceQueue.front().dbl() <<endl;
                     delete temp_pkt;
                     macQueue.pop_front();
                     distanceQueue.pop_front();
