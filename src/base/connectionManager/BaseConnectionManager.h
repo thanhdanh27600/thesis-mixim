@@ -412,6 +412,9 @@ public:
 
 	/** @brief Returns the ingate of the with id==targetID, or 0 if not in range*/
 	const cGate* getOutGateTo(const NicEntry* nic, const NicEntry* targetNic) const;
+	
+	/** @brief Returns all nics*/
+	const NicEntries getNics() { return this->nics; }
 };
 
 #endif /*BASECONNECTIONMANAGER_H_*/

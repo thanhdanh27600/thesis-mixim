@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "indoorLocalizaMac.h"
+#include "IndoorLocalizaMac.h"
 
 #include <cassert>
 #include <string>
@@ -26,11 +26,11 @@
 #include "MacPkt_m.h"
 #include "MacToPhyInterface.h"
 
-#include "indoorLocalizaMacPkt_m.h"
+#include "IndoorLocalizaMacPkt_m.h"
 
-Define_Module(indoorLocalizaMac)
+Define_Module(IndoorLocalizaMac)
 
-void indoorLocalizaMac::initialize(int stage) {
+void IndoorLocalizaMac::initialize(int stage) {
     BaseMacLayer::initialize(stage);
 
     if (stage == 0) {
@@ -49,6 +49,7 @@ void indoorLocalizaMac::initialize(int stage) {
         numReceivers = hasPar("numReceivers") ? par("numReceivers") : 3;
         numTransmitters = hasPar("numTransmitters") ? par("numTransmitters") : 1;
         stats = hasPar("stats") ? par("stats") : true;
+        debug = hasPar("debug") ? par("debug") : false;
 
         //Declare the node ID for a node
         nodeId = static_cast<int>(findHost()->getAncestorPar("nodeId"));
@@ -56,6 +57,8 @@ void indoorLocalizaMac::initialize(int stage) {
         debugEV << "State 0 at indoor localization MAC layer: \n";
 
         debugEV << "Node ID is: " << nodeId << endl;
+
+        debugEV << "Initial position: " << (hasPar("initialX") ? par("initialX") : 999.0) << endl;
 
         debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate
                        << endl;
@@ -103,7 +106,7 @@ void indoorLocalizaMac::initialize(int stage) {
     }
 }
 
-indoorLocalizaMac::~indoorLocalizaMac() {
+IndoorLocalizaMac::~IndoorLocalizaMac() {
     MacQueue::iterator it;
     for (it = macQueue.begin(); it != macQueue.end(); ++it) {
         delete (*it);
@@ -111,7 +114,7 @@ indoorLocalizaMac::~indoorLocalizaMac() {
     macQueue.clear();
 }
 
-void indoorLocalizaMac::finish() {
+void IndoorLocalizaMac::finish() {
     BaseMacLayer::finish();
 
     cancelAndDelete(start_receiver);
@@ -127,7 +130,7 @@ void indoorLocalizaMac::finish() {
     }
 }
 
-void indoorLocalizaMac::handleUpperMsg(cMessage *msg) {
+void IndoorLocalizaMac::handleUpperMsg(cMessage *msg) {
     //handle message from upper layer, up until now we dont receive messages from upper layer.
 
 //    bool pktAdded = addToQueue(msg);
@@ -140,7 +143,7 @@ void indoorLocalizaMac::handleUpperMsg(cMessage *msg) {
     //droppedPacket.setReason(DroppedPacket::QUEUE);
 }
 
-void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
+void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
     switch (macState) {
     case INIT:
         if (msg->getKind() == START_TRANSMITTER) {
@@ -211,6 +214,7 @@ void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                     //you can get distance from this node to all masters from here, below queue.
                     // But notice the distance is currently stored at simtime_t data type not data double.
                 }
+                handleTriangulation();
                 macQueue.clear();
                 distanceQueue.clear();
             }
@@ -301,12 +305,12 @@ void indoorLocalizaMac::handleSelfMsg(cMessage *msg) {
     }
 }
 
-void indoorLocalizaMac::handleLowerMsg(cMessage *msg) {
+void IndoorLocalizaMac::handleLowerMsg(cMessage *msg) {
     // simply pass the massage as self message, to be processed by the FSM.
     handleSelfMsg(msg);
 }
 
-void indoorLocalizaMac::handleLowerControl(cMessage *msg) {
+void IndoorLocalizaMac::handleLowerControl(cMessage *msg) {
     if (msg->getKind() == MacToPhyInterface::TX_OVER) {
         scheduleAt(simTime(), data_tx_over);
     } else if (msg->getKind() == COLLISION) {
@@ -322,10 +326,10 @@ void indoorLocalizaMac::handleLowerControl(cMessage *msg) {
     delete msg;
 }
 
-void indoorLocalizaMac::sendDataPacket() {
+void IndoorLocalizaMac::sendDataPacket() {
     nbPacketsSent++;
 
-    indoorMacPkt_ptr_t pkt = new indoorLocalizaMacPkt("Data");
+    indoorMacPkt_ptr_t pkt = new IndoorLocalizaMacPkt("Data");
     pkt->setKind(DATA_PACKET);
     pkt->setSrcAddr(myMacAddr);
     pkt->setTimeSent(simTime());
@@ -335,8 +339,8 @@ void indoorLocalizaMac::sendDataPacket() {
     sendDown(pkt);
 }
 
-void indoorLocalizaMac::sendMacAck() {
-    indoorMacPkt_ptr_t ack = new indoorLocalizaMacPkt("Ack");
+void IndoorLocalizaMac::sendMacAck() {
+    indoorMacPkt_ptr_t ack = new IndoorLocalizaMacPkt("Ack");
 
     //notice here, it is useful, we will need to implement these addresses later.
     ack->setSrcAddr(myMacAddr);
@@ -351,11 +355,11 @@ void indoorLocalizaMac::sendMacAck() {
     sendDown(ack);
 }
 
-bool indoorLocalizaMac::addToQueue(cMessage *msg) {
+bool IndoorLocalizaMac::addToQueue(cMessage *msg) {
     return false;
 }
 
-void indoorLocalizaMac::attachSignal(indoorMacPkt_ptr_t macPkt) {
+void IndoorLocalizaMac::attachSignal(indoorMacPkt_ptr_t macPkt) {
     //calc signal duration
     simtime_t duration = macPkt->getBitLength() / bitrate;
     //create and initialize control info with new signal
@@ -363,7 +367,7 @@ void indoorLocalizaMac::attachSignal(indoorMacPkt_ptr_t macPkt) {
             createSignal(simTime(), duration, txPower, bitrate));
 }
 
-void indoorLocalizaMac::changeDisplayColor(BMAC_COLORS color) {
+void IndoorLocalizaMac::changeDisplayColor(BMAC_COLORS color) {
     if (!animation)
         return;
     cDisplayString& dispStr = findHost()->getDisplayString();
@@ -384,7 +388,7 @@ void indoorLocalizaMac::changeDisplayColor(BMAC_COLORS color) {
         dispStr.setTagArg("b", 3, "yellow");
 }
 
-simtime_t indoorLocalizaMac::calDistanceToSrc(indoorMacPkt_ptr_t pkt) {
+simtime_t IndoorLocalizaMac::calDistanceToSrc(indoorMacPkt_ptr_t pkt) {
     //need to test ~~
     //debugEV << "From node:" << pkt->getSrcAddr() << " send at " << pkt->getTimeSent() << " | received at " << pkt->getTimeReceived() << endl;
 
@@ -394,4 +398,16 @@ simtime_t indoorLocalizaMac::calDistanceToSrc(indoorMacPkt_ptr_t pkt) {
     simtime_t distance = speed * deltaTime;
     //debugEV <<"Distance to node " <<pkt->getSrcAddr() <<" is " <<distance <<endl;
     return distance;
+}
+
+void IndoorLocalizaMac::handleTriangulation(){
+    int gateIndex = 0;
+    Coord Actual = getConnectionManager()->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
+    const NicEntry::GateList &gateList = getConnectionManager()->getGateList(getNic()->getId());
+    NicEntry::GateList::const_iterator i = gateList.begin();
+    Coord *masterCenter = new Coord[gateList.size()];
+    for (; i != gateList.end(); ++i)
+    {
+        masterCenter[gateIndex++] = i->first->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
+    }
 }
