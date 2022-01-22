@@ -407,8 +407,11 @@ public:
 	/** @brief Updates the position information of a registered nic.*/
 	void updateNicPos(NicEntry::t_nicid_cref nicID, const Coord* newPos);
 
+	/** @brief test source*/
+	void testSource(cComponent *source);
+
 	/** @brief Returns the ingates of all nics in range*/
-	const NicEntry::GateList& getGateList(NicEntry::t_nicid_cref nicID) const;
+	const NicEntry::GateList &getGateList(NicEntry::t_nicid_cref nicID) const;
 
 	/** @brief Returns the ingate of the with id==targetID, or 0 if not in range*/
 	const cGate* getOutGateTo(const NicEntry* nic, const NicEntry* targetNic) const;

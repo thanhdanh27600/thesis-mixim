@@ -4,6 +4,9 @@
 #define vectorEV ev << "Vector2D: "
 #endif
 
+#ifndef VECTOR2D_H
+#define VECTOR2D_H
+
 typedef struct Vector2D
 {
     double x;
@@ -17,3 +20,5 @@ typedef struct Vector2D
     }
 
 } Vector2D;
+
+#endif

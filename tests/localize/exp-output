@@ -1,0 +1,30 @@
+OMNeT++ Discrete Event Simulation  (C) 1992-2014 Andras Varga, OpenSim Ltd.
+Version: 4.6, build: 141202-f785492, edition: Academic Public License -- NOT FOR COMMERCIAL USE
+See the license for distribution terms and warranty disclaimer
+Setting up Cmdenv...
+Loading NED files from ..\..\src\base: 14
+Loading NED files from ..\..\src\modules: 52
+Loading NED files from ..: 39
+Loading NED files from ..\..\src\inet_stub: 27
+
+Preparing for running configuration General, run #0...
+Scenario: $repetition=0
+Assigned runID=General-0-20220117-11:22:47-7744
+Setting up network `LocalizeTest'...
+Initializing...
+FAILED: 3D: Radius Circle1: value was '25' instead of '5'
+
+Running simulation...
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 0   present: 0   in FES: 0
+** Event #1   T=0   Elapsed: 0.000s (0m 00s)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 0   present: 0   in FES: 0
+
+<!> No more events -- simulation ended at event #1, t=0.
+
+
+Calling finish() at end of Run #0...
+
+End.
