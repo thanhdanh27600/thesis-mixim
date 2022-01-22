@@ -91,3 +91,26 @@ Coord *Triangulation::centroid(Coord *a, Coord *b, Coord *c)
 {
     return new Coord(1.0 / 3.0 * (a->x + b->x + c->x), 1.0 / 3.0 * (a->y + b->y + c->y));
 }
+
+Coord Triangulation::predict()
+{
+    Coord *midpoint12 = this->midpoint(Center1, Center2, radius1, radius2);
+    Coord *midpoint23 = this->midpoint(Center2, Center3, radius2, radius3);
+    Coord *midpoint31 = this->midpoint(Center3, Center1, radius3, radius1);
+
+    Line2D *linec1c2 = Center1.line2DThroughPoint(Center2);
+    Line2D *linec2c3 = Center2.line2DThroughPoint(Center3);
+    Line2D *linec3c1 = Center3.line2DThroughPoint(Center1);
+
+    Line2D *perpendicular12 = midpoint12->perpendicular(linec1c2);
+    Line2D *perpendicular23 = midpoint23->perpendicular(linec2c3);
+    Line2D *perpendicular31 = midpoint31->perpendicular(linec3c1);
+
+    Coord *intersect12_23 = this->intersect(perpendicular12, perpendicular23);
+    Coord *intersect23_31 = this->intersect(perpendicular23, perpendicular31);
+    Coord *intersect31_12 = this->intersect(perpendicular31, perpendicular12);
+
+    Coord *centroid = this->centroid(intersect12_23, intersect23_31, intersect31_12);
+
+    return *centroid;
+}

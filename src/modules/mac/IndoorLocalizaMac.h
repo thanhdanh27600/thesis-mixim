@@ -212,7 +212,7 @@ class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
     simtime_t calDistanceToSrc(indoorMacPkt_ptr_t pkt);
 
     /** @brief Internal function to handle the triangulation */
-    void handleTriangulation();
+    void handleTriangulation(double* Radius);
 };
 
 #endif /* IndoorLocalizaMac_H_ */

@@ -25,8 +25,8 @@
 #include "PhyUtils.h"
 #include "MacPkt_m.h"
 #include "MacToPhyInterface.h"
-
 #include "IndoorLocalizaMacPkt_m.h"
+#include "Triangulation.h"
 
 Define_Module(IndoorLocalizaMac)
 
@@ -191,7 +191,7 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                 macQueue.push_back(pkt);
                 debugEV <<"Queue length " <<macQueue.size() <<"/" <<(numReceivers) <<endl;
                 simtime_t dist = calDistanceToSrc(pkt);
-                simtime_t dist_error = distanceQueue.size() == 2 ? uniform(0, dist) : 0.0;
+                simtime_t dist_error = distanceQueue.size() == 3 ? uniform(0, dist) : 0.0;
                 distanceQueue.push_back(dist + dist_error);
             } else {
                 Bubble("Damn! shhieet");
@@ -205,16 +205,18 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                 phy->setRadioState(MiximRadio::SLEEP);
                 macState = Tx_SLEEP;
                 indoorMacPkt_ptr_t temp_pkt;
+                double *Radius = new double[3];
                 while (macQueue.size() != 0) {
                     temp_pkt = macQueue.front();
                     debugEV <<"Distance to node " <<temp_pkt->getSrcAddr() <<" is " <<distanceQueue.front().dbl() <<endl;
+                    *Radius++ = distanceQueue.front().dbl();
                     delete temp_pkt;
                     macQueue.pop_front();
                     distanceQueue.pop_front();
                     //you can get distance from this node to all masters from here, below queue.
                     // But notice the distance is currently stored at simtime_t data type not data double.
                 }
-                handleTriangulation();
+                handleTriangulation(------Radius);
                 macQueue.clear();
                 distanceQueue.clear();
             }
@@ -400,14 +402,20 @@ simtime_t IndoorLocalizaMac::calDistanceToSrc(indoorMacPkt_ptr_t pkt) {
     return distance;
 }
 
-void IndoorLocalizaMac::handleTriangulation(){
+void IndoorLocalizaMac::handleTriangulation(double* Radius){
     int gateIndex = 0;
-    Coord Actual = getConnectionManager()->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
-    const NicEntry::GateList &gateList = getConnectionManager()->getGateList(getNic()->getId());
+    BaseConnectionManager *base = getConnectionManager();
+    const NicEntry::GateList &gateList = base->getGateList(getNic()->getId());
     NicEntry::GateList::const_iterator i = gateList.begin();
     Coord *masterCenter = new Coord[gateList.size()];
     for (; i != gateList.end(); ++i)
     {
         masterCenter[gateIndex++] = i->first->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
     }
+    Coord Actual = base->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
+    Triangulation *triangulation = new Triangulation(masterCenter, Radius);
+    debugEV << "Start predicting with 3 centers: " << masterCenter[0] << masterCenter[1] << masterCenter[2] << endl;
+    debugEV << "With 3 radii: " << Radius[0] << Radius[1] << Radius[2];
+    debugEV << "Predicted:" << triangulation->predict() << endl;
+    debugEV << "Actual:" << Actual << endl;
 }

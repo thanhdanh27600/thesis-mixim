@@ -32,6 +32,16 @@ public:
     /** @name Constructor, simply includes all attr */
     Triangulation(Coord _Center1, Coord _Center2, Coord _Center3, double _radius1, double _radius2, double _radius3) : Center1(_Center1), Center2(_Center2), Center3(_Center3), radius1(_radius1), radius2(_radius2), radius3(_radius3) {}
 
+    /** @name Constructor, with a list (n=3) */
+    Triangulation(Coord *Center, double* Radius, unsigned int size = 3){
+        Center1 = Center[0];
+        Center2 = Center[1];
+        Center3 = Center[2];
+        radius1 = Radius[0];
+        radius2 = Radius[1];
+        radius3 = Radius[2];
+    }
+
     /**
      * @brief Return the relative position of 2 circle
      *
@@ -72,6 +82,8 @@ public:
      * @return Coord* 
      */
     Coord *centroid(Coord *a, Coord *b, Coord *c);
+
+    Coord predict();
 
 private:
 };
