@@ -137,7 +137,7 @@ OBJS = \
     $O/modules/mac/csma.o \
     $O/modules/mac/CSMA802154.o \
     $O/modules/mac/CSMAMacLayer.o \
-    $O/modules/mac/indoorLocalizaMac.o \
+    $O/modules/mac/IndoorLocalizaMac.o \
     $O/modules/mac/LMacLayer.o \
     $O/modules/mac/Mac80211.o \
     $O/modules/mac/Mac80211MultiChannel.o \
@@ -181,7 +181,7 @@ OBJS = \
     $O/modules/messages/AggrPkt_m.o \
     $O/modules/messages/AirFrameUWBIR_m.o \
     $O/modules/messages/DummyRoutePkt_m.o \
-    $O/modules/messages/indoorLocalizaMacPkt_m.o \
+    $O/modules/messages/IndoorLocalizaMacPkt_m.o \
     $O/modules/messages/LMacPkt_m.o \
     $O/modules/messages/Mac80211Pkt_m.o \
     $O/modules/messages/ProbabilisticBroadcastPkt_m.o \
@@ -200,7 +200,7 @@ MSGFILES = \
     modules/messages/AggrPkt.msg \
     modules/messages/AirFrameUWBIR.msg \
     modules/messages/DummyRoutePkt.msg \
-    modules/messages/indoorLocalizaMacPkt.msg \
+    modules/messages/IndoorLocalizaMacPkt.msg \
     modules/messages/LMacPkt.msg \
     modules/messages/Mac80211Pkt.msg \
     modules/messages/ProbabilisticBroadcastPkt.msg \
@@ -1464,6 +1464,48 @@ $O/modules/mac/CSMAMacLayer.o: modules/mac/CSMAMacLayer.cc \
 	inet_stub/linklayer/contract/MACAddress.h \
 	inet_stub/util/2DVector.h \
 	inet_stub/util/FWMath.h
+$O/modules/mac/IndoorLocalizaMac.o: modules/mac/IndoorLocalizaMac.cc \
+	base/connectionManager/BaseConnectionManager.h \
+	base/connectionManager/ConnectionManagerAccess.h \
+	base/connectionManager/NicEntry.h \
+	base/messages/MacPkt_m.h \
+	base/messages/MiXiMMacPkt.h \
+	base/modules/AddressingInterface.h \
+	base/modules/ArpInterface.h \
+	base/modules/BaseArp.h \
+	base/modules/BaseBattery.h \
+	base/modules/BaseLayer.h \
+	base/modules/BaseMacLayer.h \
+	base/modules/BaseModule.h \
+	base/modules/BaseWorldUtility.h \
+	base/modules/MiximBatteryAccess.h \
+	base/phyLayer/AnalogueModel.h \
+	base/phyLayer/ChannelState.h \
+	base/phyLayer/Interpolation.h \
+	base/phyLayer/MacToPhyControlInfo.h \
+	base/phyLayer/MacToPhyInterface.h \
+	base/phyLayer/Mapping.h \
+	base/phyLayer/MappingBase.h \
+	base/phyLayer/MappingUtils.h \
+	base/phyLayer/PhyUtils.h \
+	base/phyLayer/Signal_.h \
+	base/utils/HostState.h \
+	base/utils/MiXiMDefs.h \
+	base/utils/Move.h \
+	base/utils/PassedMessage.h \
+	base/utils/SimpleAddress.h \
+	base/utils/miximkerneldefs.h \
+	inet_stub/base/Coord.h \
+	inet_stub/base/INETDefs.h \
+	inet_stub/base/ModuleAccess.h \
+	inet_stub/linklayer/contract/MACAddress.h \
+	inet_stub/mobility/IMobility.h \
+	inet_stub/mobility/models/MobilityAccess.h \
+	inet_stub/util/2DVector.h \
+	inet_stub/util/FWMath.h \
+	modules/mac/IndoorLocalizaMac.h \
+	modules/messages/IndoorLocalizaMacPkt_m.h \
+	modules/utility/DroppedPacket.h
 $O/modules/mac/LMacLayer.o: modules/mac/LMacLayer.cc \
 	base/messages/MacPkt_m.h \
 	base/messages/MiXiMMacPkt.h \
@@ -1650,42 +1692,6 @@ $O/modules/mac/csma.o: modules/mac/csma.cc \
 	inet_stub/util/FWMath.h \
 	modules/mac/csma.h \
 	modules/utility/DroppedPacket.h
-$O/modules/mac/indoorLocalizaMac.o: modules/mac/indoorLocalizaMac.cc \
-	base/connectionManager/BaseConnectionManager.h \
-	base/connectionManager/NicEntry.h \
-	base/messages/MacPkt_m.h \
-	base/messages/MiXiMMacPkt.h \
-	base/modules/AddressingInterface.h \
-	base/modules/ArpInterface.h \
-	base/modules/BaseArp.h \
-	base/modules/BaseBattery.h \
-	base/modules/BaseLayer.h \
-	base/modules/BaseMacLayer.h \
-	base/modules/BaseModule.h \
-	base/modules/MiximBatteryAccess.h \
-	base/phyLayer/AnalogueModel.h \
-	base/phyLayer/ChannelState.h \
-	base/phyLayer/Interpolation.h \
-	base/phyLayer/MacToPhyControlInfo.h \
-	base/phyLayer/MacToPhyInterface.h \
-	base/phyLayer/Mapping.h \
-	base/phyLayer/MappingBase.h \
-	base/phyLayer/MappingUtils.h \
-	base/phyLayer/PhyUtils.h \
-	base/phyLayer/Signal_.h \
-	base/utils/HostState.h \
-	base/utils/MiXiMDefs.h \
-	base/utils/PassedMessage.h \
-	base/utils/SimpleAddress.h \
-	base/utils/miximkerneldefs.h \
-	inet_stub/base/Coord.h \
-	inet_stub/base/INETDefs.h \
-	inet_stub/linklayer/contract/MACAddress.h \
-	inet_stub/util/2DVector.h \
-	inet_stub/util/FWMath.h \
-	modules/mac/indoorLocalizaMac.h \
-	modules/messages/indoorLocalizaMacPkt_m.h \
-	modules/utility/DroppedPacket.h
 $O/modules/messages/AggrPkt.o: modules/messages/AggrPkt.cc \
 	base/messages/ApplPkt_m.h \
 	base/utils/MiXiMDefs.h \
@@ -1723,6 +1729,15 @@ $O/modules/messages/DummyRoutePkt_m.o: modules/messages/DummyRoutePkt_m.cc \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
 	modules/messages/DummyRoutePkt_m.h
+$O/modules/messages/IndoorLocalizaMacPkt_m.o: modules/messages/IndoorLocalizaMacPkt_m.cc \
+	base/messages/MacPkt_m.h \
+	base/messages/MiXiMMacPkt.h \
+	base/utils/MiXiMDefs.h \
+	base/utils/SimpleAddress.h \
+	base/utils/miximkerneldefs.h \
+	inet_stub/base/INETDefs.h \
+	inet_stub/linklayer/contract/MACAddress.h \
+	modules/messages/IndoorLocalizaMacPkt_m.h
 $O/modules/messages/LMacPkt_m.o: modules/messages/LMacPkt_m.cc \
 	base/messages/MacPkt_m.h \
 	base/messages/MiXiMMacPkt.h \
@@ -1776,15 +1791,6 @@ $O/modules/messages/WiseRoutePkt_m.o: modules/messages/WiseRoutePkt_m.cc \
 	inet_stub/base/INETDefs.h \
 	inet_stub/linklayer/contract/MACAddress.h \
 	modules/messages/WiseRoutePkt_m.h
-$O/modules/messages/indoorLocalizaMacPkt_m.o: modules/messages/indoorLocalizaMacPkt_m.cc \
-	base/messages/MacPkt_m.h \
-	base/messages/MiXiMMacPkt.h \
-	base/utils/MiXiMDefs.h \
-	base/utils/SimpleAddress.h \
-	base/utils/miximkerneldefs.h \
-	inet_stub/base/INETDefs.h \
-	inet_stub/linklayer/contract/MACAddress.h \
-	modules/messages/indoorLocalizaMacPkt_m.h
 $O/modules/netw/AdaptiveProbabilisticBroadcast.o: modules/netw/AdaptiveProbabilisticBroadcast.cc \
 	base/messages/NetwPkt_m.h \
 	base/modules/BaseBattery.h \
@@ -2096,6 +2102,8 @@ $O/modules/phy/PhyLayer.o: modules/phy/PhyLayer.cc \
 	base/messages/MiXiMAirFrame.h \
 	base/messages/MiximAirFrame_m.h \
 	base/modules/BaseBattery.h \
+	base/modules/BaseLayer.h \
+	base/modules/BaseMacLayer.h \
 	base/modules/BaseModule.h \
 	base/modules/BaseWorldUtility.h \
 	base/modules/MiximBatteryAccess.h \
@@ -2117,10 +2125,13 @@ $O/modules/phy/PhyLayer.o: modules/phy/PhyLayer.cc \
 	base/utils/HostState.h \
 	base/utils/MiXiMDefs.h \
 	base/utils/Move.h \
+	base/utils/PassedMessage.h \
+	base/utils/SimpleAddress.h \
 	base/utils/miximkerneldefs.h \
 	inet_stub/base/Coord.h \
 	inet_stub/base/INETDefs.h \
 	inet_stub/base/ModuleAccess.h \
+	inet_stub/linklayer/contract/MACAddress.h \
 	inet_stub/mobility/IMobility.h \
 	inet_stub/mobility/models/MobilityAccess.h \
 	inet_stub/util/2DVector.h \
@@ -2131,11 +2142,13 @@ $O/modules/phy/PhyLayer.o: modules/phy/PhyLayer.cc \
 	modules/analogueModel/PERModel.h \
 	modules/analogueModel/SimpleObstacleShadowing.h \
 	modules/analogueModel/SimplePathlossModel.h \
+	modules/mac/IndoorLocalizaMac.h \
 	modules/obstacle/Obstacle.h \
 	modules/obstacle/ObstacleControl.h \
 	modules/phy/Decider802154Narrow.h \
 	modules/phy/PhyLayer.h \
 	modules/phy/SNRThresholdDecider.h \
+	modules/utility/DroppedPacket.h \
 	modules/world/annotations/AnnotationManager.h
 $O/modules/phy/PhyLayerBattery.o: modules/phy/PhyLayerBattery.cc \
 	base/connectionManager/ConnectionManagerAccess.h \

@@ -22,10 +22,10 @@ import org.mixim.base.modules.BaseMacLayer;
 // LPL).
 // See C++ documentation for details.
 //
-simple indoorLocalizaMac extends BaseMacLayer
+simple IndoorLocalizaMac extends BaseMacLayer
 {
     parameters:
-		@class(indoorLocalizaMac);
+		@class(IndoorLocalizaMac);
         // debug switch
         bool debug = default(false);
         //collect statistics?
@@ -65,4 +65,8 @@ simple indoorLocalizaMac extends BaseMacLayer
         
         //total transmitter in the network
         int numTransmitters = default(3);
+        
+        double initialX @unit(m) = default(0.0);
+        double initialY @unit(m) = default(0.0);
+        double initialZ @unit(m) = default(0.0);
 }

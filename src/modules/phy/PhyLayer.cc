@@ -17,6 +17,7 @@
 #include "PERModel.h"
 #include "BaseConnectionManager.h"
 #include "SimpleObstacleShadowing.h"
+#include "IndoorLocalizaMac.h"
 
 Define_Module(PhyLayer);
 

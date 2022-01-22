@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef INDOORLOCALIZAMAC_H_
-#define INDOORLOCALIZAMAC_H_
+#ifndef IndoorLocalizaMac_H_
+#define IndoorLocalizaMac_H_
 
 #include <string>
 #include <sstream>
@@ -25,23 +25,32 @@
 #include "BaseMacLayer.h"
 #include <DroppedPacket.h>
 
+#include <cstdlib>
+#include "MiXiMDefs.h"
+#include "AnalogueModel.h"
+#include "Mapping.h"
+#include "BaseWorldUtility.h"
+#include <Move.h>
+#include <Signal_.h>
+#include "ConnectionManagerAccess.h"
+
 #define Bubble(text_to_pop) findHost()->bubble(text_to_pop)
 
 class MacPkt;
-class indoorLocalizaMacPkt;
+class IndoorLocalizaMacPkt;
 
-class MIXIM_API indoorLocalizaMac : public BaseMacLayer
+class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
 {
   private:
     /** @brief Copy constructor is not allowed.
      */
-    indoorLocalizaMac(const indoorLocalizaMac&);
+    IndoorLocalizaMac(const IndoorLocalizaMac&);
     /** @brief Assignment operator is not allowed.
      */
-    indoorLocalizaMac& operator=(const indoorLocalizaMac&);
+    IndoorLocalizaMac& operator=(const IndoorLocalizaMac&);
 
   public:
-    indoorLocalizaMac()
+    IndoorLocalizaMac()
         : BaseMacLayer()
         , nbPacketsSent(0)
         , start_receiver(NULL), start_transmitter(NULL), data_tx_over(NULL), time_out(NULL), send_ack_packet(NULL), ready_to_send(NULL), wake_up(NULL)
@@ -56,8 +65,9 @@ class MIXIM_API indoorLocalizaMac : public BaseMacLayer
         , slotDuration(0), bitrate(0), checkInterval(0), txPower(0)
         , useMacAcks(0)
         , stats(false)
+        , debug(false)
     {}
-    virtual ~indoorLocalizaMac();
+    virtual ~IndoorLocalizaMac();
 
     /** @brief Initialization of the module and some variables*/
     virtual void initialize(int);
@@ -171,6 +181,8 @@ class MIXIM_API indoorLocalizaMac : public BaseMacLayer
     int maxTxAttempts;
     /** @brief Gather stats at the end of the simulation */
     bool stats;
+    /** @brief Whether debug messages should be displayed. */
+    bool debug;
 
     /** @brief Possible colors of the node for animation */
     enum BMAC_COLORS {
@@ -199,6 +211,8 @@ class MIXIM_API indoorLocalizaMac : public BaseMacLayer
     /** @brief Internal function to add a new packet from upper to the queue */
     simtime_t calDistanceToSrc(indoorMacPkt_ptr_t pkt);
 
+    /** @brief Internal function to handle the triangulation */
+    void handleTriangulation();
 };
 
-#endif /* INDOORLOCALIZAMAC_H_ */
+#endif /* IndoorLocalizaMac_H_ */

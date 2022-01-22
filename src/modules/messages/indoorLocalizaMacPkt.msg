@@ -19,7 +19,7 @@ cplusplus {{
 
 class MacPkt;
 
-message indoorLocalizaMacPkt extends MacPkt
+message IndoorLocalizaMacPkt extends MacPkt
 {
     simtime_t timeSent;
     simtime_t timeReceived; //store time when the packet is sent and received

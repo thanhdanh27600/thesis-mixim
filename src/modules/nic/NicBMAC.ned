@@ -22,6 +22,6 @@ package org.mixim.modules.nic;
 module NicBMAC extends WirelessNicBattery
 {
     parameters:
-        macType = "indoorLocalizaMac"; //indoorLocalizaMac | BMacLayer
+        macType = "IndoorLocalizaMac"; //IndoorLocalizaMac | BMacLayer
 }
 
