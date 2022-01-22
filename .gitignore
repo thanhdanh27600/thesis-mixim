@@ -21,7 +21,6 @@ doc/index.html
 src/base/*.so
 src/modules/*.so
 src/*.so
-.nedfolders
 results
 examples/**/figures
 examples/ieee802154a/ieee802154a

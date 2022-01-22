@@ -227,7 +227,7 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
 
     case INIT:
         if(msg->getKind() == START_TRANSMITTER) {
-            if (nodeId % 2 == 0) scheduleAt(simTime() + 0.1, ready_to_send);
+            if (nodeId % 2 == 1) scheduleAt(simTime() + 0.1, ready_to_send);
             else scheduleAt(simTime() + 0.1 + 1, ready_to_send);
             changeDisplayColor(GREEN);
             phy->setRadioState(MiximRadio::TX);
@@ -235,7 +235,7 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
             return;
         }
 
-        if(msg->getKind() == START_RECEIVER){
+        if(msg->getKind() == START_RECEIVER) {
             macState = Rx_RECEIVING;
             changeDisplayColor(RED);
             phy->setRadioState(MiximRadio::RX);
@@ -245,15 +245,15 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
         break;
 	case Tx_SENDING:
         if(msg->getKind() == READY_TO_SEND) {
-            if (macQueue.size() != 0) {
+//            if (macQueue.size() != 0) {
                 sendDataPacket();
                 macState = Tx_WAIT_DATA_OVER;
-            } else {
-                changeDisplayColor(BLACK);
-                phy->setRadioState(MiximRadio::SLEEP);
-                scheduleAt(simTime() + dataPeriod, wakeup);
-                macState = Tx_SLEEP;
-            }
+//            } else {
+//                changeDisplayColor(BLACK);
+//                phy->setRadioState(MiximRadio::SLEEP);
+//                scheduleAt(simTime() + dataPeriod, wakeup);
+//                macState = Tx_SLEEP;
+//            }
 
             return;
         }
@@ -316,23 +316,23 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
         break;
     case Rx_RECEIVING:
         if(msg->getKind() == DATA_PACKAGE) { //receive and ack
-            debugEV << "****Rx: Data package is received: " << endl;
+            debugEV << "****Rx: Data package is received: " <<simTime() <<endl;
             debugEV << "****Rx: ACK package is sending..." << endl;
-            macpkt_ptr_t mac = static_cast<macpkt_ptr_t>(msg);
-            const LAddress::L2Type& dest = mac->getDestAddr();
-            const LAddress::L2Type& src  = mac->getSrcAddr();
-            if ((dest == myMacAddr) || LAddress::isL2Broadcast(dest)) {
-                sendUp(decapsMsg(mac));
-            } else {
-                delete msg;
-                msg = NULL;
-                mac = NULL;
-            }
+//            macpkt_ptr_t mac = static_cast<macpkt_ptr_t>(msg);
+//            const LAddress::L2Type& dest = mac->getDestAddr();
+//            const LAddress::L2Type& src  = mac->getSrcAddr();
+//            if ((dest == myMacAddr) || LAddress::isL2Broadcast(dest)) {
+//                sendUp(decapsMsg(mac));
+//            } else {
+//                delete msg;
+//                msg = NULL;
+//                mac = NULL;
+//            }
             changeDisplayColor(GREEN);
             phy->setRadioState(MiximRadio::TX);
             sendMacAck();
             macState = Rx_WAIT_ACK_OVER;
-            //delete msg;
+            delete msg;
             return;
         }
         break;
@@ -365,14 +365,15 @@ void BMacLayer::handleLowerMsg(cMessage *msg)
 void BMacLayer::sendDataPacket()
 {
 	nbTxDataPackets++;
-	macpkt_ptr_t pkt = macQueue.front()->dup();
-	//macpkt_ptr_t pkt = new MacPkt("Quang");
+	//macpkt_ptr_t pkt = macQueue.front()->dup();
+	//macQueue.pop_front();
+	macpkt_ptr_t pkt = new MacPkt("Quang");
 	pkt->setKind(DATA_PACKAGE);
 
 	pkt->setBitLength(128);
 	attachSignal(pkt);
 	//lastDataPktDestAddr = pkt->getDestAddr();
-
+	debugEV <<"Time sent: " <<simTime() <<endl;
 	sendDown(pkt);
 }
 

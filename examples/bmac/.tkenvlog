@@ -37,3 +37,31 @@ Tcl error: moduleinspector.cc#631: ptr0091C3C8 not found
 "ModuleInspector:drawNextEventMarker .network.c ptr0091C3C8 1"
 
 
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#631: ptr03096978 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $modptr"
+    (procedure "ModuleInspector:drawNextEventMarker" line 2)
+    invoked from within
+"ModuleInspector:drawNextEventMarker .network.c ptr03096978 2"
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#631: ptr031EBEC8 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $modptr"
+    (procedure "ModuleInspector:drawNextEventMarker" line 2)
+    invoked from within
+"ModuleInspector:drawNextEventMarker .network.c ptr031EBEC8 2"
+
+

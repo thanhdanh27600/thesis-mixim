@@ -11,17 +11,16 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
-
-package org.mixim.modules.nic;
-
 //
-// This module implements a BMAC network interface card using
-// the "BMACLayer" MAC layer module
-//
-module NicBMAC extends WirelessNicBattery
+
+cplusplus {{
+#include "MiXiMMacPkt.h"
+}}
+
+class MacPkt;
+
+message IndoorLocalizaMacPkt extends MacPkt
 {
-    parameters:
-        macType = "IndoorLocalizaMac"; //IndoorLocalizaMac | BMacLayer
+    simtime_t timeSent;
+    simtime_t timeReceived; //store time when the packet is sent and received
 }
-
