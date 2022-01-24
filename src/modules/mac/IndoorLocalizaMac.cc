@@ -415,7 +415,11 @@ void IndoorLocalizaMac::handleTriangulation(double* Radius){
     Coord Actual = base->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
     Triangulation *triangulation = new Triangulation(masterCenter, Radius);
     debugEV << "Start predicting with 3 centers: " << masterCenter[0] << masterCenter[1] << masterCenter[2] << endl;
-    debugEV << "With 3 radii: " << Radius[0] << Radius[1] << Radius[2];
+    debugEV << "With 3 radii: " << Radius[0] << Radius[1] << Radius[2] << endl;
+
+    Coord Predicted = triangulation->predict();
+
     debugEV << "Predicted:" << triangulation->predict() << endl;
     debugEV << "Actual:" << Actual << endl;
+    debugEV << "Error: " << Actual.distance(Predicted) << endl;
 }

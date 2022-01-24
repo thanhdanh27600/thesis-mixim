@@ -89,12 +89,12 @@ void MovingMobilityBase::scheduleUpdate()
 
 Coord MovingMobilityBase::getCurrentPosition()
 {
-    moveAndUpdate();
+    // moveAndUpdate();
     return lastPosition;
 }
 
 Coord MovingMobilityBase::getCurrentSpeed()
 {
-    moveAndUpdate();
+    // moveAndUpdate();
     return lastSpeed;
 }
