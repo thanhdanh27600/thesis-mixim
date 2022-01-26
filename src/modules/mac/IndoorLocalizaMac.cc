@@ -213,7 +213,7 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                     delete temp_pkt;
                     macQueue.pop_front();
                     distanceQueue.pop_front();
-                    //you can get distance from this node to all masters from here, below queue.
+                    //you can get distance from this node to all masters from here, above queue.
                     // But notice the distance is currently stored at simtime_t data type not data double.
                 }
                 handleTriangulation(------Radius);
@@ -243,6 +243,8 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
         break;
     case Tx_SLEEP:
         if (msg->getKind() == WAKE_UP) {
+            //move to new position
+            getConnectionManager()->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentSpeed();
             scheduleAt(simTime(), ready_to_send);
             changeDisplayColor(GREEN);
             phy->setRadioState(MiximRadio::TX);

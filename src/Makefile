@@ -98,6 +98,7 @@ OBJS = \
     $O/inet_stub/mobility/models/CircleMobility.o \
     $O/inet_stub/mobility/models/ConstSpeedMobility.o \
     $O/inet_stub/mobility/models/GaussMarkovMobility.o \
+    $O/inet_stub/mobility/models/IndoorLocalizationMovingMobilityBase.o \
     $O/inet_stub/mobility/models/LinearMobility.o \
     $O/inet_stub/mobility/models/LinearNodeDistributionMobility.o \
     $O/inet_stub/mobility/models/LineSegmentsMobilityBase.o \
@@ -112,6 +113,7 @@ OBJS = \
     $O/inet_stub/mobility/models/PostureTransition.o \
     $O/inet_stub/mobility/models/RandomWPMobility.o \
     $O/inet_stub/mobility/models/RectangleMobility.o \
+    $O/inet_stub/mobility/models/SpecificPositionMobility.o \
     $O/inet_stub/mobility/models/StaticGridMobility.o \
     $O/inet_stub/mobility/models/StationaryMobility.o \
     $O/inet_stub/mobility/models/TraCIMobility.o \
@@ -861,6 +863,20 @@ $O/inet_stub/mobility/models/GaussMarkovMobility.o: inet_stub/mobility/models/Ga
 	inet_stub/util/FWMath.h \
 	inet_stub/util/Line2D.h \
 	inet_stub/util/Vector2D.h
+$O/inet_stub/mobility/models/IndoorLocalizationMovingMobilityBase.o: inet_stub/mobility/models/IndoorLocalizationMovingMobilityBase.cc \
+	inet_stub/base/BasicModule.h \
+	inet_stub/base/Coord.h \
+	inet_stub/base/INETDefs.h \
+	inet_stub/base/INotifiable.h \
+	inet_stub/base/ModuleAccess.h \
+	inet_stub/base/NotificationBoard.h \
+	inet_stub/base/NotifierConsts.h \
+	inet_stub/mobility/IMobility.h \
+	inet_stub/mobility/models/IndoorLocalizationMovingMobilityBase.h \
+	inet_stub/mobility/models/MobilityBase.h \
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
 $O/inet_stub/mobility/models/LineSegmentsMobilityBase.o: inet_stub/mobility/models/LineSegmentsMobilityBase.cc \
 	inet_stub/base/BasicModule.h \
 	inet_stub/base/Coord.h \
@@ -1055,6 +1071,21 @@ $O/inet_stub/mobility/models/RectangleMobility.o: inet_stub/mobility/models/Rect
 	inet_stub/mobility/models/MobilityBase.h \
 	inet_stub/mobility/models/MovingMobilityBase.h \
 	inet_stub/mobility/models/RectangleMobility.h \
+	inet_stub/util/FWMath.h \
+	inet_stub/util/Line2D.h \
+	inet_stub/util/Vector2D.h
+$O/inet_stub/mobility/models/SpecificPositionMobility.o: inet_stub/mobility/models/SpecificPositionMobility.cc \
+	inet_stub/base/BasicModule.h \
+	inet_stub/base/Coord.h \
+	inet_stub/base/INETDefs.h \
+	inet_stub/base/INotifiable.h \
+	inet_stub/base/ModuleAccess.h \
+	inet_stub/base/NotificationBoard.h \
+	inet_stub/base/NotifierConsts.h \
+	inet_stub/mobility/IMobility.h \
+	inet_stub/mobility/models/IndoorLocalizationMovingMobilityBase.h \
+	inet_stub/mobility/models/MobilityBase.h \
+	inet_stub/mobility/models/SpecificPositionMobility.h \
 	inet_stub/util/FWMath.h \
 	inet_stub/util/Line2D.h \
 	inet_stub/util/Vector2D.h
