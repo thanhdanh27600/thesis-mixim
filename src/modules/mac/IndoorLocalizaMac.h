@@ -183,6 +183,10 @@ class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
     bool stats;
     /** @brief Whether debug messages should be displayed. */
     bool debug;
+    /** @brief Stats for localization error */
+    cDoubleHistogram errorLocalizeStats;
+    /** @brief Output vector (a sequence of (time,value) pairs, sort of a time series) for localization error*/
+    cOutVector errorLocalizeVector;
 
     /** @brief Possible colors of the node for animation */
     enum BMAC_COLORS {

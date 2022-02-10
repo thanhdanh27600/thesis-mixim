@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for miximexamples
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -o miximexamples -O out -I../src/base/modules -I../src/inet_stub/networklayer/common -I../src -I../src/modules/utility -I../src/base/utils -I../src/inet_stub/mobility/models -I../src/modules/phy -I../src/base -I../src/modules/obstacle -I../src/base/phyLayer -I../src/inet_stub/mobility -I../src/modules/analogueModel -I../src/inet_stub/util -I../src/modules/messages -I../src/modules/mac -I../src/inet_stub/linklayer/contract -I../src/base/connectionManager -I../src/inet_stub/base -I../src/base/messages -I../src/modules -L../out/$$\(CONFIGNAME\)/src -lmixim -DWITH_MIXIM_EXAMPLES -DMIXIM_INET
+#  opp_makemake -f --deep -o miximexamples -O out -I../src/inet_stub/mobility/models -I../src/modules/analogueModel -I../src/base -I../src/modules/phy -I../src/modules/utility -I../src/base/utils -I../src -I../src/inet_stub/networklayer/common -I../src/modules/mac -I../src/modules -I../src/modules/obstacle -I../src/inet_stub/mobility -I../src/inet_stub/util -I../src/base/phyLayer -I../src/base/modules -I../src/modules/messages -I../src/inet_stub/base -I../src/base/connectionManager -I../src/inet_stub/linklayer/contract -I../src/base/messages -L../out/$$\(CONFIGNAME\)/src -lmixim -DWITH_MIXIM_EXAMPLES -DMIXIM_INET
 #
 
 # Name of target to be created (-o option)
@@ -15,26 +15,26 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(CMDENV_LIBS)
 
 # C++ include paths (with -I)
 INCLUDE_PATH = \
-    -I../src/base/modules \
-    -I../src/inet_stub/networklayer/common \
-    -I../src \
+    -I../src/inet_stub/mobility/models \
+    -I../src/modules/analogueModel \
+    -I../src/base \
+    -I../src/modules/phy \
     -I../src/modules/utility \
     -I../src/base/utils \
-    -I../src/inet_stub/mobility/models \
-    -I../src/modules/phy \
-    -I../src/base \
-    -I../src/modules/obstacle \
-    -I../src/base/phyLayer \
-    -I../src/inet_stub/mobility \
-    -I../src/modules/analogueModel \
-    -I../src/inet_stub/util \
-    -I../src/modules/messages \
+    -I../src \
+    -I../src/inet_stub/networklayer/common \
     -I../src/modules/mac \
-    -I../src/inet_stub/linklayer/contract \
-    -I../src/base/connectionManager \
-    -I../src/inet_stub/base \
-    -I../src/base/messages \
     -I../src/modules \
+    -I../src/modules/obstacle \
+    -I../src/inet_stub/mobility \
+    -I../src/inet_stub/util \
+    -I../src/base/phyLayer \
+    -I../src/base/modules \
+    -I../src/modules/messages \
+    -I../src/inet_stub/base \
+    -I../src/base/connectionManager \
+    -I../src/inet_stub/linklayer/contract \
+    -I../src/base/messages \
     -I. \
     -ICSMAMac \
     -IMac80211 \

@@ -127,6 +127,13 @@ void IndoorLocalizaMac::finish() {
     // record stats
     if (stats) {
         recordScalar("nbPacketsSent", nbPacketsSent);
+
+        debugEV << "Error Localize Min:    " << errorLocalizeStats.getMin() << endl;
+        debugEV << "Error Localize Max:    " << errorLocalizeStats.getMax() << endl;
+        debugEV << "Error Localize Mean:   " << errorLocalizeStats.getMean() << endl;
+        debugEV << "Error Localize Std.: " << errorLocalizeStats.getStddev() << endl;
+
+        errorLocalizeStats.recordAs("Error Localize Stats");
     }
 }
 
@@ -421,7 +428,13 @@ void IndoorLocalizaMac::handleTriangulation(double* Radius){
 
     Coord Predicted = triangulation->predict();
 
-    debugEV << "Predicted:" << triangulation->predict() << endl;
+    Coord predictedDistance = triangulation->predict();
+    double errorDistance = Actual.distance(Predicted);
+
+    debugEV << "Predicted:" << predictedDistance << endl;
     debugEV << "Actual:" << Actual << endl;
-    debugEV << "Error: " << Actual.distance(Predicted) << endl;
+    debugEV << "Error: " << errorDistance << endl;
+
+    errorLocalizeStats.collect(errorDistance);
+    errorLocalizeVector.record(errorDistance);
 }
