@@ -17,6 +17,7 @@
 
 #include <cassert>
 #include <string>
+#include <fstream>
 
 #include "FWMath.h"
 #include "MacToPhyControlInfo.h"
@@ -156,6 +157,17 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
     switch (macState) {
     case INIT:
         if (msg->getKind() == START_TRANSMITTER) {
+            errorListOfM1.clear();
+            errorListOfM2.clear();
+            errorListOfM3.clear();
+
+            getErrorFromFile(0);
+            getErrorFromFile(1);
+            getErrorFromFile(2);
+            EV << "list 1 size " <<errorListOfM1.size() <<endl;
+            EV << "list 2 size " <<errorListOfM2.size() <<endl;
+            EV << "list 3 size " <<errorListOfM3.size() <<endl;
+
             scheduleAt(simTime(), ready_to_send);
             changeDisplayColor(GREEN);
             phy->setRadioState(MiximRadio::TX);
@@ -165,7 +177,6 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
             changeDisplayColor(RED);
             phy->setRadioState(MiximRadio::RX);
             macState = Rx_RECEIVING;
-
         }
         break;
 
@@ -217,7 +228,7 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                 double *Radius = new double[3];
                 while (macQueue.size() != 0) {
                     temp_pkt = macQueue.front();
-                    debugEV <<"Distance to node " <<temp_pkt->getSrcAddr() <<" is " <<distanceQueue.front().dbl() <<endl;
+                    //debugEV <<"Distance to node " <<temp_pkt->getSrcAddr() <<" is " <<distanceQueue.front().dbl() <<endl;
                     *Radius++ = distanceQueue.front().dbl();
                     delete temp_pkt;
                     macQueue.pop_front();
@@ -226,6 +237,10 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                     // But notice the distance is currently stored at simtime_t data type not data double.
                 }
                 handleTriangulation(------Radius);
+
+                //move to new position
+                getConnectionManager()->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentSpeed();
+
                 macQueue.clear();
                 distanceQueue.clear();
             }
@@ -253,7 +268,7 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
     case Tx_SLEEP:
         if (msg->getKind() == WAKE_UP) {
             //move to new position
-            getConnectionManager()->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentSpeed();
+            //getConnectionManager()->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentSpeed();
             scheduleAt(simTime(), ready_to_send);
             changeDisplayColor(GREEN);
             phy->setRadioState(MiximRadio::TX);
@@ -402,15 +417,87 @@ void IndoorLocalizaMac::changeDisplayColor(BMAC_COLORS color) {
 }
 
 simtime_t IndoorLocalizaMac::calDistanceToSrc(indoorMacPkt_ptr_t pkt) {
-    //need to test ~~
+
     //debugEV << "From node:" << pkt->getSrcAddr() << " send at " << pkt->getTimeSent() << " | received at " << pkt->getTimeReceived() << endl;
 
     double speed = SPEED_OF_LIGHT;
     simtime_t processingSignalTime = pkt->getBitLength() / bitrate;
-    simtime_t deltaTime = pkt->getTimeReceived() - processingSignalTime -  pkt->getTimeSent();
+    simtime_t deltaTime = pkt->getTimeReceived() - processingSignalTime - pkt->getTimeSent();
     simtime_t distance = speed * deltaTime;
-    //debugEV <<"Distance to node " <<pkt->getSrcAddr() <<" is " <<distance <<endl;
-    return distance;
+    simtime_t error;
+    if (pkt->getSrcAddr().getInt() == 0) {
+        EV << "list 1 size " <<errorListOfM1.size();
+        int index = intrand(errorListOfM1.size());
+        EV <<" with index: " <<index <<endl;
+        error = simtime_t(errorListOfM1.at(index));
+    } else if (pkt->getSrcAddr().getInt() == 1) {
+        EV << "list 2 size " <<errorListOfM2.size();
+        int index = intrand(errorListOfM2.size());
+        EV <<" " <<index <<endl;
+        error = simtime_t(errorListOfM2.at(index));
+    } else if (pkt->getSrcAddr().getInt() == 2) {
+        EV << "list 3 size " <<errorListOfM3.size();
+        int index = intrand(errorListOfM3.size());
+        EV <<" " <<index <<endl;
+        error = simtime_t(errorListOfM3.at(index));
+    } else {
+        debugEV <<"MAC address error at calDistanceToSrc" <<endl;
+    }
+    debugEV <<"Distance to node " <<pkt->getSrcAddr() <<" is " <<distance <<"with error: " <<error <<endl;
+    return distance + error;
+}
+
+double IndoorLocalizaMac::getErrorFromFile(int master) {
+    std::string fileName = "error/Master";
+    fileName = fileName + std::to_string(master+1);
+    fileName = fileName + "_error.csv";
+
+    std::ifstream in(fileName, std::ios::in);
+
+    if (in.fail())
+        throw cRuntimeError("Cannot open file\n");
+
+    std::string line;
+    std::getline(in, line);
+    while (std::getline(in, line))
+    {
+        //EV <<"Data: " <<line <<endl;
+        getErrorFromString(line, master);
+    }
+}
+
+void IndoorLocalizaMac::getErrorFromString(std::string inputString, int master) {
+    inputString.append(",");
+    std::string delimiter = ",";
+    int slave = 1;
+    int count = 1;
+    int oldPosOfDelimiter = 0;        //find(delimiter, position to start to find);
+    int newPosOfDelimiter = inputString.find(delimiter, oldPosOfDelimiter);
+
+    while (newPosOfDelimiter > 0) {
+                                       //substr(pos, len);
+        std::string token = inputString.substr(oldPosOfDelimiter, newPosOfDelimiter - oldPosOfDelimiter);
+        if ((count == 3 + slave) && (token != "NAN")) {
+            double value = std::stod(token);
+            switch (master) {
+            case 0:
+                errorListOfM1.push_back(value);
+                break;
+            case 1:
+                errorListOfM2.push_back(value);
+                break;
+            case 2:
+                errorListOfM3.push_back(value);
+                break;
+            default:
+                EV <<"Something wrong!";
+                break;
+            }
+        }
+        oldPosOfDelimiter = newPosOfDelimiter + 1;
+        newPosOfDelimiter = inputString.find(delimiter, oldPosOfDelimiter);
+        count += 1;
+    }
 }
 
 void IndoorLocalizaMac::handleTriangulation(double* Radius){
