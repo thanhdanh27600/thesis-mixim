@@ -50,6 +50,8 @@ void IndoorLocalizaMac::initialize(int stage) {
         numTransmitters = hasPar("numTransmitters") ? par("numTransmitters") : 1;
         stats = hasPar("stats") ? par("stats") : true;
         debug = hasPar("debug") ? par("debug") : false;
+        errorLocalizeStats.setName("Error Stats");
+        areaLocalizeStats.setName("Area Stats");
 
         //Declare the node ID for a node
         nodeId = static_cast<int>(findHost()->getAncestorPar("nodeId"));
@@ -198,7 +200,7 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                 macQueue.push_back(pkt);
                 debugEV <<"Queue length " <<macQueue.size() <<"/" <<(numReceivers) <<endl;
                 simtime_t dist = calDistanceToSrc(pkt);
-                simtime_t dist_error = distanceQueue.size() == 3 ? uniform(0, dist) : 0.0;
+                simtime_t dist_error = normal(0, 1);
                 distanceQueue.push_back(dist + dist_error);
             } else {
                 Bubble("Damn! shhieet");
@@ -428,13 +430,15 @@ void IndoorLocalizaMac::handleTriangulation(double* Radius){
 
     Coord Predicted = triangulation->predict();
 
-    Coord predictedDistance = triangulation->predict();
     double errorDistance = Actual.distance(Predicted);
 
-    debugEV << "Predicted:" << predictedDistance << endl;
+    debugEV << "Area of Triangle:" << triangulation->area << endl;
+    debugEV << "Predicted:" << Predicted << endl;
     debugEV << "Actual:" << Actual << endl;
     debugEV << "Error: " << errorDistance << endl;
 
     errorLocalizeStats.collect(errorDistance);
     errorLocalizeVector.record(errorDistance);
+    areaLocalizeStats.collect(triangulation->area);
+    areaLocalizeVector.record(triangulation->area);
 }

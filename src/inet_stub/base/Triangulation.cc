@@ -110,6 +110,8 @@ Coord Triangulation::predict()
     Coord *intersect23_31 = this->intersect(perpendicular23, perpendicular31);
     Coord *intersect31_12 = this->intersect(perpendicular31, perpendicular12);
 
+    this->area = intersect12_23->area(*intersect23_31, *intersect31_12);
+
     Coord *centroid = this->centroid(intersect12_23, intersect23_31, intersect31_12);
 
     return *centroid;

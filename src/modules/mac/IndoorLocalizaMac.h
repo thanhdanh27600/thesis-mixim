@@ -187,6 +187,9 @@ class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
     cDoubleHistogram errorLocalizeStats;
     /** @brief Output vector (a sequence of (time,value) pairs, sort of a time series) for localization error*/
     cOutVector errorLocalizeVector;
+    cDoubleHistogram areaLocalizeStats;
+    /** @brief Output vector (a sequence of (time,value) pairs, sort of a time series) for localization error*/
+    cOutVector areaLocalizeVector;
 
     /** @brief Possible colors of the node for animation */
     enum BMAC_COLORS {
