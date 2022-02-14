@@ -237,6 +237,14 @@ public:
     }
 
     /**
+     * @brief Returns area with 2 more point given
+     */
+    double area(const Coord &point2, const Coord &point3) const
+    {
+        return 1.0 / 2.0 * fabs(this->x * (point2.y - point3.y) + point2.x * (point3.y - this->y) + point3.x * (this->y - point2.y));
+    }
+
+    /**
      * @brief Returns a Line2D (y=ax+b) that this point perpendicular to
      */
     Line2D *line2DPerpendicularWith(const Line2D &line)

@@ -26,11 +26,13 @@ public:
     double radius1;
     double radius2;
     double radius3;
+
+    double area;
     /*@}*/
 
 public:
     /** @name Constructor, simply includes all attr */
-    Triangulation(Coord _Center1, Coord _Center2, Coord _Center3, double _radius1, double _radius2, double _radius3) : Center1(_Center1), Center2(_Center2), Center3(_Center3), radius1(_radius1), radius2(_radius2), radius3(_radius3) {}
+    Triangulation(Coord _Center1, Coord _Center2, Coord _Center3, double _radius1, double _radius2, double _radius3) : Center1(_Center1), Center2(_Center2), Center3(_Center3), radius1(_radius1), radius2(_radius2), radius3(_radius3), area{-1} {}
 
     /** @name Constructor, with a list (n=3) */
     Triangulation(Coord *Center, double* Radius, unsigned int size = 3){

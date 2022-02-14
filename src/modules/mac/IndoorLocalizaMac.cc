@@ -51,6 +51,8 @@ void IndoorLocalizaMac::initialize(int stage) {
         numTransmitters = hasPar("numTransmitters") ? par("numTransmitters") : 1;
         stats = hasPar("stats") ? par("stats") : true;
         debug = hasPar("debug") ? par("debug") : false;
+        errorLocalizeStats.setName("Error Stats");
+        areaLocalizeStats.setName("Area Stats");
 
         //Declare the node ID for a node
         nodeId = static_cast<int>(findHost()->getAncestorPar("nodeId"));
@@ -128,6 +130,13 @@ void IndoorLocalizaMac::finish() {
     // record stats
     if (stats) {
         recordScalar("nbPacketsSent", nbPacketsSent);
+
+        debugEV << "Error Localize Min:    " << errorLocalizeStats.getMin() << endl;
+        debugEV << "Error Localize Max:    " << errorLocalizeStats.getMax() << endl;
+        debugEV << "Error Localize Mean:   " << errorLocalizeStats.getMean() << endl;
+        debugEV << "Error Localize Std.: " << errorLocalizeStats.getStddev() << endl;
+
+        errorLocalizeStats.recordAs("Error Localize Stats");
     }
 }
 
@@ -202,8 +211,8 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                 macQueue.push_back(pkt);
                 debugEV <<"Queue length " <<macQueue.size() <<"/" <<(numReceivers) <<endl;
                 simtime_t dist = calDistanceToSrc(pkt);
-                //simtime_t dist_error = distanceQueue.size() == 3 ? uniform(0, dist) : 0.0;
-                distanceQueue.push_back(dist);
+                simtime_t dist_error = normal(0, 1);
+                distanceQueue.push_back(dist + dist_error);
             } else {
                 Bubble("Damn! shhieet");
             }
@@ -508,7 +517,15 @@ void IndoorLocalizaMac::handleTriangulation(double* Radius){
 
     Coord Predicted = triangulation->predict();
 
-    debugEV << "Predicted:" << triangulation->predict() << endl;
+    double errorDistance = Actual.distance(Predicted);
+
+    debugEV << "Area of Triangle:" << triangulation->area << endl;
+    debugEV << "Predicted:" << Predicted << endl;
     debugEV << "Actual:" << Actual << endl;
-    debugEV << "Error: " << Actual.distance(Predicted) << endl;
+    debugEV << "Error: " << errorDistance << endl;
+
+    errorLocalizeStats.collect(errorDistance);
+    errorLocalizeVector.record(errorDistance);
+    areaLocalizeStats.collect(triangulation->area);
+    areaLocalizeVector.record(triangulation->area);
 }
