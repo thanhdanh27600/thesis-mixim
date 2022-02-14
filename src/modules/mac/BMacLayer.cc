@@ -239,6 +239,7 @@ void BMacLayer::handleSelfMsg(cMessage *msg)
             macState = Rx_RECEIVING;
             changeDisplayColor(RED);
             phy->setRadioState(MiximRadio::RX);
+            //phy->getChannelState().isIdle();
             return;
         }
 

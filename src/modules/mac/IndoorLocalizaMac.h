@@ -54,7 +54,7 @@ class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
         : BaseMacLayer()
         , nbPacketsSent(0)
         , start_receiver(NULL), start_transmitter(NULL), data_tx_over(NULL), time_out(NULL), send_ack_packet(NULL), ready_to_send(NULL), wake_up(NULL)
-        , macQueue(), distanceQueue()
+        , macQueue(), distanceQueue(), errorListOfM1(), errorListOfM2(), errorListOfM3()
         , macState(INIT)
         , nicId(-1)
         , queueLength(0)
@@ -94,6 +94,8 @@ class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
     packet is still waiting for transmission.*/
     MacQueue macQueue;
     std::list<simtime_t> distanceQueue;
+
+    std::vector<double> errorListOfM1, errorListOfM2, errorListOfM3;
 
     /** @name Different tracked statistics.*/
     /*@{*/
@@ -213,6 +215,12 @@ class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
 
     /** @brief Internal function to handle the triangulation */
     void handleTriangulation(double* Radius);
+
+    /** @brief Get lisf of error from real data */
+    double getErrorFromFile(int master);
+
+    /** @brief Get one error from string */
+    void getErrorFromString(std::string inputString, int master);
 };
 
 #endif /* IndoorLocalizaMac_H_ */
