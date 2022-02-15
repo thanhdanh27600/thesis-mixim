@@ -54,7 +54,7 @@ class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
         : BaseMacLayer()
         , nbPacketsSent(0)
         , start_receiver(NULL), start_transmitter(NULL), data_tx_over(NULL), time_out(NULL), send_ack_packet(NULL), ready_to_send(NULL), wake_up(NULL)
-        , macQueue(), distanceQueue(), errorListOfM1(), errorListOfM2(), errorListOfM3()
+        , macQueue(), distanceQueue(), errorListOfM1(), errorListOfM2(), errorListOfM3(), area_threshold(0.0)
         , macState(INIT)
         , nicId(-1)
         , queueLength(0)
@@ -185,6 +185,8 @@ class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
     bool stats;
     /** @brief Whether debug messages should be displayed. */
     bool debug;
+    /** @brief Threshold of area cut-off for localization error   */
+    double area_threshold;
     /** @brief Stats for localization error */
     cDoubleHistogram errorLocalizeStats;
     /** @brief Output vector (a sequence of (time,value) pairs, sort of a time series) for localization error*/
@@ -221,7 +223,7 @@ class MIXIM_API IndoorLocalizaMac : public BaseMacLayer
     simtime_t calDistanceToSrc(indoorMacPkt_ptr_t pkt);
 
     /** @brief Internal function to handle the triangulation */
-    void handleTriangulation(double* Radius);
+    bool handleTriangulation(double* Radius);
 
     /** @brief Get lisf of error from real data */
     double getErrorFromFile(int master);

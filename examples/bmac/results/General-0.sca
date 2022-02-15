@@ -1,0 +1,387 @@
+version 2
+run General-0-20220214-20:51:21-2372
+attr configname General
+attr datetime 20220214-20:51:21
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars $traffic=5
+attr iterationvars2 "$traffic=5, $repetition=0"
+attr measurement $traffic=5
+attr network BMACExampleNetwork
+attr processid 2372
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+attr traffic 5
+
+scalar . 	traffic 	5
+scalar BMACExampleNetwork.node[0].nic.mac 	nbPacketsSent 	0
+statistic BMACExampleNetwork.node[0].nic.mac 	"Error Localize Stats"
+field count 0
+field mean nan
+field stddev nan
+field sum 0
+field sqrsum 0
+field min nan
+field max nan
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	-6.9388939039072e-018	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithInterference 	0
+scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithoutInterference 	7948
+scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithInterferencePartial 	0
+scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithoutInterferencePartial 	0
+scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithInterferenceDropped 	0
+scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithoutInterferenceDropped 	0
+scalar BMACExampleNetwork.node[0].appl 	"activity duration" 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[0].appl 	firstPacketGeneration 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[0].appl 	lastPacketReception 	-2
+attr unit  s
+scalar BMACExampleNetwork.node[0].appl 	nbPacketsSent 	10
+scalar BMACExampleNetwork.node[0].appl 	nbPacketsReceived 	0
+statistic BMACExampleNetwork.node[0].appl 	latency
+field count 0
+field mean nan
+field stddev nan
+field sum 0
+field sqrsum 0
+field min nan
+field max nan
+scalar BMACExampleNetwork.node[0].batteryStats 	nominal 	11880000
+attr unit  mW-s
+scalar BMACExampleNetwork.node[0].batteryStats 	total 	541265.57104336
+attr unit  mW-s
+scalar BMACExampleNetwork.node[0].batteryStats 	lifetime 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[0].batteryStats 	"Mean power consumption" 	54.126557104336
+attr unit  mW
+scalar BMACExampleNetwork.node[0].batteryStats 	"num devices" 	1
+scalar BMACExampleNetwork.node[0].batteryStats 	"physical layer" 	0
+scalar BMACExampleNetwork.node[0].batteryStats 	"device total (mWs)" 	541265.57100075
+scalar BMACExampleNetwork.node[0].batteryStats 	account 	0
+scalar BMACExampleNetwork.node[0].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[0].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[0].batteryStats 	account 	1
+scalar BMACExampleNetwork.node[0].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[0].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[0].batteryStats 	account 	2
+scalar BMACExampleNetwork.node[0].batteryStats 	"energy (mWs)" 	539407.72600082
+scalar BMACExampleNetwork.node[0].batteryStats 	"time (s)" 	9966.8833333347
+scalar BMACExampleNetwork.node[0].batteryStats 	account 	3
+scalar BMACExampleNetwork.node[0].batteryStats 	"energy (mWs)" 	1857.8449999258
+scalar BMACExampleNetwork.node[0].batteryStats 	"time (s)" 	33.116666665342
+scalar BMACExampleNetwork.node[0].batteryStats 	account 	4
+scalar BMACExampleNetwork.node[0].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[0].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[0].batteryStats 	account 	5
+scalar BMACExampleNetwork.node[0].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[0].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[1].nic.mac 	nbPacketsSent 	0
+statistic BMACExampleNetwork.node[1].nic.mac 	"Error Localize Stats"
+field count 0
+field mean nan
+field stddev nan
+field sum 0
+field sqrsum 0
+field min nan
+field max nan
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	-6.9388939039072e-018	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithInterference 	0
+scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithoutInterference 	3974
+scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithInterferencePartial 	0
+scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithoutInterferencePartial 	0
+scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithInterferenceDropped 	0
+scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithoutInterferenceDropped 	0
+scalar BMACExampleNetwork.node[1].appl 	"activity duration" 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[1].appl 	firstPacketGeneration 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[1].appl 	lastPacketReception 	-2
+attr unit  s
+scalar BMACExampleNetwork.node[1].appl 	nbPacketsSent 	10
+scalar BMACExampleNetwork.node[1].appl 	nbPacketsReceived 	0
+statistic BMACExampleNetwork.node[1].appl 	latency
+field count 0
+field mean nan
+field stddev nan
+field sum 0
+field sqrsum 0
+field min nan
+field max nan
+scalar BMACExampleNetwork.node[1].batteryStats 	nominal 	11880000
+attr unit  mW-s
+scalar BMACExampleNetwork.node[1].batteryStats 	total 	549134.09100479
+attr unit  mW-s
+scalar BMACExampleNetwork.node[1].batteryStats 	lifetime 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[1].batteryStats 	"Mean power consumption" 	54.913409100479
+attr unit  mW
+scalar BMACExampleNetwork.node[1].batteryStats 	"num devices" 	1
+scalar BMACExampleNetwork.node[1].batteryStats 	"physical layer" 	0
+scalar BMACExampleNetwork.node[1].batteryStats 	"device total (mWs)" 	549134.09100011
+scalar BMACExampleNetwork.node[1].batteryStats 	account 	0
+scalar BMACExampleNetwork.node[1].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[1].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[1].batteryStats 	account 	1
+scalar BMACExampleNetwork.node[1].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[1].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[1].batteryStats 	account 	2
+scalar BMACExampleNetwork.node[1].batteryStats 	"energy (mWs)" 	324334.84600039
+scalar BMACExampleNetwork.node[1].batteryStats 	"time (s)" 	5992.8833333347
+scalar BMACExampleNetwork.node[1].batteryStats 	account 	3
+scalar BMACExampleNetwork.node[1].batteryStats 	"energy (mWs)" 	224799.24499973
+scalar BMACExampleNetwork.node[1].batteryStats 	"time (s)" 	4007.1166666653
+scalar BMACExampleNetwork.node[1].batteryStats 	account 	4
+scalar BMACExampleNetwork.node[1].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[1].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[1].batteryStats 	account 	5
+scalar BMACExampleNetwork.node[1].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[1].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[2].nic.mac 	nbPacketsSent 	0
+statistic BMACExampleNetwork.node[2].nic.mac 	"Error Localize Stats"
+field count 0
+field mean nan
+field stddev nan
+field sum 0
+field sqrsum 0
+field min nan
+field max nan
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	-6.9388939039072e-018	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+scalar BMACExampleNetwork.node[2].nic.phy 	nbFramesWithInterference 	0
+scalar BMACExampleNetwork.node[2].nic.phy 	nbFramesWithoutInterference 	3974
+scalar BMACExampleNetwork.node[2].nic.phy 	nbFramesWithInterferencePartial 	0
+scalar BMACExampleNetwork.node[2].nic.phy 	nbFramesWithoutInterferencePartial 	0
+scalar BMACExampleNetwork.node[2].nic.phy 	nbFramesWithInterferenceDropped 	0
+scalar BMACExampleNetwork.node[2].nic.phy 	nbFramesWithoutInterferenceDropped 	0
+scalar BMACExampleNetwork.node[2].appl 	"activity duration" 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[2].appl 	firstPacketGeneration 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[2].appl 	lastPacketReception 	-2
+attr unit  s
+scalar BMACExampleNetwork.node[2].appl 	nbPacketsSent 	10
+scalar BMACExampleNetwork.node[2].appl 	nbPacketsReceived 	0
+statistic BMACExampleNetwork.node[2].appl 	latency
+field count 0
+field mean nan
+field stddev nan
+field sum 0
+field sqrsum 0
+field min nan
+field max nan
+scalar BMACExampleNetwork.node[2].batteryStats 	nominal 	11880000
+attr unit  mW-s
+scalar BMACExampleNetwork.node[2].batteryStats 	total 	557001.14382587
+attr unit  mW-s
+scalar BMACExampleNetwork.node[2].batteryStats 	lifetime 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[2].batteryStats 	"Mean power consumption" 	55.700114382587
+attr unit  mW
+scalar BMACExampleNetwork.node[2].batteryStats 	"num devices" 	1
+scalar BMACExampleNetwork.node[2].batteryStats 	"physical layer" 	0
+scalar BMACExampleNetwork.node[2].batteryStats 	"device total (mWs)" 	557001.14386291
+scalar BMACExampleNetwork.node[2].batteryStats 	account 	0
+scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[2].batteryStats 	account 	1
+scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[2].batteryStats 	account 	2
+scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	109302.06772576
+scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	2019.6243112675
+scalar BMACExampleNetwork.node[2].batteryStats 	account 	3
+scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	447699.07613715
+scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	7980.3756887325
+scalar BMACExampleNetwork.node[2].batteryStats 	account 	4
+scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[2].batteryStats 	account 	5
+scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[3].nic.mac 	nbPacketsSent 	3974
+statistic BMACExampleNetwork.node[3].nic.mac 	"Error Localize Stats"
+field count 2627
+field mean 36.7657905869
+field stddev 37.002001254729
+field sum 96583.731871786
+field sqrsum 7146360.1624405
+field min 0.32813042975623
+field max 153.95363303745
+bin	-INF	0
+bin	-58.394085922993	0
+bin	-50.323728334422	0
+bin	-42.253370745851	0
+bin	-34.18301315728	0
+bin	-26.11265556871	0
+bin	-18.042297980139	0
+bin	-9.971940391568	0
+bin	-1.9015828029972	658
+bin	6.1687747855736	561
+bin	14.239132374144	147
+bin	22.309489962715	126
+bin	30.379847551286	140
+bin	38.450205139857	118
+bin	46.520562728428	97
+bin	54.590920316999	99
+bin	62.661277905569	109
+bin	70.73163549414	107
+bin	78.801993082711	111
+bin	86.872350671282	91
+bin	94.942708259853	73
+bin	103.01306584842	67
+bin	111.08342343699	47
+bin	119.15378102557	40
+bin	127.22413861414	17
+bin	135.29449620271	9
+bin	143.36485379128	6
+bin	151.43521137985	4
+bin	159.50556896842	0
+bin	167.57592655699	0
+bin	175.64628414556	0
+bin	183.71664173413	0
+scalar BMACExampleNetwork.node[3].nic.phy 	nbFramesWithInterference 	0
+scalar BMACExampleNetwork.node[3].nic.phy 	nbFramesWithoutInterference 	11921
+scalar BMACExampleNetwork.node[3].nic.phy 	nbFramesWithInterferencePartial 	0
+scalar BMACExampleNetwork.node[3].nic.phy 	nbFramesWithoutInterferencePartial 	0
+scalar BMACExampleNetwork.node[3].nic.phy 	nbFramesWithInterferenceDropped 	0
+scalar BMACExampleNetwork.node[3].nic.phy 	nbFramesWithoutInterferenceDropped 	0
+scalar BMACExampleNetwork.node[3].appl 	"activity duration" 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[3].appl 	firstPacketGeneration 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[3].appl 	lastPacketReception 	-2
+attr unit  s
+scalar BMACExampleNetwork.node[3].appl 	nbPacketsSent 	10
+scalar BMACExampleNetwork.node[3].appl 	nbPacketsReceived 	0
+statistic BMACExampleNetwork.node[3].appl 	latency
+field count 0
+field mean nan
+field stddev nan
+field sum 0
+field sqrsum 0
+field min nan
+field max nan
+scalar BMACExampleNetwork.node[3].batteryStats 	nominal 	11880000
+attr unit  mW-s
+scalar BMACExampleNetwork.node[3].batteryStats 	total 	433887.30003314
+attr unit  mW-s
+scalar BMACExampleNetwork.node[3].batteryStats 	lifetime 	-1
+attr unit  s
+scalar BMACExampleNetwork.node[3].batteryStats 	"Mean power consumption" 	43.388730003314
+attr unit  mW
+scalar BMACExampleNetwork.node[3].batteryStats 	"num devices" 	1
+scalar BMACExampleNetwork.node[3].batteryStats 	"physical layer" 	0
+scalar BMACExampleNetwork.node[3].batteryStats 	"device total (mWs)" 	433887.30000053
+scalar BMACExampleNetwork.node[3].batteryStats 	account 	0
+scalar BMACExampleNetwork.node[3].batteryStats 	"energy (mWs)" 	131.10900000004
+scalar BMACExampleNetwork.node[3].batteryStats 	"time (s)" 	1986.5
+scalar BMACExampleNetwork.node[3].batteryStats 	account 	1
+scalar BMACExampleNetwork.node[3].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[3].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[3].batteryStats 	account 	2
+scalar BMACExampleNetwork.node[3].batteryStats 	"energy (mWs)" 	431898.34600061
+scalar BMACExampleNetwork.node[3].batteryStats 	"time (s)" 	7980.3833333347
+scalar BMACExampleNetwork.node[3].batteryStats 	account 	3
+scalar BMACExampleNetwork.node[3].batteryStats 	"energy (mWs)" 	1857.8449999258
+scalar BMACExampleNetwork.node[3].batteryStats 	"time (s)" 	33.116666665342
+scalar BMACExampleNetwork.node[3].batteryStats 	account 	4
+scalar BMACExampleNetwork.node[3].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[3].batteryStats 	"time (s)" 	0
+scalar BMACExampleNetwork.node[3].batteryStats 	account 	5
+scalar BMACExampleNetwork.node[3].batteryStats 	"energy (mWs)" 	0
+scalar BMACExampleNetwork.node[3].batteryStats 	"time (s)" 	0

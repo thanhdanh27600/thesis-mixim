@@ -21,4 +21,9 @@ typedef struct Line2D
 
 } Line2D;
 
+inline std::ostream &operator<<(std::ostream &os, const Line2D &line)
+{
+    return os << "(a,b)=(" << line.a << "," << line.b << ")\n";
+}
+
 #endif

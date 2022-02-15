@@ -1,0 +1,117 @@
+version 2
+run General-0-20220211-15:36:59-7428
+attr configname General
+attr datetime 20220211-15:36:59
+attr dist 10
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars "$simDuration=2, $numHosts=2, $dist=10, $txPower=0.1"
+attr iterationvars2 "$simDuration=2, $numHosts=2, $dist=10, $txPower=0.1, $repetition=0"
+attr measurement "$simDuration=2, $numHosts=2, $dist=10, $txPower=0.1"
+attr network WSNRouting
+attr numHosts 2
+attr processid 7428
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+attr simDuration 2
+attr txPower 0.1
+
+scalar . 	dist 	10
+scalar . 	numHosts 	2
+scalar . 	simDuration 	2
+scalar . 	txPower 	0.1
+scalar WSNRouting.node[0].nic.mac 	nbTxFrames 	2
+scalar WSNRouting.node[0].nic.mac 	nbRxFrames 	2
+scalar WSNRouting.node[0].nic.mac 	nbDroppedFrames 	0
+scalar WSNRouting.node[0].nic.mac 	nbMissedAcks 	0
+scalar WSNRouting.node[0].nic.mac 	nbRecvdAcks 	0
+scalar WSNRouting.node[0].nic.mac 	nbTxAcks 	0
+scalar WSNRouting.node[0].nic.mac 	nbDuplicates 	0
+scalar WSNRouting.node[0].nic.mac 	meanBackoff 	0.00128
+scalar WSNRouting.node[0].nic.mac 	nbBackoffs 	2
+scalar WSNRouting.node[0].nic.mac 	backoffDurations 	0.00256
+scalar WSNRouting.node[0].nic.phy 	nbFramesWithInterference 	0
+scalar WSNRouting.node[0].nic.phy 	nbFramesWithoutInterference 	2
+scalar WSNRouting.node[0].nic.phy 	nbFramesWithInterferencePartial 	0
+scalar WSNRouting.node[0].nic.phy 	nbFramesWithoutInterferencePartial 	0
+scalar WSNRouting.node[0].nic.phy 	nbFramesWithInterferenceDropped 	0
+scalar WSNRouting.node[0].nic.phy 	nbFramesWithoutInterferenceDropped 	0
+scalar WSNRouting.node[0].netwl 	nbDataPacketsReceived 	0
+scalar WSNRouting.node[0].netwl 	nbDataPacketsSent 	2
+scalar WSNRouting.node[0].netwl 	nbDataPacketsForwarded 	0
+scalar WSNRouting.node[0].netwl 	meanNbHops 	0
+scalar WSNRouting.node[0].tranl 	nbAggrPktReceived 	0
+scalar WSNRouting.node[0].tranl 	"nbAggrPktSentDown " 	0
+scalar WSNRouting.node[0].appl 	"activity duration" 	-1
+attr unit  s
+scalar WSNRouting.node[0].appl 	firstPacketGeneration 	-1
+attr unit  s
+scalar WSNRouting.node[0].appl 	lastPacketReception 	-2
+attr unit  s
+scalar WSNRouting.node[0].appl 	nbPacketsSent 	2
+scalar WSNRouting.node[0].appl 	nbPacketsReceived 	0
+statistic WSNRouting.node[0].appl 	latency
+field count 0
+field mean nan
+field stddev nan
+field sum 0
+field sqrsum 0
+field min nan
+field max nan
+scalar WSNRouting.node[0].batteryStats 	nominal 	10800000
+attr unit  mW-s
+scalar WSNRouting.node[0].batteryStats 	total 	1322.6673836708
+attr unit  mW-s
+scalar WSNRouting.node[0].batteryStats 	lifetime 	-1
+attr unit  s
+scalar WSNRouting.node[0].batteryStats 	"Mean power consumption" 	56.399220599753
+attr unit  mW
+scalar WSNRouting.node[1].nic.mac 	nbTxFrames 	2
+scalar WSNRouting.node[1].nic.mac 	nbRxFrames 	2
+scalar WSNRouting.node[1].nic.mac 	nbDroppedFrames 	0
+scalar WSNRouting.node[1].nic.mac 	nbMissedAcks 	0
+scalar WSNRouting.node[1].nic.mac 	nbRecvdAcks 	0
+scalar WSNRouting.node[1].nic.mac 	nbTxAcks 	0
+scalar WSNRouting.node[1].nic.mac 	nbDuplicates 	0
+scalar WSNRouting.node[1].nic.mac 	meanBackoff 	0.00128
+scalar WSNRouting.node[1].nic.mac 	nbBackoffs 	2
+scalar WSNRouting.node[1].nic.mac 	backoffDurations 	0.00256
+scalar WSNRouting.node[1].nic.phy 	nbFramesWithInterference 	0
+scalar WSNRouting.node[1].nic.phy 	nbFramesWithoutInterference 	2
+scalar WSNRouting.node[1].nic.phy 	nbFramesWithInterferencePartial 	0
+scalar WSNRouting.node[1].nic.phy 	nbFramesWithoutInterferencePartial 	0
+scalar WSNRouting.node[1].nic.phy 	nbFramesWithInterferenceDropped 	0
+scalar WSNRouting.node[1].nic.phy 	nbFramesWithoutInterferenceDropped 	0
+scalar WSNRouting.node[1].netwl 	nbDataPacketsReceived 	2
+scalar WSNRouting.node[1].netwl 	nbDataPacketsSent 	0
+scalar WSNRouting.node[1].netwl 	nbDataPacketsForwarded 	2
+scalar WSNRouting.node[1].netwl 	meanNbHops 	2
+scalar WSNRouting.node[1].tranl 	nbAggrPktReceived 	0
+scalar WSNRouting.node[1].tranl 	"nbAggrPktSentDown " 	0
+scalar WSNRouting.node[1].appl 	"activity duration" 	10.004608
+attr unit  s
+scalar WSNRouting.node[1].appl 	firstPacketGeneration 	13.4426574409
+attr unit  s
+scalar WSNRouting.node[1].appl 	lastPacketReception 	23.4472654409
+attr unit  s
+scalar WSNRouting.node[1].appl 	nbPacketsSent 	0
+scalar WSNRouting.node[1].appl 	nbPacketsReceived 	2
+statistic WSNRouting.node[1].appl 	latency
+field count 2
+field mean 0.005568
+field stddev 0.0013576450198782
+field sum 0.011136
+field sqrsum 6.3848448e-005
+field min 0.004608
+field max 0.006528
+scalar WSNRouting.node[1].batteryStats 	nominal 	10800000
+attr unit  mW-s
+scalar WSNRouting.node[1].batteryStats 	total 	1322.6673836671
+attr unit  mW-s
+scalar WSNRouting.node[1].batteryStats 	lifetime 	-1
+attr unit  s
+scalar WSNRouting.node[1].batteryStats 	"Mean power consumption" 	56.399220599594
+attr unit  mW

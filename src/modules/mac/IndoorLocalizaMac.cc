@@ -51,6 +51,8 @@ void IndoorLocalizaMac::initialize(int stage) {
         numTransmitters = hasPar("numTransmitters") ? par("numTransmitters") : 1;
         stats = hasPar("stats") ? par("stats") : true;
         debug = hasPar("debug") ? par("debug") : false;
+        area_threshold = hasPar("area_threshold") ? par("area_threshold") : 0.0;
+
         errorLocalizeStats.setName("Error Stats");
         areaLocalizeStats.setName("Area Stats");
 
@@ -211,8 +213,7 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                 macQueue.push_back(pkt);
                 debugEV <<"Queue length " <<macQueue.size() <<"/" <<(numReceivers) <<endl;
                 simtime_t dist = calDistanceToSrc(pkt);
-                simtime_t dist_error = normal(0, 1);
-                distanceQueue.push_back(dist + dist_error);
+                distanceQueue.push_back(dist);
             } else {
                 Bubble("Damn! shhieet");
             }
@@ -226,21 +227,23 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
                 macState = Tx_SLEEP;
                 indoorMacPkt_ptr_t temp_pkt;
                 double *Radius = new double[3];
+                double *Radius_ptr = Radius;
                 while (macQueue.size() != 0) {
                     temp_pkt = macQueue.front();
                     //debugEV <<"Distance to node " <<temp_pkt->getSrcAddr() <<" is " <<distanceQueue.front().dbl() <<endl;
-                    *Radius++ = distanceQueue.front().dbl();
+                    *Radius_ptr++ = distanceQueue.front().dbl();
                     delete temp_pkt;
                     macQueue.pop_front();
                     distanceQueue.pop_front();
                     //you can get distance from this node to all masters from here, above queue.
                     // But notice the distance is currently stored at simtime_t data type not data double.
                 }
-                handleTriangulation(------Radius);
+                handleTriangulation(Radius);
 
                 //move to new position
                 getConnectionManager()->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentSpeed();
 
+                delete[] Radius;
                 macQueue.clear();
                 distanceQueue.clear();
             }
@@ -500,7 +503,7 @@ void IndoorLocalizaMac::getErrorFromString(std::string inputString, int master) 
     }
 }
 
-void IndoorLocalizaMac::handleTriangulation(double* Radius){
+bool IndoorLocalizaMac::handleTriangulation(double* Radius){
     int gateIndex = 0;
     BaseConnectionManager *base = getConnectionManager();
     const NicEntry::GateList &gateList = base->getGateList(getNic()->getId());
@@ -513,7 +516,7 @@ void IndoorLocalizaMac::handleTriangulation(double* Radius){
     Coord Actual = base->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
     Triangulation *triangulation = new Triangulation(masterCenter, Radius);
     debugEV << "Start predicting with 3 centers: " << masterCenter[0] << masterCenter[1] << masterCenter[2] << endl;
-    debugEV << "With 3 radii: " << Radius[0] << Radius[1] << Radius[2] << endl;
+    debugEV << "With 3 radii: " << Radius[0] << '\t' << Radius[1] << '\t' << Radius[2] << endl;
 
     Coord Predicted = triangulation->predict();
 
@@ -524,8 +527,14 @@ void IndoorLocalizaMac::handleTriangulation(double* Radius){
     debugEV << "Actual:" << Actual << endl;
     debugEV << "Error: " << errorDistance << endl;
 
-    errorLocalizeStats.collect(errorDistance);
-    errorLocalizeVector.record(errorDistance);
-    areaLocalizeStats.collect(triangulation->area);
-    areaLocalizeVector.record(triangulation->area);
+    bool result = triangulation->area < area_threshold;
+    if(result){
+        errorLocalizeStats.collect(errorDistance);
+        errorLocalizeVector.record(errorDistance);
+        areaLocalizeStats.collect(triangulation->area);
+        areaLocalizeVector.record(triangulation->area);
+    }
+    else debugEV << "Area Exceeded, discard this evaluation" << endl;
+
+    return result;
 }

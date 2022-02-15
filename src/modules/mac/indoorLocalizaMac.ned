@@ -57,6 +57,9 @@ simple IndoorLocalizaMac extends BaseMacLayer
         // only used when usage of MAC acks is enabled
         int macMaxFrameRetries = default(3);   
         
+        //  Threshold of area cut-off for localization error
+        double area_threshold = default(0.0);
+        
         //total number of nodes in the network
         int numNodes = default(4);     
         

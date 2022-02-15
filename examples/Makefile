@@ -37,7 +37,6 @@ INCLUDE_PATH = \
     -I../src/base/messages \
     -I. \
     -ICSMAMac \
-    -ICSMAMac/results \
     -IMac80211 \
     -IWSNRouting \
     -IWSNRouting/results \
@@ -154,7 +153,6 @@ clean:
 	$(Q)-rm -f miximexamples miximexamples.exe libmiximexamples.so libmiximexamples.a libmiximexamples.dll libmiximexamples.dylib
 	$(Q)-rm -f ./*_m.cc ./*_m.h
 	$(Q)-rm -f CSMAMac/*_m.cc CSMAMac/*_m.h
-	$(Q)-rm -f CSMAMac/results/*_m.cc CSMAMac/results/*_m.h
 	$(Q)-rm -f Mac80211/*_m.cc Mac80211/*_m.h
 	$(Q)-rm -f WSNRouting/*_m.cc WSNRouting/*_m.h
 	$(Q)-rm -f WSNRouting/results/*_m.cc WSNRouting/results/*_m.h
@@ -178,7 +176,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc CSMAMac/*.cc CSMAMac/results/*.cc Mac80211/*.cc WSNRouting/*.cc analogueModels/*.cc baseNetwork/*.cc bmac/*.cc bmac/error/*.cc bmac/results/*.cc ieee802154Narrow/*.cc ieee802154a/*.cc ieee802154a/channels/*.cc ieee802154a/channels/noshadow/*.cc ieee802154a/channels/shadow/*.cc ieee802154a/receivers/*.cc lmac/*.cc multiConnectionManager/*.cc obstacles/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc CSMAMac/*.cc Mac80211/*.cc WSNRouting/*.cc WSNRouting/results/*.cc analogueModels/*.cc baseNetwork/*.cc bmac/*.cc bmac/error/*.cc bmac/results/*.cc ieee802154Narrow/*.cc ieee802154a/*.cc ieee802154a/channels/*.cc ieee802154a/channels/noshadow/*.cc ieee802154a/channels/shadow/*.cc ieee802154a/receivers/*.cc lmac/*.cc multiConnectionManager/*.cc obstacles/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/CSMAMac/SimpleNetwLayer.o: CSMAMac/SimpleNetwLayer.cc \
