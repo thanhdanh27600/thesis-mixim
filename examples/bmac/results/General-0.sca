@@ -1,14 +1,14 @@
 version 2
-run General-0-20220214-20:51:21-2372
+run General-0-20220216-15:49:57-4008
 attr configname General
-attr datetime 20220214-20:51:21
+attr datetime 20220216-15:49:57
 attr experiment General
 attr inifile omnetpp.ini
 attr iterationvars $traffic=5
 attr iterationvars2 "$traffic=5, $repetition=0"
 attr measurement $traffic=5
 attr network BMACExampleNetwork
-attr processid 2372
+attr processid 4008
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -59,7 +59,7 @@ bin	0.43333333333333	0
 bin	0.46666666666667	0
 bin	0.5	0
 scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithInterference 	0
-scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithoutInterference 	7948
+scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithoutInterference 	11921
 scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithInterferencePartial 	0
 scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithoutInterferencePartial 	0
 scalar BMACExampleNetwork.node[0].nic.phy 	nbFramesWithInterferenceDropped 	0
@@ -82,11 +82,11 @@ field min nan
 field max nan
 scalar BMACExampleNetwork.node[0].batteryStats 	nominal 	11880000
 attr unit  mW-s
-scalar BMACExampleNetwork.node[0].batteryStats 	total 	541265.57104336
+scalar BMACExampleNetwork.node[0].batteryStats 	total 	541265.5710433
 attr unit  mW-s
 scalar BMACExampleNetwork.node[0].batteryStats 	lifetime 	-1
 attr unit  s
-scalar BMACExampleNetwork.node[0].batteryStats 	"Mean power consumption" 	54.126557104336
+scalar BMACExampleNetwork.node[0].batteryStats 	"Mean power consumption" 	54.12655710433
 attr unit  mW
 scalar BMACExampleNetwork.node[0].batteryStats 	"num devices" 	1
 scalar BMACExampleNetwork.node[0].batteryStats 	"physical layer" 	0
@@ -151,7 +151,7 @@ bin	0.43333333333333	0
 bin	0.46666666666667	0
 bin	0.5	0
 scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithInterference 	0
-scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithoutInterference 	3974
+scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithoutInterference 	7947
 scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithInterferencePartial 	0
 scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithoutInterferencePartial 	0
 scalar BMACExampleNetwork.node[1].nic.phy 	nbFramesWithInterferenceDropped 	0
@@ -266,15 +266,15 @@ field min nan
 field max nan
 scalar BMACExampleNetwork.node[2].batteryStats 	nominal 	11880000
 attr unit  mW-s
-scalar BMACExampleNetwork.node[2].batteryStats 	total 	557001.14382587
+scalar BMACExampleNetwork.node[2].batteryStats 	total 	557001.15360853
 attr unit  mW-s
 scalar BMACExampleNetwork.node[2].batteryStats 	lifetime 	-1
 attr unit  s
-scalar BMACExampleNetwork.node[2].batteryStats 	"Mean power consumption" 	55.700114382587
+scalar BMACExampleNetwork.node[2].batteryStats 	"Mean power consumption" 	55.700115360853
 attr unit  mW
 scalar BMACExampleNetwork.node[2].batteryStats 	"num devices" 	1
 scalar BMACExampleNetwork.node[2].batteryStats 	"physical layer" 	0
-scalar BMACExampleNetwork.node[2].batteryStats 	"device total (mWs)" 	557001.14386291
+scalar BMACExampleNetwork.node[2].batteryStats 	"device total (mWs)" 	557001.15364561
 scalar BMACExampleNetwork.node[2].batteryStats 	account 	0
 scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	0
 scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	0
@@ -282,11 +282,11 @@ scalar BMACExampleNetwork.node[2].batteryStats 	account 	1
 scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	0
 scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	0
 scalar BMACExampleNetwork.node[2].batteryStats 	account 	2
-scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	109302.06772576
-scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	2019.6243112675
+scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	109301.80033212
+scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	2019.6193705129
 scalar BMACExampleNetwork.node[2].batteryStats 	account 	3
-scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	447699.07613715
-scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	7980.3756887325
+scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	447699.35331349
+scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	7980.3806294871
 scalar BMACExampleNetwork.node[2].batteryStats 	account 	4
 scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	0
 scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	0
@@ -295,45 +295,45 @@ scalar BMACExampleNetwork.node[2].batteryStats 	"energy (mWs)" 	0
 scalar BMACExampleNetwork.node[2].batteryStats 	"time (s)" 	0
 scalar BMACExampleNetwork.node[3].nic.mac 	nbPacketsSent 	3974
 statistic BMACExampleNetwork.node[3].nic.mac 	"Error Localize Stats"
-field count 2627
-field mean 36.7657905869
-field stddev 37.002001254729
-field sum 96583.731871786
-field sqrsum 7146360.1624405
-field min 0.32813042975623
-field max 153.95363303745
+field count 3973
+field mean 0.1593255221885
+field stddev 0.14638540850147
+field sum 633.00029965491
+field sqrsum 185.96785131754
+field min 0.0010267339491783
+field max 0.6983180263683
 bin	-INF	0
-bin	-58.394085922993	0
-bin	-50.323728334422	0
-bin	-42.253370745851	0
-bin	-34.18301315728	0
-bin	-26.11265556871	0
-bin	-18.042297980139	0
-bin	-9.971940391568	0
-bin	-1.9015828029972	658
-bin	6.1687747855736	561
-bin	14.239132374144	147
-bin	22.309489962715	126
-bin	30.379847551286	140
-bin	38.450205139857	118
-bin	46.520562728428	97
-bin	54.590920316999	99
-bin	62.661277905569	109
-bin	70.73163549414	107
-bin	78.801993082711	111
-bin	86.872350671282	91
-bin	94.942708259853	73
-bin	103.01306584842	67
-bin	111.08342343699	47
-bin	119.15378102557	40
-bin	127.22413861414	17
-bin	135.29449620271	9
-bin	143.36485379128	6
-bin	151.43521137985	4
-bin	159.50556896842	0
-bin	167.57592655699	0
-bin	175.64628414556	0
-bin	183.71664173413	0
+bin	-0.24161572324759	0
+bin	-0.20830288745888	0
+bin	-0.17499005167016	0
+bin	-0.14167721588144	0
+bin	-0.10836438009273	0
+bin	-0.075051544304014	0
+bin	-0.041738708515298	0
+bin	-0.008425872726583	898
+bin	0.024886963062132	567
+bin	0.058199798850848	274
+bin	0.091512634639563	373
+bin	0.12482547042828	214
+bin	0.15813830621699	156
+bin	0.19145114200571	244
+bin	0.22476397779443	257
+bin	0.25807681358314	275
+bin	0.29138964937186	155
+bin	0.32470248516057	98
+bin	0.35801532094929	71
+bin	0.391328156738	71
+bin	0.42464099252672	94
+bin	0.45795382831543	119
+bin	0.49126666410415	62
+bin	0.52457949989286	21
+bin	0.55789233568158	12
+bin	0.59120517147029	7
+bin	0.62451800725901	2
+bin	0.65783084304773	1
+bin	0.69114367883644	2
+bin	0.72445651462516	0
+bin	0.75776935041387	0
 scalar BMACExampleNetwork.node[3].nic.phy 	nbFramesWithInterference 	0
 scalar BMACExampleNetwork.node[3].nic.phy 	nbFramesWithoutInterference 	11921
 scalar BMACExampleNetwork.node[3].nic.phy 	nbFramesWithInterferencePartial 	0
@@ -358,11 +358,11 @@ field min nan
 field max nan
 scalar BMACExampleNetwork.node[3].batteryStats 	nominal 	11880000
 attr unit  mW-s
-scalar BMACExampleNetwork.node[3].batteryStats 	total 	433887.30003314
+scalar BMACExampleNetwork.node[3].batteryStats 	total 	433887.30003315
 attr unit  mW-s
 scalar BMACExampleNetwork.node[3].batteryStats 	lifetime 	-1
 attr unit  s
-scalar BMACExampleNetwork.node[3].batteryStats 	"Mean power consumption" 	43.388730003314
+scalar BMACExampleNetwork.node[3].batteryStats 	"Mean power consumption" 	43.388730003315
 attr unit  mW
 scalar BMACExampleNetwork.node[3].batteryStats 	"num devices" 	1
 scalar BMACExampleNetwork.node[3].batteryStats 	"physical layer" 	0

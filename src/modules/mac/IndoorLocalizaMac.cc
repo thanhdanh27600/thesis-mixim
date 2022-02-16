@@ -504,14 +504,14 @@ void IndoorLocalizaMac::getErrorFromString(std::string inputString, int master) 
 }
 
 bool IndoorLocalizaMac::handleTriangulation(double* Radius){
-    int gateIndex = 0;
+    int gateIndexTotal = 0;
     BaseConnectionManager *base = getConnectionManager();
     const NicEntry::GateList &gateList = base->getGateList(getNic()->getId());
     NicEntry::GateList::const_iterator i = gateList.begin();
     Coord *masterCenter = new Coord[gateList.size()];
     for (; i != gateList.end(); ++i)
     {
-        masterCenter[gateIndex++] = i->first->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
+        masterCenter[gateIndexTotal++] = i->first->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
     }
     Coord Actual = base->getNics().find(getNic()->getId())->second->chAccess->getMobilityModule()->getCurrentPosition(/*sStart*/);
     Triangulation *triangulation = new Triangulation(masterCenter, Radius);
@@ -520,15 +520,21 @@ bool IndoorLocalizaMac::handleTriangulation(double* Radius){
 
     Coord Predicted = triangulation->predict();
 
-    double errorDistance = Actual.distance(Predicted);
-
-    debugEV << "Area of Triangle:" << triangulation->area << endl;
-    debugEV << "Predicted:" << Predicted << endl;
-    debugEV << "Actual:" << Actual << endl;
-    debugEV << "Error: " << errorDistance << endl;
-
     bool result = triangulation->area < area_threshold;
-    if(result){
+    if(true){
+
+        double errorDistance = 0.0;
+        for (int i = 0; i < gateIndexTotal; i++){
+            double curError = fabs((Predicted.distance(masterCenter[i]) - Actual.distance(masterCenter[i])) / Actual.distance(masterCenter[i]));
+            errorDistance += curError;
+        }
+        errorDistance = errorDistance / gateIndexTotal;
+
+        debugEV << "Area of Triangle:" << triangulation->area << endl;
+        debugEV << "Predicted:" << Predicted << endl;
+        debugEV << "Actual:" << Actual << endl;
+        debugEV << "Error: " << errorDistance << endl;
+
         errorLocalizeStats.collect(errorDistance);
         errorLocalizeVector.record(errorDistance);
         areaLocalizeStats.collect(triangulation->area);
