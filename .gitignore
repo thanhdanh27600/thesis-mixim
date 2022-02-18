@@ -23,6 +23,7 @@ src/modules/*.so
 src/*.so
 # results
 backup
+log
 examples/**/figures
 examples/ieee802154a/ieee802154a
 examples/miximexamples

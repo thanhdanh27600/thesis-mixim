@@ -18,6 +18,8 @@
 #include <cassert>
 #include <string>
 #include <fstream>
+#include <stdlib.h> /* srand, rand */
+#include <time.h>
 
 #include "FWMath.h"
 #include "MacToPhyControlInfo.h"
@@ -191,7 +193,7 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
 
     case Tx_WAIT_DATA_OVER:
         if (msg->getKind() == DATA_TX_OVER) {
-            simtime_t duration = numReceivers * 1 - 0.5;
+            simtime_t duration = numReceivers * 1;
             scheduleAt(simTime() + duration, time_out);
 
             //debugEV << "****Tx: Data packet is sent!\n";
@@ -220,7 +222,7 @@ void IndoorLocalizaMac::handleSelfMsg(cMessage *msg) {
 
             if (macQueue.size() == (unsigned int)numReceivers) {
                 cancelEvent(time_out);
-                scheduleAt(simTime() + numReceivers * (numTransmitters - 1) + 0.5, wake_up);
+                scheduleAt(simTime() + numReceivers * (numTransmitters - 1), wake_up);
                 debugEV << "Get position of node " <<nodeId << " done with total " <<macQueue.size() <<" masters" <<endl;
                 changeDisplayColor(BLACK);
                 phy->setRadioState(MiximRadio::SLEEP);
@@ -428,19 +430,22 @@ simtime_t IndoorLocalizaMac::calDistanceToSrc(indoorMacPkt_ptr_t pkt) {
     simtime_t deltaTime = pkt->getTimeReceived() - processingSignalTime - pkt->getTimeSent();
     simtime_t distance = speed * deltaTime;
     simtime_t error;
+    srand(time(NULL));
+    srand(round(simTime().dbl() + rand() ));
+
     if (pkt->getSrcAddr().getInt() == 0) {
         EV << "list 1 size " <<errorListOfM1.size();
-        int index = intrand(errorListOfM1.size());
+        int index = rand() % errorListOfM1.size();
         EV <<" with index: " <<index <<endl;
         error = simtime_t(errorListOfM1.at(index));
     } else if (pkt->getSrcAddr().getInt() == 1) {
         EV << "list 2 size " <<errorListOfM2.size();
-        int index = intrand(errorListOfM2.size());
+        int index = rand() % errorListOfM2.size();
         EV <<" " <<index <<endl;
         error = simtime_t(errorListOfM2.at(index));
     } else if (pkt->getSrcAddr().getInt() == 2) {
         EV << "list 3 size " <<errorListOfM3.size();
-        int index = intrand(errorListOfM3.size());
+        int index = rand() % errorListOfM3.size();
         EV <<" " <<index <<endl;
         error = simtime_t(errorListOfM3.at(index));
     } else {
@@ -521,14 +526,27 @@ bool IndoorLocalizaMac::handleTriangulation(double* Radius){
     Coord Predicted = triangulation->predict();
 
     bool result = triangulation->area < area_threshold;
-    if(true){
+    if(result){
 
         double errorDistance = 0.0;
+        double actualDistancePredict = 0.0;
+        double predictDistancePredict = 0.0;
+        double totalActualDistance = 0.0;
+
         for (int i = 0; i < gateIndexTotal; i++){
             double curError = fabs((Predicted.distance(masterCenter[i]) - Actual.distance(masterCenter[i])) / Actual.distance(masterCenter[i]));
             errorDistance += curError;
+            // Test error cach 2
+            actualDistancePredict = Actual.distance(masterCenter[i]);
+            totalActualDistance += actualDistancePredict;
+            predictDistancePredict = Predicted.distance(masterCenter[i]);
+
+            errorDistance += fabs(actualDistancePredict - predictDistancePredict);
         }
-        errorDistance = errorDistance / gateIndexTotal;
+        // errorDistance = errorDistance / gateIndexTotal;
+        // errorDistance = fabs((predictDistancePredict - actualDistancePredict) / actualDistancePredict);
+
+        errorDistance /= totalActualDistance;
 
         debugEV << "Area of Triangle:" << triangulation->area << endl;
         debugEV << "Predicted:" << Predicted << endl;
