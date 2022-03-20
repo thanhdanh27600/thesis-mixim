@@ -23,6 +23,7 @@
 #include "BaseConnectionManager.h"
 #include "PhyUtils.h"
 #include "MacPkt_m.h"
+#include "MultihopMacPkt_m.h"
 #include "MacToPhyInterface.h"
 
 #define Bubble(text_to_pop) findHost()->bubble(text_to_pop)
@@ -59,10 +60,11 @@ void MultihopMac::initialize(int stage)
             fillPathGroups();
             createMapPathGroupToNodeId();
             debugEV << "Node ID is: " << nodeId <<" Gateway" << endl;
-        } else {
+        }
+        /*else {
             findPreviousAndNextNode();
             debugEV << "Node ID is: " << nodeId <<" Previous: " <<this->previousNodeId << " Next: " <<this->nextNodeId << endl;
-        }
+        }*/
 
         //debugEV << "Node ID is: " << nodeId << endl;
 
@@ -149,14 +151,14 @@ void MultihopMac::handleUpperMsg(cMessage *msg)
 {
 //  This function is to handle message from Application layer and put it into the queue, but now we dont need this.
 
-    bool pktAdded = addToQueue(msg);
-    if (!pktAdded) return;
+//    bool pktAdded = addToQueue(msg);
+//    if (!pktAdded) return;
 
 }
 
 void MultihopMac::sendMacAck()
 {
-    macpkt_ptr_t ack = new MacPkt();
+    macpkt_ptr_t ack = new MacPkt("ACK");
     ack->setSrcAddr(myMacAddr);
     ack->setDestAddr(LAddress::L2Type(this->previousNodeId));
     ack->setKind(ACK_PACKET);
@@ -176,14 +178,14 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
             if(msg->getKind() == START_GATEWAY) {
                 EV <<"Start gateway" <<endl;
                 scheduleAt(simTime(), send_data_packet);
-                changeDisplayColor(BLACK);
+                changeDisplayColor(BLUE);
                 phy->setRadioState(MiximRadio::SLEEP);
                 macState = GW_IDLE;
             }
 
             if(msg->getKind() == START_SENSOR_NODE) {
                 EV <<"Start sensor node" <<endl;
-                changeDisplayColor(RED);
+                changeDisplayColor(BLACK);
                 phy->setRadioState(MiximRadio::RX);
                 macState = SN_RECEIVING;
             }
@@ -193,7 +195,7 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
             if(msg->getKind() == SEND_DATA_PACKET) {
                 //sendDataPacket();
                 scheduleAt(simTime(), ready_to_send);
-                changeDisplayColor(GREEN);
+                //changeDisplayColor(GREEN);
                 phy->setRadioState(MiximRadio::TX);
                 macState = GW_SENDING;
             }
@@ -220,14 +222,16 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                 cancelEvent(time_out);
                 debugEV << "****Gateway: Receive an ACK!!!" << endl;
 
-                changeDisplayColor(BLACK);
-                phy->setRadioState(MiximRadio::TX);
+                changeDisplayColor(BLUE);
+                phy->setRadioState(MiximRadio::SLEEP);
                 macState = GW_IDLE;
                 scheduleAt(simTime() + dataPeriod, send_data_packet);
+
+                delete msg;
             }
 
             if(msg->getKind() == TIME_OUT) {
-                changeDisplayColor(GREEN);
+                changeDisplayColor(BLUE);
                 phy->setRadioState(MiximRadio::TX);
                 scheduleAt(simTime() + 0.1, ready_to_send);
                 macState = GW_SENDING;
@@ -236,29 +240,45 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
 
         case SN_RECEIVING:
             if(msg->getKind() == DATA_PACKET) { //receive
-                debugEV << "****Sensor node: Data package is received" << endl;
 
                 assert(static_cast<cPacket*>(msg));
-                macpkt_ptr_t mac = static_cast<macpkt_ptr_t>(msg);
-                this->lastDataPacketReceived = mac;
+                multihopMacPkt_ptr_t mac = static_cast<multihopMacPkt_ptr_t>(msg);
 
                 const LAddress::L2Type& dest = mac->getDestAddr();
-                const LAddress::L2Type& src  = mac->getSrcAddr();
+                //const LAddress::L2Type& src  = mac->getSrcAddr();
 
-                //EV <<"RECEIVE | SRC: " <<mac->getSrcAddr() <<" DEST: " <<mac->getDestAddr() <<endl;
+                if (dest == myMacAddr) {
 
-                if ((dest == myMacAddr) && (src == LAddress::L2Type(this->previousNodeId))) {
+                    EV <<"RECEIVE | SRC: " <<mac->getSrcAddr() <<" DEST: " <<mac->getDestAddr() <<endl;
+                    debugEV << "****Sensor node: Data package is received" << endl;
+                    this->lastDataPacketReceived = mac;
+                    findPreviousAndNextNode(mac->getPath());
+                    debugEV << "Node ID is: " << nodeId <<" Previous: " <<this->previousNodeId << " Next: " <<this->nextNodeId << endl;
+
                     if (this->nextNodeId != -1) { //middle node
-                        //sendUp(decapsMsg(mac));
-                        Bubble(mac->getName());
-                        changeDisplayColor(GREEN);
+                        //sendUp(decapsMsg(mac);
+
+                        if (mac->getSignal() == 0) {
+                            Bubble("0");
+                            changeDisplayColor(BLACK);
+                        } else {
+                            Bubble("1");
+                            changeDisplayColor(YELLOW);
+                        }
                         phy->setRadioState(MiximRadio::TX);
                         scheduleAt(simTime(), ready_to_send);
                         macState = SN_SENDING_DATA;
                     } else { //final node
                         //sendUp(decapsMsg(mac));
-                        Bubble(mac->getName());
-                        changeDisplayColor(GREEN);
+
+                        if (mac->getSignal() == 0) {
+                            Bubble("0");
+                            changeDisplayColor(BLACK);
+                        } else {
+                            Bubble("1");
+                            changeDisplayColor(YELLOW);
+                        }
+                        //changeDisplayColor(GREEN);
                         phy->setRadioState(MiximRadio::TX);
                         scheduleAt(simTime(), ready_to_send);
                         macState = SN_SENDING_ACK;
@@ -279,36 +299,54 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
             break;
         case SN_WAIT_DATA_OVER:
             if (msg->getKind() == DATA_TX_OVER) {
-                debugEV << "****Sensor node: Data packet is forward!!!" << endl;
-                changeDisplayColor(RED);
+                debugEV << "****Sensor node: Data packet is forwarded!!!" << endl;
+                //changeDisplayColor(RED);
                 phy->setRadioState(MiximRadio::RX);
-                scheduleAt(simTime() + 2, time_out); //modify later just wait for the number of nodes in its path.
+                scheduleAt(simTime() + 5, time_out); //modify later just wait for the number of nodes in its path.
                 macState = SN_WAITING_ACK;
+                debugEV << "****Sensor node: Change to WAITING _ACK state!!!" << endl;
             }
             break;
         case SN_WAITING_ACK:
             if (msg->getKind() == ACK_PACKET) {
-                cancelEvent(time_out);
+                debugEV <<"****Sensor node: Receive ACK packet!" <<endl;
 
                 assert(static_cast<cPacket*>(msg));
                 macpkt_ptr_t mac = static_cast<macpkt_ptr_t>(msg);
                 const LAddress::L2Type& dest = mac->getDestAddr();
                 const LAddress::L2Type& src  = mac->getSrcAddr();
-                this->lastDataPacketReceived = NULL;
 
                 if ((dest == myMacAddr) && (src == LAddress::L2Type(this->nextNodeId))) {
                     //sendUp(decapsMsg(mac));
-                    changeDisplayColor(GREEN);
+                    //changeDisplayColor(GREEN);
+                    cancelEvent(time_out);
+                    txAttempts = 0;
+
                     phy->setRadioState(MiximRadio::TX);
                     scheduleAt(simTime(), ready_to_send);
                     macState = SN_SENDING_ACK;
+
                     delete msg;
                 } else {
                     delete msg;
                     msg = NULL;
                     mac = NULL;
                 }
+                return;
             }
+            if (msg->getKind() == TIME_OUT) {
+                txAttempts += 1;
+                if (txAttempts == maxTxAttempts) {
+                    txAttempts = 0;
+                    phy->setRadioState(MiximRadio::RX);
+                    macState = SN_RECEIVING;
+                }
+                phy->setRadioState(MiximRadio::TX);
+                scheduleAt(simTime() + 0.1, ready_to_send);
+                macState = SN_SENDING_DATA;
+                return;
+            }
+
             break;
         case SN_SENDING_ACK:
             if (msg->getKind() == READY_TO_SEND) {
@@ -318,9 +356,14 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
             break;
         case SN_WAIT_ACK_OVER:
             if (msg->getKind() == DATA_TX_OVER) {
-                changeDisplayColor(RED);
+                debugEV <<"****Sensor node: ACK packet is already sent!" <<endl;
+                //changeDisplayColor(RED);
                 phy->setRadioState(MiximRadio::RX);
                 macState = SN_RECEIVING;
+                //reset information
+                this->lastDataPacketReceived = NULL;
+                this->previousNodeId = - 1;
+                this->nextNodeId = -1;
             }
             break;
 
@@ -351,29 +394,32 @@ void MultihopMac::sendDataPacket()
 //    }
 
     // this will be modify later
-
-
     if (isGateway) {
-        macpkt_ptr_t pkt = (intrand(2) == 0) ? new MacPkt("0") : new MacPkt("1");
+        multihopMacPkt_ptr_t pkt = new MultihopMacPkt("STREET LIGHT");
         pkt->setKind(DATA_PACKET);
+        pkt->setSignal(intrand(2));
         pkt->setSrcAddr(myMacAddr);
         pkt->setBitLength(128);
 
         size_t l = pathGroups.size();
         //choose random 1 of paths that this gateway control, and map the path group to the first sensor node ID.
-        LAddress::L2Type dest = LAddress::L2Type(mapPathGroupToNodeId[pathGroups[intrand(l)]]);
+        int r = intrand(l);
+        LAddress::L2Type dest = LAddress::L2Type(mapPathGroupToNodeId[pathGroups[r]]);
         pkt->setDestAddr(dest);
-
+        pkt->setPath(getOnePathByGroup(pathGroups[r]));
         attachSignal(pkt);
         sendDown(pkt);
     } else {
         //if this is a sensor the only choose is forward the data packet to the next node.
 
         assert(lastDataPacketReceived);
-        macpkt_ptr_t pkt = new MacPkt(*lastDataPacketReceived);
+        multihopMacPkt_ptr_t pkt = new MultihopMacPkt(*lastDataPacketReceived);
         pkt->setDestAddr(LAddress::L2Type(this->nextNodeId));
         pkt->setSrcAddr(myMacAddr);
 
+        pkt->getPath().erase(pkt->getPath().begin());
+        debugEV <<"Size after: " << pkt->getPath().size() <<endl;
+        traverse(pkt->getPath());
         attachSignal(pkt);
         sendDown(pkt);
     }
@@ -496,8 +542,8 @@ std::vector<std::vector<int>> MultihopMac::getPaths()
     std::vector<std::vector<int>> result;
     result.clear();
 
-    int myArray[3][3] = {{0, 1, 2}, {0, 3, 4}, {5, 6, 7}};
-    for (int i = 0; i < 3; i ++) {
+    int myArray[4][4] = {{0, 1, 2, 9}, {0, 3, 4, 10}, {5, 6, 7, 8}};
+    for (int i = 0; i < 4; i ++) {
         result.push_back(std::vector<int>(myArray[i], myArray[i] + sizeof(myArray[i]) / sizeof(int)));
     }
     return result;
@@ -532,17 +578,19 @@ void MultihopMac::createMapPathGroupToNodeId()
     }
 }
 
-void MultihopMac::findPreviousAndNextNode() {
-    for (size_t i = 0; i < paths.size(); i++) {
-        for (size_t j = 1; j < paths[i].size(); j++) {
-            if (paths[i].at(j) == this->nodeId) {
-                if (j == paths[i].size() - 1) { //final node
-                    this->previousNodeId = paths[i].at(j - 1);
-                } else { //middle node
-                    this->previousNodeId = paths[i].at(j - 1);
-                    this->nextNodeId = paths[i].at(j + 1);
-                }
-            }
-        }
-    }
+void MultihopMac::findPreviousAndNextNode(const std::vector<int> path) {
+    this->previousNodeId = path[0];
+    if (path.size() > 2) this->nextNodeId = path[2];
+}
+
+std::vector<int> MultihopMac::getOnePathByGroup(int groupIndex)
+{
+    return this->paths[groupIndex];
+}
+
+void MultihopMac::traverse(std::vector<int> inputVector) {
+    std::vector<int>::iterator it;
+
+    for (it = inputVector.begin(); it < inputVector.end(); it++) debugEV <<(*it) <<" ";
+    EV <<endl;
 }

@@ -30,6 +30,7 @@
 
 class BaseConnectionManager;
 class MacPkt;
+class MultihopMacPkt;
 class MacToPhyInterface;
 class Signal;
 
@@ -46,6 +47,7 @@ class MIXIM_API BaseMacLayer : public BaseLayer
 {
 public:
     typedef MacPkt* macpkt_ptr_t;
+    typedef MultihopMacPkt*  multihopMacPkt_ptr_t;
     /** @brief Message kinds used by this layer.*/
     enum BaseMacMessageKinds {
         /** Stores the id on which classes extending BaseMac should

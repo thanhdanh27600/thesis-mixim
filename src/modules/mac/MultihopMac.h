@@ -149,7 +149,7 @@ class MIXIM_API MultihopMac : public BaseMacLayer
       /*@{*/
       LAddress::L2Type lastDataPktSrcAddr;
       LAddress::L2Type lastDataPktDestAddr;
-      int              txAttempts;
+      int              txAttempts = 0;
       /*@}*/
 
       /** @brief Inspect reasons for dropped packets */
@@ -196,7 +196,7 @@ class MIXIM_API MultihopMac : public BaseMacLayer
       bool isGateway = false;
 
       /** @brief The last data packet recevied */
-      macpkt_ptr_t lastDataPacketReceived = NULL;
+      multihopMacPkt_ptr_t lastDataPacketReceived = NULL;
 
       /** @brief Possible colors of the node for animation */
       enum BMAC_COLORS {
@@ -238,7 +238,12 @@ class MIXIM_API MultihopMac : public BaseMacLayer
       void createMapPathGroupToNodeId();
 
       /** @brief Find the previous and next node of this node */
-      void findPreviousAndNextNode();
+      void findPreviousAndNextNode(const std::vector<int> path);
+
+      /** @brief Get one path by the group index */
+      std::vector<int> getOnePathByGroup(int groupIndex);
+
+      void traverse(std::vector<int> inputVector);
 };
 
 #endif /* MULTIHOPMAC_H_ */
