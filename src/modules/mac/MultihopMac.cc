@@ -367,7 +367,9 @@ void MultihopMac::sendDataPacket()
         sendDown(pkt);
     } else {
         //if this is a sensor the only choose is forward the data packet to the next node.
-        macpkt_ptr_t pkt = new MacPkt(*lastDataPacketReceived);
+        if (lastDataPacketReceived != NULL)
+            macpkt_ptr_t pkt = new MacPkt(*lastDataPacketReceived);
+        else bubble("last packet NULL");
 
         pkt->setDestAddr(LAddress::L2Type(this->nextNodeId));
         pkt->setSrcAddr(myMacAddr);
