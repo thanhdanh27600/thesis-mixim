@@ -302,6 +302,7 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                     phy->setRadioState(MiximRadio::TX);
                     scheduleAt(simTime(), ready_to_send);
                     macState = SN_SENDING_ACK;
+                    delete msg;
                 } else {
                     delete msg;
                     msg = NULL;
@@ -367,10 +368,9 @@ void MultihopMac::sendDataPacket()
         sendDown(pkt);
     } else {
         //if this is a sensor the only choose is forward the data packet to the next node.
-        if (lastDataPacketReceived != NULL)
-            macpkt_ptr_t pkt = new MacPkt(*lastDataPacketReceived);
-        else bubble("last packet NULL");
 
+        assert(lastDataPacketReceived);
+        macpkt_ptr_t pkt = new MacPkt(*lastDataPacketReceived);
         pkt->setDestAddr(LAddress::L2Type(this->nextNodeId));
         pkt->setSrcAddr(myMacAddr);
 
