@@ -20,6 +20,7 @@
 #include <sstream>
 #include <vector>
 #include <list>
+#include <fstream>
 
 #include "MiXiMDefs.h"
 #include "BaseMacLayer.h"
@@ -225,11 +226,10 @@ class MIXIM_API MultihopMac : public BaseMacLayer
       /** @brief Check if a node is a gateway with its node ID */
       bool checkThisNodeIsGateway();
 
-      /** @brief Get list of paths from .ini or file */
-      std::vector<std::vector<int>> getPaths();
-
-      /** @brief Get gateways from .ini or file */
-      std::vector<int> getGatewayList();
+      /** @brief Get list of gateways and paths from file */
+      void readGatewayAndPath(std::string fileName);
+      /** @brief Get list of and paths from a line */
+      void getPathFromString(std::string inputString);
 
       /** @brief To fill pathGroups List */
       void fillPathGroups();

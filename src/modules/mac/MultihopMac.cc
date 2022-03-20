@@ -47,13 +47,11 @@ void MultihopMac::initialize(int stage)
         useMacAcks    = hasPar("useMACAcks")    ? par("useMACAcks")    : false;
         maxTxAttempts = hasPar("maxTxAttempts") ? par("maxTxAttempts") : 2;
 
-
-        gatewayList = getGatewayList();
-        paths = getPaths();
-
         //Declare the node ID for a node
         nodeId = static_cast<int>(findHost()->getAncestorPar("nodeId"));
 
+        std::string fileName = "gatewaysandpaths";
+        readGatewayAndPath(fileName);
         this->isGateway = checkThisNodeIsGateway();
 
         if (this->isGateway) {
@@ -406,6 +404,7 @@ void MultihopMac::sendDataPacket()
         int r = intrand(l);
         LAddress::L2Type dest = LAddress::L2Type(mapPathGroupToNodeId[pathGroups[r]]);
         pkt->setDestAddr(dest);
+        this->nextNodeId = mapPathGroupToNodeId[pathGroups[r]];
         pkt->setPath(getOnePathByGroup(pathGroups[r]));
         attachSignal(pkt);
         sendDown(pkt);
@@ -536,26 +535,81 @@ bool MultihopMac::checkThisNodeIsGateway()
     return false;
 }
 
-
-std::vector<std::vector<int>> MultihopMac::getPaths()
+void MultihopMac::readGatewayAndPath(std::string fileName)
 {
-    std::vector<std::vector<int>> result;
-    result.clear();
 
-    int myArray[4][4] = {{0, 1, 2, 9}, {0, 3, 4, 10}, {5, 6, 7, 8}};
-    for (int i = 0; i < 4; i ++) {
-        result.push_back(std::vector<int>(myArray[i], myArray[i] + sizeof(myArray[i]) / sizeof(int)));
+    std::ifstream in(fileName, std::ios::in);
+
+    if (in.fail())
+        throw cRuntimeError("Cannot open file\n");
+
+    std::string line;
+
+    std::getline(in, line);
+
+    // parse souce node
+    std::stringstream s_stream(line);
+    while (s_stream.good())
+    {
+        std::string substr;
+        std::getline(s_stream, substr, ',');
+        gatewayList.push_back(stod(substr));
     }
-    return result;
+
+    /* print all source node */
+
+    for (int i = 0; i < gatewayList.size(); i++)
+    {
+        std::cout << gatewayList.at(i) << std::endl;
+    }
+
+    while (std::getline(in, line))
+    {
+        std::cout << "Data: " << line << std::endl;
+        getPathFromString(line);
+    }
 }
 
-std::vector<int> MultihopMac::getGatewayList()
+void MultihopMac::getPathFromString(std::string inputString)
 {
-    //get the gate list from .ini or from file
-    int myArray[] = {0, 5}; //replace this
-    std::vector<int> result = std::vector<int>(myArray, myArray + sizeof(myArray) / sizeof(int)); //replace this
+    std::vector<int> curRelayNodeList;
 
-    return result;
+    inputString.append(",");
+    std::string delimiter = ",";
+
+    int count = 0;
+    int oldPosOfDelimiter = 0; // find(delimiter, position to start to find);
+    int newPosOfDelimiter = inputString.find(delimiter, oldPosOfDelimiter);
+
+    while (newPosOfDelimiter > 0)
+    {
+        std::string token = inputString.substr(oldPosOfDelimiter, newPosOfDelimiter - oldPosOfDelimiter);
+
+        if (token != "NAN")
+        {
+            bool validNode = true;
+            int nodeId = std::stoi(token);
+
+            if (!count) // check if first token is always source node
+                validNode = std::find(gatewayList.begin(), gatewayList.end(), nodeId) != gatewayList.end();
+
+            if (validNode)
+                curRelayNodeList.push_back(nodeId);
+
+            oldPosOfDelimiter = newPosOfDelimiter + 1;
+            newPosOfDelimiter = inputString.find(delimiter, oldPosOfDelimiter);
+            count += 1;
+        }
+    }
+
+    /* print all relay node */
+
+    // for (int i = 0; i < curRelayNodeList.size(); i++)
+    // {
+    //     std::cout << curRelayNodeList.at(i) << std::endl;
+    // }
+
+    paths.push_back(curRelayNodeList);
 }
 
 void MultihopMac::fillPathGroups()
