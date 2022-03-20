@@ -217,15 +217,27 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
             break;
         case GW_WAIT_ACK:
             if(msg->getKind() == ACK_PACKET) {
-                cancelEvent(time_out);
-                debugEV << "****Gateway: Receive an ACK!!!" << endl;
 
-                changeDisplayColor(BLUE);
-                phy->setRadioState(MiximRadio::SLEEP);
-                macState = GW_IDLE;
-                scheduleAt(simTime() + dataPeriod, send_data_packet);
+                assert(static_cast<cPacket*>(msg));
+                macpkt_ptr_t mac = static_cast<macpkt_ptr_t>(msg);
+                const LAddress::L2Type& dest = mac->getDestAddr();
+                const LAddress::L2Type& src  = mac->getSrcAddr();
 
+                if ((dest == myMacAddr) && (src == LAddress::L2Type(this->nextNodeId))) {
+                    cancelEvent(time_out);
+                    debugEV << "****Gateway: Receive a right ACK!!!" << endl;
+
+                    changeDisplayColor(BLUE);
+                    phy->setRadioState(MiximRadio::SLEEP);
+                    macState = GW_IDLE;
+                    scheduleAt(simTime() + dataPeriod, send_data_packet);
+
+                }
                 delete msg;
+                msg = NULL;
+                mac = NULL;
+
+                return;
             }
 
             if(msg->getKind() == TIME_OUT) {
@@ -233,6 +245,7 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                 phy->setRadioState(MiximRadio::TX);
                 scheduleAt(simTime() + 0.1, ready_to_send);
                 macState = GW_SENDING;
+                return;
             }
             break;
 
@@ -324,12 +337,10 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                     scheduleAt(simTime(), ready_to_send);
                     macState = SN_SENDING_ACK;
 
-                    delete msg;
-                } else {
-                    delete msg;
-                    msg = NULL;
-                    mac = NULL;
                 }
+                delete msg;
+                msg = NULL;
+                mac = NULL;
                 return;
             }
             if (msg->getKind() == TIME_OUT) {
