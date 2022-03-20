@@ -76,6 +76,7 @@ LAddress::L2Type ArpHost::myMacAddr(const cModule *mac) const
     // modification by Jerome Rousselot, CSEM
     // assumes that addresses are equal to host index.
     // and that mac addresses == net addresses
+
     return LAddress::L2Type(FindModule<>::findHost(mac)->getIndex() + offset);
 //    return (mac->getParentModule())->getId();
 }

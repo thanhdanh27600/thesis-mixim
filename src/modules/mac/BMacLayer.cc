@@ -105,7 +105,7 @@ void BMacLayer::initialize(int stage)
         ready_to_send = new cMessage("ready_to_send");
         ready_to_send->setKind(READY_TO_SEND);
 
-        debugEV << "Node ID is: " << nodeId << endl;
+        debugEV << "Node ID is: " << nodeId <<" | Nic ID is: " <<nicId  <<" | Mac Address: " <<myMacAddr  <<endl;
 
 		debugEV << "headerLength: " << headerLength << ", bitrate: " << bitrate << endl;
 

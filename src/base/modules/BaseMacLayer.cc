@@ -66,6 +66,7 @@ void BaseMacLayer::initialize(int stage)
         // otherwise use NIC modules id as MAC address
         AddressingInterface* addrScheme = FindModule<AddressingInterface*>::findSubModule(findHost());
         if(addrScheme) {
+            //EV <<"This function is ran!" <<endl;
             myMacAddr = addrScheme->myMacAddr(this);
         } else {
             const std::string addressString = par("address").stringValue();
