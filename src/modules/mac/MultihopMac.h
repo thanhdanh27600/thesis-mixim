@@ -27,6 +27,12 @@
 #include <DroppedPacket.h>
 
 class MacPkt;
+typedef struct Metric {
+  /** @brief Number of packet to reack the last node */
+  cDoubleHistogram latency;
+  /** @brief  Number of collision occurs*/
+  cDoubleHistogram collision;
+};
 
 class MIXIM_API MultihopMac : public BaseMacLayer
 {
@@ -54,6 +60,7 @@ class MIXIM_API MultihopMac : public BaseMacLayer
           , useMacAcks(0)
           , maxTxAttempts(0)
           , stats(false)
+          ,metric()
      {}
 
      virtual ~MultihopMac();
@@ -207,6 +214,8 @@ class MIXIM_API MultihopMac : public BaseMacLayer
           BLACK = 4,
           YELLOW = 5
       };
+
+      Metric metric;
 
       /** @brief Internal function to change the color of the node */
       void changeDisplayColor(BMAC_COLORS color);

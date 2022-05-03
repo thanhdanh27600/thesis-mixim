@@ -138,10 +138,12 @@ void MultihopMac::finish()
 {
     BaseMacLayer::finish();
 
-    // record stats
-    if (stats)
-    {
-       //if we need to record anythings
+    if (stats){
+        debugEV << "Total packets delayed to reach last node" << metric.latency.getCount() << endl;
+        debugEV << "Total packet collision" << metric.collision.getCount() << endl;
+
+        metric.latency.recordAs("Packets Delay Stats");
+        metric.collision.recordAs("Packets Collision  Stats");
     }
 }
 
@@ -268,7 +270,7 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
 
                     if (this->nextNodeId != -1) { //middle node
                         //sendUp(decapsMsg(mac);
-
+                        metric.latency.collect(1.0);
                         if (mac->getSignal() == 0) {
                             Bubble("0");
                             changeDisplayColor(BLACK);
@@ -281,7 +283,7 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                         macState = SN_SENDING_DATA;
                     } else { //final node
                         //sendUp(decapsMsg(mac));
-
+                        metric.latency.collect(1000.0);
                         if (mac->getSignal() == 0) {
                             Bubble("0");
                             changeDisplayColor(BLACK);
@@ -442,6 +444,7 @@ void MultihopMac::handleLowerControl(cMessage *msg)
         scheduleAt(simTime(), data_tx_over);
     } else  if (msg->getKind() == COLLISION) {
         debugEV << "****Rx: We have collision on this channel!!!\n";
+        metric.collision.collect(1.0);
         Bubble("Collision!!!");
     }
     // Radio switching (to RX or TX) ir over, ignore switching to SLEEP.
@@ -576,7 +579,6 @@ void MultihopMac::readGatewayAndPath(std::string fileName)
 
     while (std::getline(in, line))
     {
-        std::cout << "Data: " << line << std::endl;
         getPathFromString(line);
     }
 }
