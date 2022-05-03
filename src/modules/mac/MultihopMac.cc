@@ -410,7 +410,6 @@ void MultihopMac::sendDataPacket()
         pkt->setKind(DATA_PACKET);
         pkt->setSignal(intrand(2));
         pkt->setSrcAddr(myMacAddr);
-        pkt->setBitLength(128);
 
         size_t l = pathGroups.size();
         //choose random 1 of paths that this gateway control, and map the path group to the first sensor node ID.
@@ -419,6 +418,8 @@ void MultihopMac::sendDataPacket()
         pkt->setDestAddr(dest);
         this->nextNodeId = mapPathGroupToNodeId[pathGroups[r]];
         pkt->setPath(getOnePathByGroup(pathGroups[r]));
+        // bit length = queue size * 8
+        pkt->setBitLength(pkt->getPath().size()*8);
         attachSignal(pkt);
         sendDown(pkt);
     } else {
@@ -432,6 +433,8 @@ void MultihopMac::sendDataPacket()
         pkt->getPath().erase(pkt->getPath().begin());
         debugEV <<"Size after: " << pkt->getPath().size() <<endl;
         traverse(pkt->getPath());
+        // bit length = queue size * 8
+        pkt->setBitLength(pkt->getPath().size()*8);
         attachSignal(pkt);
         sendDown(pkt);
     }
