@@ -29,9 +29,9 @@
 class MacPkt;
 typedef struct Metric {
   /** @brief Number of packet to reack the last node */
-  cDoubleHistogram latency;
+  cOutVector latency;
   /** @brief  Number of collision occurs*/
-  cDoubleHistogram collision;
+  cOutVector collision;
 };
 
 class MIXIM_API MultihopMac : public BaseMacLayer
@@ -166,7 +166,7 @@ class MIXIM_API MultihopMac : public BaseMacLayer
       /** @brief publish dropped packets nic wide */
       int nicId;
       int nodeId;
-      int dataPeriod = 5;
+      double dataPeriod = 5;
       int ack_time_out = 0.2;
 
       /** @brief The maximum length of the queue */
