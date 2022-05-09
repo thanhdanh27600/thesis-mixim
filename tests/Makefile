@@ -42,6 +42,7 @@ INCLUDE_PATH = \
     -IconnectionManager \
     -Icoord \
     -Idecider \
+    -Ilocalize \
     -Imapping \
     -InicTest \
     -Ipower \
@@ -180,6 +181,7 @@ clean:
 	$(Q)-rm -f connectionManager/*_m.cc connectionManager/*_m.h
 	$(Q)-rm -f coord/*_m.cc coord/*_m.h
 	$(Q)-rm -f decider/*_m.cc decider/*_m.h
+	$(Q)-rm -f localize/*_m.cc localize/*_m.h
 	$(Q)-rm -f mapping/*_m.cc mapping/*_m.h
 	$(Q)-rm -f nicTest/*_m.cc nicTest/*_m.h
 	$(Q)-rm -f power/*_m.cc power/*_m.h
@@ -205,7 +207,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc basePhyLayer/*.cc channelInfo/*.cc connectionManager/*.cc coord/*.cc decider/*.cc mapping/*.cc nicTest/*.cc power/*.cc power/Nic80211Test/*.cc power/Nic80211Test/valid/*.cc power/Nic80211Test/valid/battery_80211/*.cc power/Nic80211Test/valid/out_10/*.cc power/Nic80211Test/valid/out_50/*.cc power/deviceTest/*.cc power/deviceTest/valid/*.cc power/deviceTestAccts/*.cc power/deviceTestAccts/valid/*.cc power/deviceTestAll/*.cc power/deviceTestAll/valid/*.cc power/deviceTestMulti/*.cc power/deviceTestMulti/valid/*.cc power/utils/*.cc radioState/*.cc testUtils/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc basePhyLayer/*.cc channelInfo/*.cc connectionManager/*.cc coord/*.cc decider/*.cc localize/*.cc mapping/*.cc nicTest/*.cc power/*.cc power/Nic80211Test/*.cc power/Nic80211Test/valid/*.cc power/Nic80211Test/valid/battery_80211/*.cc power/Nic80211Test/valid/out_10/*.cc power/Nic80211Test/valid/out_50/*.cc power/deviceTest/*.cc power/deviceTest/valid/*.cc power/deviceTestAccts/*.cc power/deviceTestAccts/valid/*.cc power/deviceTestAll/*.cc power/deviceTestAll/valid/*.cc power/deviceTestMulti/*.cc power/deviceTestMulti/valid/*.cc power/utils/*.cc radioState/*.cc testUtils/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/basePhyLayer/BasePhyTests.o: basePhyLayer/BasePhyTests.cc \

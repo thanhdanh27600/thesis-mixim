@@ -256,7 +256,6 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
 
                 assert(static_cast<cPacket*>(msg));
                 multihopMacPkt_ptr_t mac = static_cast<multihopMacPkt_ptr_t>(msg);
-
                 const LAddress::L2Type& dest = mac->getDestAddr();
                 //const LAddress::L2Type& src  = mac->getSrcAddr();
 
@@ -270,7 +269,7 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
 
                     if (this->nextNodeId != -1) { //middle node
                         //sendUp(decapsMsg(mac);
-                        metric.latency.record(1.0);
+                        metric.latency.record(mac->getId());
                         if (mac->getSignal() == 0) {
                             Bubble("0");
                             changeDisplayColor(BLACK);
