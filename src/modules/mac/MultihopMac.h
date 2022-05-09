@@ -200,6 +200,8 @@ class MIXIM_API MultihopMac : public BaseMacLayer
       /** @brief Next node ID of this node */
       int nextNodeId = -1;
 
+      bool firstRouting = true;
+
       /** @brief If this node is a gateway */
       bool isGateway = false;
 

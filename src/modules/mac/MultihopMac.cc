@@ -264,7 +264,12 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                     EV <<"RECEIVE | SRC: " <<mac->getSrcAddr() <<" DEST: " <<mac->getDestAddr() <<endl;
                     debugEV << "****Sensor node: Data package is received" << endl;
                     this->lastDataPacketReceived = mac;
-                    findPreviousAndNextNode(mac->getPath());
+                    if (mac->getIsRouting()) {
+                        findPreviousAndNextNode(mac->getPath());
+                        debugEV <<"this is routing packet with size of " <<mac->getPath().size() <<endl;
+                    } else {
+                        debugEV <<"this is normal packet with size of " <<mac->getPath().size() <<endl;
+                    }
                     debugEV << "Node ID is: " << nodeId <<" Previous: " <<this->previousNodeId << " Next: " <<this->nextNodeId << endl;
 
                     if (this->nextNodeId != -1) { //middle node
@@ -372,8 +377,8 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                 macState = SN_RECEIVING;
                 //reset information
                 this->lastDataPacketReceived = NULL;
-                this->previousNodeId = - 1;
-                this->nextNodeId = -1;
+                //this->previousNodeId = - 1;
+                //this->nextNodeId = -1;
             }
             break;
 
@@ -416,9 +421,23 @@ void MultihopMac::sendDataPacket()
         LAddress::L2Type dest = LAddress::L2Type(mapPathGroupToNodeId[pathGroups[r]]);
         pkt->setDestAddr(dest);
         this->nextNodeId = mapPathGroupToNodeId[pathGroups[r]];
-        pkt->setPath(getOnePathByGroup(pathGroups[r]));
+        int isRoutingPacket = intrand(2);
+        pkt->setIsRouting(this->firstRouting);
+
+        if (this->firstRouting) {
+            Bubble("1");
+        } else {
+            Bubble("0");
+        }
+
+        if (this->firstRouting) {
+            pkt->setPath(getOnePathByGroup(pathGroups[r]));
+        } else {
+            pkt->setPath(std::vector<int>());
+        }
+        this->firstRouting = false;
         // bit length = queue size * 8
-        pkt->setBitLength(pkt->getPath().size()*8);
+        pkt->setBitLength((pkt->getPath().size() + 1) * 8);
         attachSignal(pkt);
         sendDown(pkt);
     } else {
@@ -429,11 +448,16 @@ void MultihopMac::sendDataPacket()
         pkt->setDestAddr(LAddress::L2Type(this->nextNodeId));
         pkt->setSrcAddr(myMacAddr);
 
-        pkt->getPath().erase(pkt->getPath().begin());
-        debugEV <<"Size after: " << pkt->getPath().size() <<endl;
-        traverse(pkt->getPath());
+        if (pkt->getIsRouting()) {
+            pkt->getPath().erase(pkt->getPath().begin());
+            debugEV <<"Size after: " << pkt->getPath().size() <<endl;
+            //traverse(pkt->getPath());
+        } else {
+            debugEV <<"Size of normal packet: " << pkt->getPath().size() <<endl;
+            traverse(pkt->getPath());
+        }
         // bit length = queue size * 8
-        pkt->setBitLength(pkt->getPath().size()*8);
+        pkt->setBitLength((pkt->getPath().size() + 1) * 8);
         attachSignal(pkt);
         sendDown(pkt);
     }
@@ -650,6 +674,7 @@ void MultihopMac::createMapPathGroupToNodeId()
 void MultihopMac::findPreviousAndNextNode(const std::vector<int> path) {
     this->previousNodeId = path[0];
     if (path.size() > 2) this->nextNodeId = path[2];
+    else this->nextNodeId = -1;
 }
 
 std::vector<int> MultihopMac::getOnePathByGroup(int groupIndex)
@@ -659,7 +684,8 @@ std::vector<int> MultihopMac::getOnePathByGroup(int groupIndex)
 
 void MultihopMac::traverse(std::vector<int> inputVector) {
     std::vector<int>::iterator it;
-
-    for (it = inputVector.begin(); it < inputVector.end(); it++) debugEV <<(*it) <<" ";
-    EV <<endl;
+    if (inputVector.size() > 0) {
+        for (it = inputVector.begin(); it < inputVector.end(); it++) debugEV <<(*it) <<" ";
+        EV <<endl;
+    }
 }

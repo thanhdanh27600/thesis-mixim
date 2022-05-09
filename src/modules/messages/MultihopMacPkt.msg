@@ -25,4 +25,5 @@ message MultihopMacPkt extends MacPkt
 {
     IntVector path;
     int signal;
+    bool isRouting;
 }
