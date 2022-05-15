@@ -214,7 +214,7 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                 macState = GW_WAIT_ACK;
                 changeDisplayColor(RED);
                 phy->setRadioState(MiximRadio::RX);
-                scheduleAt(simTime() + 2, time_out); //modify later just wait for the number of nodes in its path.
+                scheduleAt(simTime() + this->ack_time_out, time_out); //modify later just wait for the number of nodes in its path.
             }
             break;
         case GW_WAIT_ACK:
@@ -319,7 +319,7 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                 debugEV << "****Sensor node: Data packet is forwarded!!!" << endl;
                 //changeDisplayColor(RED);
                 phy->setRadioState(MiximRadio::RX);
-                scheduleAt(simTime() + 5, time_out); //modify later just wait for the number of nodes in its path.
+                scheduleAt(simTime() + this->ack_time_out, time_out); //modify later just wait for the number of nodes in its path.
                 macState = SN_WAITING_ACK;
                 debugEV << "****Sensor node: Change to WAITING _ACK state!!!" << endl;
             }

@@ -167,7 +167,7 @@ class MIXIM_API MultihopMac : public BaseMacLayer
       int nicId;
       int nodeId;
       double dataPeriod = 50;
-      int ack_time_out = 0.2;
+      int ack_time_out = 100;
 
       /** @brief The maximum length of the queue */
       unsigned int queueLength;

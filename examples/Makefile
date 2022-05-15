@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for miximexamples
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -o miximexamples -O out -I../src/base/modules -I../src/inet_stub/networklayer/common -I../src -I../src/modules/utility -I../src/base/utils -I../src/inet_stub/mobility/models -I../src/modules/phy -I../src/base -I../src/modules/obstacle -I../src/base/phyLayer -I../src/inet_stub/mobility -I../src/modules/analogueModel -I../src/inet_stub/util -I../src/modules/messages -I../src/inet_stub/linklayer/contract -I../src/base/connectionManager -I../src/inet_stub/base -I../src/base/messages -I../src/modules -L../out/$$\(CONFIGNAME\)/src -lmixim -DWITH_MIXIM_EXAMPLES -DMIXIM_INET
+#  opp_makemake -f --deep -o miximexamples -O out -I../src/inet_stub/mobility/models -I../src/modules/analogueModel -I../src/base -I../src/modules/phy -I../src/modules/utility -I../src/base/utils -I../src -I../src/inet_stub/networklayer/common -I../src/modules -I../src/modules/obstacle -I../src/inet_stub/mobility -I../src/inet_stub/util -I../src/base/phyLayer -I../src/base/modules -I../src/modules/messages -I../src/inet_stub/base -I../src/base/connectionManager -I../src/inet_stub/linklayer/contract -I../src/base/messages -L../out/$$\(CONFIGNAME\)/src -lmixim -DWITH_MIXIM_EXAMPLES -DMIXIM_INET
 #
 
 # Name of target to be created (-o option)
@@ -15,25 +15,25 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(CMDENV_LIBS)
 
 # C++ include paths (with -I)
 INCLUDE_PATH = \
-    -I../src/base/modules \
-    -I../src/inet_stub/networklayer/common \
-    -I../src \
+    -I../src/inet_stub/mobility/models \
+    -I../src/modules/analogueModel \
+    -I../src/base \
+    -I../src/modules/phy \
     -I../src/modules/utility \
     -I../src/base/utils \
-    -I../src/inet_stub/mobility/models \
-    -I../src/modules/phy \
-    -I../src/base \
-    -I../src/modules/obstacle \
-    -I../src/base/phyLayer \
-    -I../src/inet_stub/mobility \
-    -I../src/modules/analogueModel \
-    -I../src/inet_stub/util \
-    -I../src/modules/messages \
-    -I../src/inet_stub/linklayer/contract \
-    -I../src/base/connectionManager \
-    -I../src/inet_stub/base \
-    -I../src/base/messages \
+    -I../src \
+    -I../src/inet_stub/networklayer/common \
     -I../src/modules \
+    -I../src/modules/obstacle \
+    -I../src/inet_stub/mobility \
+    -I../src/inet_stub/util \
+    -I../src/base/phyLayer \
+    -I../src/base/modules \
+    -I../src/modules/messages \
+    -I../src/inet_stub/base \
+    -I../src/base/connectionManager \
+    -I../src/inet_stub/linklayer/contract \
+    -I../src/base/messages \
     -I. \
     -ICSMAMac \
     -IMac80211 \
@@ -42,6 +42,9 @@ INCLUDE_PATH = \
     -IbaseNetwork \
     -Ibmac \
     -Ibmac/results \
+    -Ibmac/results/backup \
+    -Ibmac/results/log \
+    -Ibmac/results/newprotocal \
     -Iieee802154Narrow \
     -Iieee802154a \
     -Iieee802154a/channels \
@@ -156,6 +159,9 @@ clean:
 	$(Q)-rm -f baseNetwork/*_m.cc baseNetwork/*_m.h
 	$(Q)-rm -f bmac/*_m.cc bmac/*_m.h
 	$(Q)-rm -f bmac/results/*_m.cc bmac/results/*_m.h
+	$(Q)-rm -f bmac/results/backup/*_m.cc bmac/results/backup/*_m.h
+	$(Q)-rm -f bmac/results/log/*_m.cc bmac/results/log/*_m.h
+	$(Q)-rm -f bmac/results/newprotocal/*_m.cc bmac/results/newprotocal/*_m.h
 	$(Q)-rm -f ieee802154Narrow/*_m.cc ieee802154Narrow/*_m.h
 	$(Q)-rm -f ieee802154a/*_m.cc ieee802154a/*_m.h
 	$(Q)-rm -f ieee802154a/channels/*_m.cc ieee802154a/channels/*_m.h
@@ -171,7 +177,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc CSMAMac/*.cc Mac80211/*.cc WSNRouting/*.cc analogueModels/*.cc baseNetwork/*.cc bmac/*.cc bmac/results/*.cc ieee802154Narrow/*.cc ieee802154a/*.cc ieee802154a/channels/*.cc ieee802154a/channels/noshadow/*.cc ieee802154a/channels/shadow/*.cc ieee802154a/receivers/*.cc lmac/*.cc multiConnectionManager/*.cc obstacles/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc CSMAMac/*.cc Mac80211/*.cc WSNRouting/*.cc analogueModels/*.cc baseNetwork/*.cc bmac/*.cc bmac/results/*.cc bmac/results/backup/*.cc bmac/results/log/*.cc bmac/results/newprotocal/*.cc ieee802154Narrow/*.cc ieee802154a/*.cc ieee802154a/channels/*.cc ieee802154a/channels/noshadow/*.cc ieee802154a/channels/shadow/*.cc ieee802154a/receivers/*.cc lmac/*.cc multiConnectionManager/*.cc obstacles/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/CSMAMac/SimpleNetwLayer.o: CSMAMac/SimpleNetwLayer.cc \
