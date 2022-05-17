@@ -41,6 +41,8 @@ INCLUDE_PATH = \
     -IanalogueModels \
     -IbaseNetwork \
     -Ibmac \
+    -Ibmac/result-realhardware \
+    -Ibmac/result-realhardware/a-2 \
     -Ibmac/results \
     -Ibmac/results/backup \
     -Ibmac/results/log \
@@ -158,6 +160,8 @@ clean:
 	$(Q)-rm -f analogueModels/*_m.cc analogueModels/*_m.h
 	$(Q)-rm -f baseNetwork/*_m.cc baseNetwork/*_m.h
 	$(Q)-rm -f bmac/*_m.cc bmac/*_m.h
+	$(Q)-rm -f bmac/result-realhardware/*_m.cc bmac/result-realhardware/*_m.h
+	$(Q)-rm -f bmac/result-realhardware/a-2/*_m.cc bmac/result-realhardware/a-2/*_m.h
 	$(Q)-rm -f bmac/results/*_m.cc bmac/results/*_m.h
 	$(Q)-rm -f bmac/results/backup/*_m.cc bmac/results/backup/*_m.h
 	$(Q)-rm -f bmac/results/log/*_m.cc bmac/results/log/*_m.h
@@ -177,7 +181,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc CSMAMac/*.cc Mac80211/*.cc WSNRouting/*.cc analogueModels/*.cc baseNetwork/*.cc bmac/*.cc bmac/results/*.cc bmac/results/backup/*.cc bmac/results/log/*.cc bmac/results/newprotocal/*.cc ieee802154Narrow/*.cc ieee802154a/*.cc ieee802154a/channels/*.cc ieee802154a/channels/noshadow/*.cc ieee802154a/channels/shadow/*.cc ieee802154a/receivers/*.cc lmac/*.cc multiConnectionManager/*.cc obstacles/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc CSMAMac/*.cc Mac80211/*.cc WSNRouting/*.cc analogueModels/*.cc baseNetwork/*.cc bmac/*.cc bmac/result-realhardware/*.cc bmac/result-realhardware/a-2/*.cc bmac/results/*.cc bmac/results/backup/*.cc bmac/results/log/*.cc bmac/results/newprotocal/*.cc ieee802154Narrow/*.cc ieee802154a/*.cc ieee802154a/channels/*.cc ieee802154a/channels/noshadow/*.cc ieee802154a/channels/shadow/*.cc ieee802154a/receivers/*.cc lmac/*.cc multiConnectionManager/*.cc obstacles/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/CSMAMac/SimpleNetwLayer.o: CSMAMac/SimpleNetwLayer.cc \
