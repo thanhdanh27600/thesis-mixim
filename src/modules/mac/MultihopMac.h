@@ -166,7 +166,7 @@ class MIXIM_API MultihopMac : public BaseMacLayer
       /** @brief publish dropped packets nic wide */
       int nicId;
       int nodeId;
-      double dataPeriod = 50;
+      double dataPeriod = 5;
       int ack_time_out = 0.2;
 
       /** @brief The maximum length of the queue */

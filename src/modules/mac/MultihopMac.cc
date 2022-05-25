@@ -266,36 +266,72 @@ void MultihopMac::handleSelfMsg(cMessage *msg)
                     this->lastDataPacketReceived = mac;
                     if (mac->getIsRouting()) {
                         findPreviousAndNextNode(mac->getPath());
-                        debugEV <<"this is routing packet with size of " <<mac->getPath().size() <<endl;
+                        debugEV <<"this is routing packet with size of " <<mac->getBitLength() <<endl;
                     } else {
-                        debugEV <<"this is normal packet with size of " <<mac->getPath().size() <<endl;
+                        if (mac->getIsBroadcast())
+                            debugEV <<"this is broadcast packet with size of " <<mac->getBitLength() <<endl;
+                        else
+                            debugEV <<"this is target packet with size of " <<mac->getBitLength() <<" and its DPO is " <<mac->getDPO() <<endl;
                     }
                     debugEV << "Node ID is: " << nodeId <<" Previous: " <<this->previousNodeId << " Next: " <<this->nextNodeId << endl;
+
 
                     if (this->nextNodeId != -1) { //middle node
                         //sendUp(decapsMsg(mac);
                         metric.latency.record(mac->getId());
-                        if (mac->getSignal() == 0) {
-                            Bubble("0");
-                            changeDisplayColor(BLACK);
+
+                        if (!mac->getIsRouting()) {
+                            if (mac->getIsBroadcast())
+                            {
+                                if (mac->getSignal() == 0) {
+                                    Bubble("0");
+                                    changeDisplayColor(BLACK);
+                                } else {
+                                    Bubble("1");
+                                    changeDisplayColor(YELLOW);
+                                }
+                                phy->setRadioState(MiximRadio::TX);
+                                scheduleAt(simTime(), ready_to_send);
+                                macState = SN_SENDING_DATA;
+                            }
+                            else {
+                                if (mac->getDPO() == 1)
+                                {
+                                    if (mac->getSignal() == 0) {
+                                        Bubble("0");
+                                        changeDisplayColor(BLACK);
+                                    } else {
+                                        Bubble("1");
+                                        changeDisplayColor(YELLOW);
+                                    }
+                                    phy->setRadioState(MiximRadio::TX);
+                                    scheduleAt(simTime(), ready_to_send);
+                                    macState = SN_SENDING_ACK;
+                                } else {
+                                    phy->setRadioState(MiximRadio::TX);
+                                    scheduleAt(simTime(), ready_to_send);
+                                    macState = SN_SENDING_DATA;
+                                }
+                            }
                         } else {
-                            Bubble("1");
-                            changeDisplayColor(YELLOW);
+                            phy->setRadioState(MiximRadio::TX);
+                            scheduleAt(simTime(), ready_to_send);
+                            macState = SN_SENDING_DATA;
                         }
-                        phy->setRadioState(MiximRadio::TX);
-                        scheduleAt(simTime(), ready_to_send);
-                        macState = SN_SENDING_DATA;
                     } else { //final node
                         //sendUp(decapsMsg(mac));
                         metric.latency.record(1000.0);
-                        if (mac->getSignal() == 0) {
-                            Bubble("0");
-                            changeDisplayColor(BLACK);
-                        } else {
-                            Bubble("1");
-                            changeDisplayColor(YELLOW);
+
+                        if (!mac->getIsRouting())
+                        {
+                            if (mac->getSignal() == 0) {
+                                Bubble("0");
+                                changeDisplayColor(BLACK);
+                            } else {
+                                Bubble("1");
+                                changeDisplayColor(YELLOW);
+                            }
                         }
-                        //changeDisplayColor(GREEN);
                         phy->setRadioState(MiximRadio::TX);
                         scheduleAt(simTime(), ready_to_send);
                         macState = SN_SENDING_ACK;
@@ -412,7 +448,8 @@ void MultihopMac::sendDataPacket()
     if (isGateway) {
         multihopMacPkt_ptr_t pkt = new MultihopMacPkt("STREET LIGHT");
         pkt->setKind(DATA_PACKET);
-        pkt->setSignal(intrand(2));
+        int onOrOff = intrand(2);
+        pkt->setSignal(onOrOff);
         pkt->setSrcAddr(myMacAddr);
 
         size_t l = pathGroups.size();
@@ -421,23 +458,34 @@ void MultihopMac::sendDataPacket()
         LAddress::L2Type dest = LAddress::L2Type(mapPathGroupToNodeId[pathGroups[r]]);
         pkt->setDestAddr(dest);
         this->nextNodeId = mapPathGroupToNodeId[pathGroups[r]];
-        int isRoutingPacket = intrand(2);
+        int isBoardcast = intrand(2);
         pkt->setIsRouting(this->firstRouting);
 
         if (this->firstRouting) {
-            Bubble("1");
-        } else {
-            Bubble("0");
-        }
-
-        if (this->firstRouting) {
             pkt->setPath(getOnePathByGroup(pathGroups[r]));
+            pkt->setIsBroadcast(false);
+            pkt->setDataLength(pkt->getPath().size());
         } else {
             pkt->setPath(std::vector<int>());
+            pkt->setIsBroadcast(isBoardcast);
+            pkt->setPayload(0, onOrOff);
+            pkt->setDataLength(1);
+            if (isBoardcast) {
+                pkt->setDPO(0);
+            } else {
+                int DPO = 1 + intrand(10);
+                pkt->setDPO(DPO);
+            }
+            debugEV <<"DPO of this packet " <<pkt->getDPO() <<endl;
         }
         this->firstRouting = false;
-        // bit length = queue size * 8
-        pkt->setBitLength((pkt->getPath().size() + 1) * 8);
+
+        // bit length = frame
+        int sizeOfPayload = pkt->getIsRouting() ? pkt->getPath().size() : 1;
+        int sizeOfIsRouting = pkt->getIsRouting() ? 1 : 0;
+        int sizeOfIsBroadcast = pkt->getIsBroadcast() ? 1 : 0;
+        int sizeOfDPO = (pkt->getDPO() != 0) ? 1 : 0;
+        pkt->setBitLength((1 + sizeOfPayload + sizeOfDPO) * 8);
         attachSignal(pkt);
         sendDown(pkt);
     } else {
@@ -453,11 +501,15 @@ void MultihopMac::sendDataPacket()
             debugEV <<"Size after: " << pkt->getPath().size() <<endl;
             //traverse(pkt->getPath());
         } else {
-            debugEV <<"Size of normal packet: " << pkt->getPath().size() <<endl;
+            if (!pkt->getIsBroadcast()) pkt->setDPO(pkt->getDPO() - 1);
+            debugEV <<"Size of normal packet: " << pkt->getPath().size() <<" DPO: " <<pkt->getDPO()  <<endl;
             traverse(pkt->getPath());
         }
-        // bit length = queue size * 8
-        pkt->setBitLength((pkt->getPath().size() + 1) * 8);
+        // bit length = frame size
+        int sizeOfPayload = pkt->getIsRouting() ? pkt->getPath().size() : 1;
+        int sizeOfDPO = (pkt->getDPO() != 0) ? 1 : 0;
+
+        pkt->setBitLength((1 + sizeOfPayload + sizeOfDPO) * 8);
         attachSignal(pkt);
         sendDown(pkt);
     }
